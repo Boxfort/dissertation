@@ -1,7 +1,7 @@
 # Jack Anderson 2017
 import csv
-import pyspark
-from pyspark.sql import SQLContext, Row
+import pandas as pd
+
 
 NSL_KDD_TRAINING_PATH   = "Datasets/NSL-KDD/KDDTrain.csv"
 NSL_KDD_TRAINING20_PATH = "Datasets/NSL-KDD/KDDTrain_20Percent.csv"
@@ -9,30 +9,31 @@ NSL_KDD_TESTING_PATH    = "Datasets/NSL-KDD/KDDTest.csv"
 NSL_KDD_ATTACKS_PATH    = "Datasets/NSL-KDD/KDDAttackTypes.csv"
 NSL_KDD_FIELDS_PATH     = "Datasets/NSL-KDD/KDDFieldNames.csv"
 
-dataset_cols    = [] # [Field Name, Data Type]
-symbolic_cols   = [] # Columns which consist of a string
-continuous_cols = [] # Columns which consist of some numeric value
-boolean_cols    = [] # Columns which consist of a boolean value i.e 0 or 1
-dataset_attacks = [] # [Attack Name, Attack Type]
-
-sc = pyspark.SparkContext(master='local[8]')
-sc.setLogLevel('INFO')
-sqlContext = SQLContext(sc)
+dataset_cols    = list() # [Field Name]
+dataset_attacks = dict() # [Attack Name, Attack Type]
 
 # Loads values from a two column .csv file and stores in a dictionary object.
-def csv_to_dict(path, dictionary):
+def load_cols(path):
     with open(path, 'r') as file:
         reader = csv.reader(file)
         for row in reader:
-            dictionary[row[0]] = row[1]
+            dataset_cols.append(row[0])
 
-def load_dataset():
+def load_attacks(path):
+    with open(path, 'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            dataset_attacks[row[0]] = row[1]
 
+# Loads a dataset and divides into 8 partitions.
+def load_dataset(path, fields):
+    return pd.read_csv(path, index_col=False, names=dataset_cols)
 
 # Main method
 if __name__ == '__main__':
-    #Load column names and attack types
-    csv_to_dict(NSL_KDD_FIELDS_PATH, dataset_cols)
-    csv_to_dict(NSL_KDD_ATTACKS_PATH, dataset_cols)
-
-    return 0
+    # Load column names and attack types
+    load_cols(NSL_KDD_FIELDS_PATH)
+    load_attacks(NSL_KDD_ATTACKS_PATH)
+    # Load dataset
+    dataset = load_dataset(NSL_KDD_TRAINING20_PATH, dataset_cols)
+    print(dataset['labels'].to_string())
