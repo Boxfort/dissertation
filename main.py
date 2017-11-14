@@ -53,12 +53,12 @@ def get_attribute_ratio(dataset, numericCols, binaryCols, labelCol):
 
     for column in dataset:
         if column in numericCols:
-            ratio_dict[column] = (dataset[column].mean() / numeric_col_total)
+            ratio_dict[column] = (dataset[column].max() / dataset[column].mean())# / numeric_col_total)
         elif column in binaryCols:
             val1 = np.sum(dataset[column] == 1)
             val2 = np.sum(dataset[column] == 0)
             val = val1 / val2
-            print(str(val1) + " / " + str(val2) + " = " + str(val))
+            #print(str(val1) + " / " + str(val2) + " = " + str(val))
             ratio_dict[column] = val
 
     return OrderedDict(sorted(ratio_dict.items(), key=lambda v: -v[1]))
@@ -66,7 +66,7 @@ def get_attribute_ratio(dataset, numericCols, binaryCols, labelCol):
 def one_hot_encoding(dataset, nominalCols):
     for column in dataset:
         if column in nominalCols:
-            df_oh = pd.get_dummies(dataset[column])
+            df_oh = pd.get_dummies(dataset[column], prefix=column)
             dataset.drop(column, axis=1)
             dataset = pd.concat([dataset, df_oh], axis=1)
             for column_oh in df_oh:
@@ -88,5 +88,5 @@ if __name__ == '__main__':
 
     ar_dict = get_attribute_ratio(dataset_oh, numeric_cols, binary_cols, 'labels5')
 
-    #for key, value in ar_dict.items():
-    #    print(str(key) + " : " + str(value) + "\n")
+    for key, value in ar_dict.items():
+        print(str(key) + " : " + str(value) + "\n")
