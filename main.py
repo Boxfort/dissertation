@@ -46,21 +46,15 @@ def load_attacks(path):
 def load_dataset(path, fields):
     return pd.read_csv(path, index_col=False, names=fields)
 
-def get_attribute_ratio(dataset, numericCols, binaryCols, labelCol):
+# DOES NOT WORK !!!
+def get_attribute_ratio(dataset):
     ratio_dict = dict()
-
     numeric_col_total = dataset[numeric_cols].mean().sum()
-
     for column in dataset:
-        if column in numericCols:
+        if column in numeric_cols:
             ratio_dict[column] = (dataset[column].max() / dataset[column].mean())# / numeric_col_total)
-        elif column in binaryCols:
-            val1 = np.sum(dataset[column] == 1)
-            val2 = np.sum(dataset[column] == 0)
-            val = val1 / val2
-            #print(str(val1) + " / " + str(val2) + " = " + str(val))
-            ratio_dict[column] = val
-
+        elif column in binary_cols:
+            ratio_dict[column] = np.sum(dataset[column] == 1) / np.sum(dataset[column] == 0)
     return OrderedDict(sorted(ratio_dict.items(), key=lambda v: -v[1]))
 
 def one_hot_encoding(dataset, nominalCols):
@@ -83,10 +77,14 @@ if __name__ == '__main__':
     dataset = load_dataset(NSL_KDD_TRAINING20_PATH, dataset_cols)
     dataset_oh = one_hot_encoding(dataset, nominal_cols)
 
+    avg_dict = dataset_oh.select(lambda c: dataset_oh[c].mean())
+
+    print(avg_dict)
+
     #for column in dataset_oh:
     #    print(str(column))
 
-    ar_dict = get_attribute_ratio(dataset_oh, numeric_cols, binary_cols, 'labels5')
+    ar_dict = get_attribute_ratio(dataset_oh)
 
-    for key, value in ar_dict.items():
-        print(str(key) + " : " + str(value) + "\n")
+    #for key, value in ar_dict.items():
+    #    print(str(key) + " : " + str(value) + "\n")
