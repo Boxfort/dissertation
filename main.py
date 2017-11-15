@@ -3,6 +3,8 @@ import csv
 import numpy as np
 import pandas as pd
 from collections import OrderedDict
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.cross_validation import train_test_split
 
 NSL_KDD_TRAINING_PATH   = "Datasets/NSL-KDD/KDDTrain.csv"
 NSL_KDD_TRAINING20_PATH = "Datasets/NSL-KDD/KDDTrain_20Percent.csv"
@@ -57,16 +59,56 @@ def get_attribute_ratio(dataset):
             ratio_dict[column] = np.sum(dataset[column] == 1) / np.sum(dataset[column] == 0)
     return OrderedDict(sorted(ratio_dict.items(), key=lambda v: -v[1]))
 
+# Replaces Nominal Columns with several binary columns
 def one_hot_encoding(dataset, nominalCols):
+    dataset_oh = dataset
+    to_concat = []
     for column in dataset:
         if column in nominalCols:
             df_oh = pd.get_dummies(dataset[column], prefix=column)
-            dataset.drop(column, axis=1)
-            dataset = pd.concat([dataset, df_oh], axis=1)
+            to_concat.append(df_oh)
+            dataset_oh = dataset_oh.drop(column, axis=1)
             for column_oh in df_oh:
                 binary_cols.append(column_oh)
 
-    return dataset
+    to_concat = pd.concat(to_concat, axis=1)
+    dataset_oh = pd.concat([to_concat, dataset_oh], axis=1)
+
+    return dataset_oh
+
+# This is really good but im not sure if it's doing what I think it is... #TODO: Investigate this
+def knn(dataset, input):
+    print("Fitting Data.")
+    knn = KNeighborsClassifier(n_neighbors=1)
+    X = dataset.ix[:, 0:len(dataset.columns)-1] # All columns except Labels
+    Y = dataset['labels'] # Labels column
+
+    X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.33, random_state=42)
+
+    knn.fit(X_train, y_train)
+
+    print(y_train)
+
+    print("Predicting Row")
+    pred = knn.predict(X_test)
+
+    correct = 0
+    incorrect = 0
+
+    print(X_test.index.values)
+    print(pred)
+
+    count = 0
+
+    for index in X_test.index.values:
+        if dataset.loc[index].ix['labels'] == pred[count]:
+            correct += 1
+        else:
+            incorrect += 1
+        count += 1
+
+    print("Correct : " + str(correct))
+    print("Incorrect : " + str(incorrect))
 
 # Main method
 if __name__ == '__main__':
@@ -77,14 +119,6 @@ if __name__ == '__main__':
     dataset = load_dataset(NSL_KDD_TRAINING20_PATH, dataset_cols)
     dataset_oh = one_hot_encoding(dataset, nominal_cols)
 
-    avg_dict = dataset_oh.select(lambda c: dataset_oh[c].mean())
+    knn(dataset_oh, 0)
 
-    print(avg_dict)
-
-    #for column in dataset_oh:
-    #    print(str(column))
-
-    ar_dict = get_attribute_ratio(dataset_oh)
-
-    #for key, value in ar_dict.items():
-    #    print(str(key) + " : " + str(value) + "\n")
+    #print(list(dataset_oh.iloc[0]))
