@@ -76,49 +76,93 @@ def one_hot_encoding(dataset, nominalCols):
 
     return dataset_oh
 
-# This is really good but im not sure if it's doing what I think it is... #TODO: Investigate this
-def knn(dataset, input):
-    print("Fitting Data.")
-    knn = KNeighborsClassifier(n_neighbors=1)
-    X = dataset.ix[:, 0:len(dataset.columns)-1] # All columns except Labels
-    Y = dataset['labels'] # Labels column
+# Adds columns to the testing set which are missing based on its training set, removes errors relating to seperate OHE
+def clean_testing_set(train_set, test_set):
+    new_test_set = test_set
+    for column in list(train_set.columns.values):
+        if column not in list(test_set.columns.values):
+            idx = train_set.columns.get_loc(column)
+            new_test_set.insert(idx, column, 0)
+    return new_test_set
 
-    X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.33, random_state=42)
+# This is really good but im not sure if it's doing what I think it is...
+# TODO: Investigate this
+#     : Investigate different k-nn implementations in scikit
+#     : Cry
+def knn(train_set, test_set):
+    knn = KNeighborsClassifier(n_neighbors=100)
 
-    knn.fit(X_train, y_train)
+    # Large set of data used to train the classifier.
+    x_train = train_set.ix[:, 0:len(train_set.columns)-1] # All columns except Labels
+    y_train = train_set['labels'] # Indices and labels
 
-    print(y_train)
+    # Smaller set of data used to test the trained classifier
+    x_test = test_set.ix[:, 0:len(test_set.columns)-1] # All columns except Labels
+    y_test = test_set['labels'] # Indices and labels
 
-    print("Predicting Row")
-    pred = knn.predict(X_test)
+    print("Fitting Data...")
 
+    # Fit the training set
+    knn.fit(x_train, y_train)
+
+    print("Predicting Test Data...")
+
+    # Predict the testing set
+    pred = knn.predict(x_test)
+
+    # Init some variables
     correct = 0
-    incorrect = 0
-
-    print(X_test.index.values)
-    print(pred)
-
+    incorrectAttack = 0
+    FP = 0
+    FN = 0
     count = 0
 
-    for index in X_test.index.values:
-        if dataset.loc[index].ix['labels'] == pred[count]:
+    # Compare the prediction against the test set.
+    for index in x_test.index.values:
+        expected = test_set.loc[index].ix['labels']
+        actual = pred[count]
+        if expected == actual:
             correct += 1
         else:
-            incorrect += 1
+            if expected == "normal":
+                FP += 1
+            elif expected != "normal" and actual != "normal":
+                incorrectAttack += 1
+            else:
+                FN += 1
         count += 1
 
     print("Correct : " + str(correct))
-    print("Incorrect : " + str(incorrect))
+    print("Correct Class - Wrong Attack : " + str(FN))
+    print("FP : " + str(FP))
+    print("FN : " + str(FN))
 
 # Main method
 if __name__ == '__main__':
     # Load column names and attack types
     load_cols(NSL_KDD_FIELDS_PATH)
     load_attacks(NSL_KDD_ATTACKS_PATH)
-    # Load dataset
-    dataset = load_dataset(NSL_KDD_TRAINING20_PATH, dataset_cols)
-    dataset_oh = one_hot_encoding(dataset, nominal_cols)
+    # Load training set
+    dataset_train = load_dataset(NSL_KDD_TRAINING_PATH, dataset_cols)
+    dataset_train_oh = one_hot_encoding(dataset_train, nominal_cols)
+    # Load testing set
+    dataset_test = load_dataset(NSL_KDD_TESTING_PATH, dataset_cols)
+    dataset_test_oh = one_hot_encoding(dataset_test, nominal_cols)
 
-    knn(dataset_oh, 0)
+    dataset_test_oh = clean_testing_set(dataset_train_oh, dataset_test_oh)
+
+    #print("***************TRAINING COLUMNS*****************")
+    #print(dataset_train_oh)
+    #print("***************TESTING COLUMNS*****************")
+    #print(dataset_test_oh)
+
+    #print("***************TRAINING COLUMNS*****************")
+    #for column in list(dataset_train_oh.columns):
+    #    print(column)
+    #print("***************TESTING COLUMNS*****************")
+    #for column in list(dataset_test_oh.columns):
+    #    print(column)
+
+    knn(dataset_train_oh, dataset_test_oh)
 
     #print(list(dataset_oh.iloc[0]))
