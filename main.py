@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from collections import OrderedDict
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neighbors import NearestNeighbors
 from sklearn.cross_validation import train_test_split
 
 NSL_KDD_TRAINING_PATH   = "Datasets/NSL-KDD/KDDTrain.csv"
@@ -89,8 +90,8 @@ def clean_testing_set(train_set, test_set):
 # TODO: Investigate this
 #     : Investigate different k-nn implementations in scikit
 #     : Cry
-def knn(train_set, test_set):
-    knn = KNeighborsClassifier(n_neighbors=100)
+def knn(train_set, test_set, k):
+    knn = KNeighborsClassifier(n_neighbors=k, algorithm='ball_tree')
 
     # Large set of data used to train the classifier.
     x_train = train_set.ix[:, 0:len(train_set.columns)-1] # All columns except Labels
@@ -137,6 +138,23 @@ def knn(train_set, test_set):
     print("FP : " + str(FP))
     print("FN : " + str(FN))
 
+    return([k, correct, incorrectAttack, FP, FN])
+
+def knn2(train_set, test_set):
+    # Large set of data used to train the classifier.
+    x_train = train_set.ix[:, 0:len(train_set.columns)-1] # All columns except Labels
+    y_train = train_set['labels'] # Indices and labels
+
+    # Smaller set of data used to test the trained classifier
+    x_test = test_set.ix[:, 0:len(test_set.columns)-1] # All columns except Labels
+    y_test = test_set['labels'] # Indices and labels
+
+
+    knn = NearestNeighbors(n_neighbors=2, algorithm='ball_tree').fit(x_train)
+    distances, indices = knn.kneighbors(x_test)
+    print(distances)
+    print(indices)
+
 # Main method
 if __name__ == '__main__':
     # Load column names and attack types
@@ -163,6 +181,12 @@ if __name__ == '__main__':
     #for column in list(dataset_test_oh.columns):
     #    print(column)
 
-    knn(dataset_train_oh, dataset_test_oh)
+    results = []
+
+    for k in range(1, 110, 10):
+        print("CALCULATING " + str(k) + " NEIGHBORS")
+        results.append(knn(dataset_train_oh, dataset_test_oh, k))
+
+    print(results)
 
     #print(list(dataset_oh.iloc[0]))
