@@ -1,7 +1,9 @@
+package COMNIA;
+
 public class Main
 {
     public static void main(String[] args)
     {
-        System.out.println("hello");
+    	SwingGUI window = new SwingGUI();
     }
 }
