@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import *
 
 class Ui_Sidebar(object):
 
-    def __init__(self, parent):
+    def initUI(self):
         # Define layout
         layout = QGridLayout()
         layout.setColumnStretch(1, 0)
@@ -11,10 +11,8 @@ class Ui_Sidebar(object):
         # Define contents
         self.btnDataset = QPushButton('Dataset')
         self.btnOther = QPushButton('Other Button')
-        # Add contents to layout
-        layout.addWidget(self.btnDataset)
-        layout.addWidget(self.btnOther)
-        self.setLayout(layout)
 
-        # Retranslate UI to parent
-        self.retranslateUi(parent)
+        # Add contents to layout
+        layout.addWidget(self.btnDataset, 1, 0)
+        layout.addWidget(self.btnOther, 2, 0)
+        self.setLayout(layout)

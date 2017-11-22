@@ -1,72 +1,18 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-from ui_sidebar import ui_sidebar
+from Ui_MainWindow import Ui_MainWindow
 
-class MainWindow(QMainWindow):
-
-    title = "COMNIA"
-    containerWidget = None
+class MainWindow(QMainWindow, Ui_MainWindow):
 
     def __init__(self):
         super().__init__()
         self.initUI()
 
-    #TODO: Refactor widgets into their own classes for neatness
-    #    : Set min and max sizes for splitters
-    def initUI(self):
-        self.setGeometry(300, 300, 300, 220)
-        self.setWindowTitle(self.title)
-        self.containerWidget = QWidget(self)
-        self.setCentralWidget(self.containerWidget)
-        self.createMenuBar()
-
-        #Define Main Layout
-        hbox = QHBoxLayout()
-        topleft = ui_sidebar(self)
-        bottom = QFrame()
-        bottom.setFrameShape(QFrame.StyledPanel)
-        textedit = QTextEdit()
-        splitter2 = QSplitter(Qt.Vertical)
-        splitter2.addWidget(textedit)
-        splitter2.addWidget(bottom)
-        splitter1 = QSplitter(Qt.Horizontal)
-        splitter1.addWidget(topleft)
-        splitter1.setSizes([100,200])
-        splitter1.addWidget(splitter2)
-        hbox.addWidget(splitter1)
-
-        self.containerWidget.setLayout(hbox)
-        self.show()
-
-    # Creates the menu bar at the top of the window and all contained actions
-    def createMenuBar(self):
-        menubar = self.menuBar()
-        self.statusBar()
-
-        fileMenu = menubar.addMenu('&File')
-        newMenu = QMenu('New', self)
-
-        exitAction = QAction('&Exit', self)
-        exitAction.setShortcut('Ctrl+Q')
-        exitAction.setStatusTip('Exit application')
-        exitAction.triggered.connect(qApp.quit)
-
-        newAlgorithmAction = QAction('&Algorithm', self)
-        newAlgorithmAction.setShortcut('Ctrl+Alt+N')
-        newAlgorithmAction.setStatusTip('Create new algorithm file')
-        newAlgorithmAction.triggered.connect(self.onTestButtonPressed)
-
-        settingsAction = QAction('&Settings', self)
-        settingsAction.setShortcut('Ctrl+Alt+S')
-        settingsAction.setStatusTip('Edit Program Settings')
-        settingsAction.triggered.connect(self.onTestButtonPressed)
-
-        fileMenu.addMenu(newMenu)
-        fileMenu.addAction(exitAction)
-        fileMenu.addAction(settingsAction)
-
-        newMenu.addAction(newAlgorithmAction)
+        # Set up triggers.
+        self.exitAction.triggered.connect(qApp.quit)
+        self.newAlgorithmAction.triggered.connect(self.onTestButtonPressed)
+        self.settingsAction.triggered.connect(self.onTestButtonPressed)
 
     def onTestButtonPressed(self):
         print("Test button pressed!")
