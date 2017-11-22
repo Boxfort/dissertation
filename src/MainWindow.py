@@ -13,6 +13,7 @@ class MainWindow(QMainWindow):
         self.initUI()
 
     #TODO: Refactor widgets into their own classes for neatness
+    #    : Set min and max sizes for splitters
     def initUI(self):
         self.setGeometry(300, 300, 300, 220)
         self.setWindowTitle(self.title)
@@ -51,10 +52,10 @@ class MainWindow(QMainWindow):
         exitAction.setStatusTip('Exit application')
         exitAction.triggered.connect(qApp.quit)
 
-        testAction = QAction('&Algorithm', self)
-        testAction.setShortcut('Ctrl+Alt+N')
-        testAction.setStatusTip('Create new algorithm file')
-        testAction.triggered.connect(self.onTestButtonPressed)
+        newAlgorithmAction = QAction('&Algorithm', self)
+        newAlgorithmAction.setShortcut('Ctrl+Alt+N')
+        newAlgorithmAction.setStatusTip('Create new algorithm file')
+        newAlgorithmAction.triggered.connect(self.onTestButtonPressed)
 
         settingsAction = QAction('&Settings', self)
         settingsAction.setShortcut('Ctrl+Alt+S')
@@ -65,7 +66,7 @@ class MainWindow(QMainWindow):
         fileMenu.addAction(exitAction)
         fileMenu.addAction(settingsAction)
 
-        newMenu.addAction(testAction)
+        newMenu.addAction(newAlgorithmAction)
 
     def onTestButtonPressed(self):
         print("Test button pressed!")
