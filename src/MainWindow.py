@@ -1,6 +1,7 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
+from ui_sidebar import ui_sidebar
 
 class MainWindow(QMainWindow):
 
@@ -16,27 +17,28 @@ class MainWindow(QMainWindow):
         self.setGeometry(300, 300, 300, 220)
         self.setWindowTitle(self.title)
         self.containerWidget = QWidget(self)
-
         self.setCentralWidget(self.containerWidget)
         self.createMenuBar()
+
+        #Define Main Layout
         hbox = QHBoxLayout()
-        topleft = QFrame()
-        topleft.setFrameShape(QFrame.StyledPanel)
+        topleft = ui_sidebar(self)
         bottom = QFrame()
         bottom.setFrameShape(QFrame.StyledPanel)
-        splitter1 = QSplitter(Qt.Horizontal)
         textedit = QTextEdit()
-        splitter1.addWidget(topleft)
-        splitter1.addWidget(textedit)
-        splitter1.setSizes([100,200])
         splitter2 = QSplitter(Qt.Vertical)
-        splitter2.addWidget(splitter1)
+        splitter2.addWidget(textedit)
         splitter2.addWidget(bottom)
-        hbox.addWidget(splitter2)
-        self.containerWidget.setLayout(hbox)
+        splitter1 = QSplitter(Qt.Horizontal)
+        splitter1.addWidget(topleft)
+        splitter1.setSizes([100,200])
+        splitter1.addWidget(splitter2)
+        hbox.addWidget(splitter1)
 
+        self.containerWidget.setLayout(hbox)
         self.show()
 
+    # Creates the menu bar at the top of the window and all contained actions
     def createMenuBar(self):
         menubar = self.menuBar()
         self.statusBar()
@@ -54,8 +56,14 @@ class MainWindow(QMainWindow):
         testAction.setStatusTip('Create new algorithm file')
         testAction.triggered.connect(self.onTestButtonPressed)
 
+        settingsAction = QAction('&Settings', self)
+        settingsAction.setShortcut('Ctrl+Alt+S')
+        settingsAction.setStatusTip('Edit Program Settings')
+        settingsAction.triggered.connect(self.onTestButtonPressed)
+
         fileMenu.addMenu(newMenu)
         fileMenu.addAction(exitAction)
+        fileMenu.addAction(settingsAction)
 
         newMenu.addAction(testAction)
 
