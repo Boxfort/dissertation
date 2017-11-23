@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import *
 from Ui_Sidebar import Ui_Sidebar
+from DatasetWindow import DatasetWindow
 
 class Sidebar(QWidget, Ui_Sidebar):
 
@@ -13,6 +14,7 @@ class Sidebar(QWidget, Ui_Sidebar):
         self.btnOther.clicked.connect(self.onbtnOtherClicked)
 
     def onbtnDatasetClicked(self):
+        dialog = DatasetWindow(self)
         print("Ya done clicked me ")
 
     def onbtnOtherClicked(self):

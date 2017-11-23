@@ -10,9 +10,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.initUI()
 
         # Set up triggers.
-        self.exitAction.triggered.connect(qApp.quit)
+        self.exitAction.triggered.connect(self.onExitButtonPressed)
         self.newAlgorithmAction.triggered.connect(self.onTestButtonPressed)
         self.settingsAction.triggered.connect(self.onTestButtonPressed)
+
+    def onExitButtonPressed(self):
+        print("Exiting application..")
+        qApp.quit
 
     def onTestButtonPressed(self):
         print("Test button pressed!")
