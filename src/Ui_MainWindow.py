@@ -57,9 +57,9 @@ class Ui_MainWindow(object):
         self.line_5.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_5.setObjectName("line_5")
         self.verticalLayout.addWidget(self.line_5)
-        self.checkBox = QtWidgets.QCheckBox(self.widget_2)
-        self.checkBox.setObjectName("checkBox")
-        self.verticalLayout.addWidget(self.checkBox)
+        self.chk_two_stage = QtWidgets.QCheckBox(self.widget_2)
+        self.chk_two_stage.setObjectName("chk_two_stage")
+        self.verticalLayout.addWidget(self.chk_two_stage)
         self.line_4 = QtWidgets.QFrame(self.widget_2)
         self.line_4.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_4.setFrameShadow(QtWidgets.QFrame.Sunken)
@@ -140,7 +140,11 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
+        self.btn_alg1.clicked.connect(MainWindow.btn_alg1_clicked)
+        self.chk_two_stage.toggled['bool'].connect(MainWindow.chk_two_stage_toggled)
+        self.btn_alg2.clicked.connect(MainWindow.btn_alg2_clicked)
+        self.btn_run.clicked.connect(MainWindow.btn_run_clicked)
         self.btn_dataset.clicked.connect(MainWindow.btn_dataset_clicked)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -150,7 +154,7 @@ class Ui_MainWindow(object):
         self.btn_dataset.setText(_translate("MainWindow", "Dataset..."))
         self.label_2.setText(_translate("MainWindow", "Classifier One"))
         self.btn_alg1.setText(_translate("MainWindow", "Select Classifier...."))
-        self.checkBox.setText(_translate("MainWindow", "Two Stage"))
+        self.chk_two_stage.setText(_translate("MainWindow", "Two Stage"))
         self.label.setText(_translate("MainWindow", "Classifier Two"))
         self.btn_alg2.setText(_translate("MainWindow", "Select Classifier..."))
         self.btn_run.setText(_translate("MainWindow", "Run"))
@@ -162,6 +166,7 @@ class Ui_MainWindow(object):
         self.actionAlgorithm.setText(_translate("MainWindow", "Algorithm"))
         self.actionSettings.setText(_translate("MainWindow", "Settings"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
+
 
 if __name__ == "__main__":
     import sys

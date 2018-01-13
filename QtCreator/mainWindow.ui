@@ -84,7 +84,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QCheckBox" name="chk_two_stage">
          <property name="text">
           <string>Two Stage</string>
          </property>
@@ -164,7 +164,7 @@
        <item>
         <widget class="QTabWidget" name="tabWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -242,23 +242,91 @@
  <resources/>
  <connections>
   <connection>
+   <sender>btn_alg1</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btn_alg1_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>166</x>
+     <y>337</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>353</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chk_two_stage</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>chk_two_stage_toggled()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>75</x>
+     <y>368</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>398</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_alg2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btn_alg2_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>173</x>
+     <y>459</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>487</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_run</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btn_run_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>186</x>
+     <y>551</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>575</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>btn_dataset</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>btn_dataset_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>182</x>
-     <y>252</y>
+     <x>222</x>
+     <y>244</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>272</y>
+     <x>288</x>
+     <y>258</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
   <slot>btn_dataset_clicked()</slot>
+  <slot>btn_alg1_clicked()</slot>
+  <slot>chk_two_stage_toggled()</slot>
+  <slot>btn_alg2_clicked()</slot>
+  <slot>btn_run_clicked()</slot>
  </slots>
 </ui>
