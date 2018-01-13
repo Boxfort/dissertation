@@ -7,16 +7,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def __init__(self):
         super().__init__()
-        self.initUI()
+        self.setupUi(self)
 
-        # Set up triggers.
-        self.exitAction.triggered.connect(self.onExitButtonPressed)
-        self.newAlgorithmAction.triggered.connect(self.onTestButtonPressed)
-        self.settingsAction.triggered.connect(self.onTestButtonPressed)
-
-    def onExitButtonPressed(self):
-        print("Exiting application..")
-        qApp.quit
-
-    def onTestButtonPressed(self):
-        print("Test button pressed!")
+    def btn_dataset_clicked(self):
+        print("Clicked me!")
