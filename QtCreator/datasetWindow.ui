@@ -173,6 +173,9 @@
             </item>
             <item>
              <widget class="QListWidget" name="lst_nominal">
+              <property name="contextMenuPolicy">
+               <enum>Qt::CustomContextMenu</enum>
+              </property>
               <property name="acceptDrops">
                <bool>true</bool>
               </property>
@@ -220,6 +223,9 @@
             </item>
             <item>
              <widget class="QListWidget" name="lst_binary">
+              <property name="contextMenuPolicy">
+               <enum>Qt::CustomContextMenu</enum>
+              </property>
               <property name="acceptDrops">
                <bool>true</bool>
               </property>
@@ -368,6 +374,38 @@
     <hint type="destinationlabel">
      <x>597</x>
      <y>5</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lst_nominal</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>Dialog</receiver>
+   <slot>show_right_click_context()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>724</x>
+     <y>118</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>806</x>
+     <y>6</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lst_binary</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>Dialog</receiver>
+   <slot>show_right_click_context()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>863</x>
+     <y>156</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>781</x>
+     <y>1</y>
     </hint>
    </hints>
   </connection>

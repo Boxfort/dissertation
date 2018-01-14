@@ -90,6 +90,7 @@ class Ui_Dialog(object):
         self.lbl_nominal.setObjectName("lbl_nominal")
         self.verticalLayout_4.addWidget(self.lbl_nominal)
         self.lst_nominal = QtWidgets.QListWidget(self.widget_4)
+        self.lst_nominal.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.lst_nominal.setAcceptDrops(True)
         self.lst_nominal.setDragEnabled(True)
         self.lst_nominal.setDragDropOverwriteMode(True)
@@ -110,6 +111,7 @@ class Ui_Dialog(object):
         self.lbl_binary.setObjectName("lbl_binary")
         self.verticalLayout_5.addWidget(self.lbl_binary)
         self.lst_binary = QtWidgets.QListWidget(self.widget_5)
+        self.lst_binary.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.lst_binary.setAcceptDrops(True)
         self.lst_binary.setDragEnabled(True)
         self.lst_binary.setDragDropOverwriteMode(True)
@@ -137,6 +139,8 @@ class Ui_Dialog(object):
         self.btn_test_set.clicked.connect(Dialog.btn_test_set_clicked)
         self.btn_labels.clicked.connect(Dialog.btn_labels_clicked)
         self.lst_numeric.customContextMenuRequested['QPoint'].connect(Dialog.show_right_click_context)
+        self.lst_nominal.customContextMenuRequested['QPoint'].connect(Dialog.show_right_click_context)
+        self.lst_binary.customContextMenuRequested['QPoint'].connect(Dialog.show_right_click_context)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):

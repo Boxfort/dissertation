@@ -18,7 +18,7 @@ class DatasetWindow(QDialog, Ui_Dialog):
         self.popMenu.addAction(QAction('test1', self))
         self.popMenu.addSeparator()
         self.popMenu.addAction(QAction('test2', self))
-        self.popMenu.exec_(self.lst_numeric.mapToGlobal(pos))
+        self.popMenu.exec_(self.sender().mapToGlobal(pos))
 
 
     def btn_train_set_clicked(self):
