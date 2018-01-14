@@ -1,9 +1,9 @@
 import sys
+import os
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from Ui_MainWindow import Ui_MainWindow
 from DatasetWindow import DatasetWindow
-
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
@@ -20,12 +20,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print("Cancelled")
 
     def btn_alg1_clicked(self):
-        filename = QFileDialog.getOpenFileName(self, 'Select File')
-        print(filename)
+        filename = QFileDialog.getOpenFileName(self, 'Select File', os.getcwd(), 'Python scripts (*.py);; All Files (*.*)')
+        if filename:
+            self.txt_alg1.setText(filename[0])
 
     def btn_alg2_clicked(self):
-        filename = QFileDialog.getOpenFileName(self, 'Select File')
-        print(filename)
+        filename = QFileDialog.getOpenFileName(self, 'Select File', os.getcwd(), 'Python scripts (*.py);; All files (*.*)')
+        if filename:
+            self.txt_alg2.setText(filename[0])
 
     def chk_two_stage_toggled(self):
         self.label.setEnabled(not self.label.isEnabled())

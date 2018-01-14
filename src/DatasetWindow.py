@@ -1,4 +1,5 @@
 import sys
+import os
 import csv
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -71,15 +72,15 @@ class DatasetWindow(QDialog, Ui_Dialog):
                 self.lst_nominal.addItem(self.lst_binary.takeItem(self.lst_binary.row(item)))
 
     def btn_train_set_clicked(self):
-        filename = QFileDialog.getOpenFileName(self, 'Select File')
+        filename = QFileDialog.getOpenFileName(self, 'Select File', os.getcwd(), 'Comma-seperated values (*.csv);;All Files (*.*)')
         self.txt_train_set.setText(filename[0])
 
     def btn_test_set_clicked(self):
-        filename = QFileDialog.getOpenFileName(self, 'Select File')
+        filename = QFileDialog.getOpenFileName(self, 'Select File', os.getcwd(), 'Comma-seperated values (*.csv);;All Files (*.*)')
         self.txt_test_set.setText(filename[0])
 
     def btn_labels_clicked(self):
-        filename = QFileDialog.getOpenFileName(self, 'Select File')
+        filename = QFileDialog.getOpenFileName(self, 'Select File', os.getcwd(), 'Comma-seperated values (*.csv);;All Files (*.*)')
 
         # If a file was selected
         if filename:
