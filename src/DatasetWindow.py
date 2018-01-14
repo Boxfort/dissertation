@@ -15,11 +15,39 @@ class DatasetWindow(QDialog, Ui_Dialog):
 
     def show_right_click_context(self, pos):
         self.popMenu = QMenu(self)
-        self.popMenu.addAction(QAction('test0', self))
-        self.popMenu.addAction(QAction('test1', self))
+        self.lastList = self.sender()
+
+        move_numeric = QAction('Move to numerical', self)
+        move_nominal = QAction('Move to nominal', self)
+        move_binary = QAction('Move to binary', self)
+        move_numeric.triggered.connect(self.rc_move_numeric)
+        move_nominal.triggered.connect(self.rc_move_nominal)
+        move_binary.triggered.connect(self.rc_move_binary)
+
+        self.popMenu.addAction(move_numeric)
+        self.popMenu.addAction(move_nominal)
+        self.popMenu.addAction(move_binary)
         self.popMenu.addSeparator()
-        self.popMenu.addAction(QAction('test2', self))
+        self.popMenu.addAction(QAction('Cancel', self))
         self.popMenu.exec_(self.sender().mapToGlobal(pos))
+
+    # TODO: Theres definetly a better way of moving between lists
+    #     : Could probably condense rc_move and move_label methods into one method
+
+    def rc_move_numeric(self, extra):
+        items = self.lastList.selectedItems()
+        for item in items:
+            self.lst_numeric.addItem(self.lastList.takeItem(self.lastList.row(item)))
+
+    def rc_move_nominal(self):
+        items = self.lastList.selectedItems()
+        for item in items:
+            self.lst_nominal.addItem(self.lastList.takeItem(self.lastList.row(item)))
+
+    def rc_move_binary(self):
+        items = self.lastList.selectedItems()
+        for item in items:
+            self.lst_binary.addItem(self.lastList.takeItem(self.lastList.row(item)))
 
     def move_label(self):
 
