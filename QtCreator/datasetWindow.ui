@@ -37,10 +37,10 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit"/>
+          <widget class="QLineEdit" name="txt_train_set"/>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="btn_train_set">
            <property name="text">
             <string>Select Training Set...</string>
            </property>
@@ -54,10 +54,10 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_2"/>
+          <widget class="QLineEdit" name="txt_test_set"/>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_3">
+          <widget class="QPushButton" name="btn_test_set">
            <property name="text">
             <string>Select Testing Set...</string>
            </property>
@@ -74,7 +74,7 @@
           <widget class="QLineEdit" name="lineEdit_3"/>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="btn_labels">
            <property name="text">
             <string>Select Column Labels...</string>
            </property>
@@ -181,8 +181,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>569</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -197,8 +197,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>569</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -206,5 +206,58 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btn_train_set</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>btn_train_set_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>209</x>
+     <y>106</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>245</x>
+     <y>3</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_test_set</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>btn_test_set_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>228</x>
+     <y>185</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>433</x>
+     <y>6</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_labels</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>btn_labels_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>201</x>
+     <y>265</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>148</x>
+     <y>5</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>btn_train_set_clicked()</slot>
+  <slot>btn_test_set_clicked()</slot>
+  <slot>btn_labels_clicked()</slot>
+ </slots>
 </ui>
