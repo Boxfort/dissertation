@@ -12,6 +12,15 @@ class DatasetWindow(QDialog, Ui_Dialog):
         self.setupUi(self)
         return self.exec_()
 
+    def show_right_click_context(self, pos):
+        self.popMenu = QMenu(self)
+        self.popMenu.addAction(QAction('test0', self))
+        self.popMenu.addAction(QAction('test1', self))
+        self.popMenu.addSeparator()
+        self.popMenu.addAction(QAction('test2', self))
+        self.popMenu.exec_(self.lst_numeric.mapToGlobal(pos))
+
+
     def btn_train_set_clicked(self):
         filename = QFileDialog.getOpenFileName(self, 'Select File')
         self.txt_train_set.setText(filename[0])
@@ -22,4 +31,12 @@ class DatasetWindow(QDialog, Ui_Dialog):
 
     def btn_labels_clicked(self):
         filename = QFileDialog.getOpenFileName(self, 'Select File')
-        self.txt_labels.setText(filename[0])
+
+        # If a file was selected
+        if filename:
+            self.txt_labels.setText(filename[0])
+            self.lst_numeric.clear()
+            self.lst_numeric.addItem("Test1")
+            self.lst_numeric.addItem("Test2")
+            self.lst_numeric.addItem("Test3")
+            self.lst_numeric.addItem("Test4")
