@@ -71,7 +71,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_3"/>
+          <widget class="QLineEdit" name="txt_labels"/>
          </item>
          <item>
           <widget class="QPushButton" name="btn_labels">
@@ -110,12 +110,9 @@
              </widget>
             </item>
             <item>
-             <widget class="QTextEdit" name="textEdit">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
+             <widget class="QListWidget" name="listWidget">
+              <property name="dragDropMode">
+               <enum>QAbstractItemView::DragDrop</enum>
               </property>
              </widget>
             </item>
@@ -133,7 +130,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QListView" name="listView_2"/>
+             <widget class="QListWidget" name="listWidget_2"/>
             </item>
            </layout>
           </widget>
@@ -149,7 +146,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QListView" name="listView"/>
+             <widget class="QListWidget" name="listWidget_3"/>
             </item>
            </layout>
           </widget>
