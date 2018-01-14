@@ -37,12 +37,26 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="txt_train_set"/>
+          <widget class="QLineEdit" name="txt_train_set">
+           <property name="readOnly">
+            <bool>false</bool>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>false</bool>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="btn_train_set">
            <property name="text">
             <string>Select Training Set...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="line_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
@@ -54,12 +68,23 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="txt_test_set"/>
+          <widget class="QLineEdit" name="txt_test_set">
+           <property name="readOnly">
+            <bool>false</bool>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="btn_test_set">
            <property name="text">
             <string>Select Testing Set...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="line">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
@@ -71,12 +96,23 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="txt_labels"/>
+          <widget class="QLineEdit" name="txt_labels">
+           <property name="readOnly">
+            <bool>false</bool>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="btn_labels">
            <property name="text">
             <string>Select Column Labels...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="line_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
@@ -123,6 +159,9 @@
               <property name="frameShadow">
                <enum>QFrame::Sunken</enum>
               </property>
+              <property name="horizontalScrollBarPolicy">
+               <enum>Qt::ScrollBarAlwaysOff</enum>
+              </property>
               <property name="editTriggers">
                <set>QAbstractItemView::NoEditTriggers</set>
               </property>
@@ -142,13 +181,19 @@
                <bool>true</bool>
               </property>
               <property name="selectionMode">
-               <enum>QAbstractItemView::SingleSelection</enum>
+               <enum>QAbstractItemView::MultiSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectItems</enum>
+              </property>
+              <property name="horizontalScrollMode">
+               <enum>QAbstractItemView::ScrollPerItem</enum>
               </property>
               <property name="movement">
                <enum>QListView::Free</enum>
               </property>
               <property name="isWrapping" stdset="0">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
               <property name="wordWrap">
                <bool>true</bool>
@@ -157,6 +202,79 @@
                <bool>true</bool>
               </property>
              </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_6" native="true">
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <spacer name="verticalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_numeric_to_nominal">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>&gt;</string>
+              </property>
+              <property name="flat">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_nominal_to_numeric">
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>&lt;</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </widget>
@@ -179,6 +297,9 @@
               <property name="acceptDrops">
                <bool>true</bool>
               </property>
+              <property name="horizontalScrollBarPolicy">
+               <enum>Qt::ScrollBarAlwaysOff</enum>
+              </property>
               <property name="dragEnabled">
                <bool>true</bool>
               </property>
@@ -194,11 +315,14 @@
               <property name="alternatingRowColors">
                <bool>true</bool>
               </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::MultiSelection</enum>
+              </property>
               <property name="movement">
                <enum>QListView::Free</enum>
               </property>
               <property name="isWrapping" stdset="0">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
               <property name="wordWrap">
                <bool>true</bool>
@@ -207,6 +331,76 @@
                <bool>true</bool>
               </property>
              </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="widget_7" native="true">
+           <layout class="QVBoxLayout" name="verticalLayout_7">
+            <item>
+             <spacer name="verticalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_nominal_to_binary">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_binary_to_nominal">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>&lt;</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </widget>
@@ -229,6 +423,9 @@
               <property name="acceptDrops">
                <bool>true</bool>
               </property>
+              <property name="horizontalScrollBarPolicy">
+               <enum>Qt::ScrollBarAlwaysOff</enum>
+              </property>
               <property name="dragEnabled">
                <bool>true</bool>
               </property>
@@ -244,11 +441,14 @@
               <property name="alternatingRowColors">
                <bool>true</bool>
               </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::MultiSelection</enum>
+              </property>
               <property name="movement">
                <enum>QListView::Free</enum>
               </property>
               <property name="isWrapping" stdset="0">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
               <property name="wordWrap">
                <bool>true</bool>
@@ -337,7 +537,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>228</x>
-     <y>185</y>
+     <y>194</y>
     </hint>
     <hint type="destinationlabel">
      <x>433</x>
@@ -353,7 +553,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>201</x>
-     <y>265</y>
+     <y>283</y>
     </hint>
     <hint type="destinationlabel">
      <x>148</x>
@@ -400,12 +600,76 @@
    <slot>show_right_click_context()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>863</x>
+     <x>899</x>
      <y>156</y>
     </hint>
     <hint type="destinationlabel">
      <x>781</x>
      <y>1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_numeric_to_nominal</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>move_label()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>588</x>
+     <y>273</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>488</x>
+     <y>541</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_nominal_to_numeric</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>move_label()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>579</x>
+     <y>300</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>535</x>
+     <y>545</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_nominal_to_binary</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>move_label()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>846</x>
+     <y>266</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>782</x>
+     <y>543</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_binary_to_nominal</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>move_label()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>859</x>
+     <y>303</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>853</x>
+     <y>543</y>
     </hint>
    </hints>
   </connection>
@@ -415,5 +679,7 @@
   <slot>btn_test_set_clicked()</slot>
   <slot>btn_labels_clicked()</slot>
   <slot>show_right_click_context()</slot>
+  <slot>move_label()</slot>
+  <slot>on_selection_changed()</slot>
  </slots>
 </ui>
