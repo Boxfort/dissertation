@@ -71,6 +71,14 @@ class Ui_Dialog(object):
         self.verticalLayout_2.addWidget(self.line_3)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_2.addItem(spacerItem)
+        self.line_4 = QtWidgets.QFrame(self.widget)
+        self.line_4.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_4.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_4.setObjectName("line_4")
+        self.verticalLayout_2.addWidget(self.line_4)
+        self.pushButton = QtWidgets.QPushButton(self.widget)
+        self.pushButton.setObjectName("pushButton")
+        self.verticalLayout_2.addWidget(self.pushButton)
         self.horizontalLayout.addWidget(self.widget)
         self.widget_2 = QtWidgets.QWidget(self.groupBox)
         self.widget_2.setObjectName("widget_2")
@@ -210,7 +218,6 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(Dialog)
-        self.buttonBox.accepted.connect(Dialog.accept)
         self.buttonBox.rejected.connect(Dialog.reject)
         self.btn_train_set.clicked.connect(Dialog.btn_train_set_clicked)
         self.btn_test_set.clicked.connect(Dialog.btn_test_set_clicked)
@@ -222,6 +229,7 @@ class Ui_Dialog(object):
         self.btn_nominal_to_numeric.clicked.connect(Dialog.move_label)
         self.btn_nominal_to_binary.clicked.connect(Dialog.move_label)
         self.btn_binary_to_nominal.clicked.connect(Dialog.move_label)
+        self.buttonBox.accepted.connect(Dialog.on_accept)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
@@ -234,6 +242,7 @@ class Ui_Dialog(object):
         self.btn_test_set.setText(_translate("Dialog", "Select Testing Set..."))
         self.label_3.setText(_translate("Dialog", "Column Labels"))
         self.btn_labels.setText(_translate("Dialog", "Select Column Labels..."))
+        self.pushButton.setText(_translate("Dialog", "Clear Dataset"))
         self.label_4.setText(_translate("Dialog", "Numerical Columns"))
         self.lst_numeric.setSortingEnabled(True)
         self.btn_numeric_to_nominal.setText(_translate("Dialog", ">"))

@@ -497,22 +497,6 @@
  <connections>
   <connection>
    <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>257</x>
-     <y>569</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
    <signal>rejected()</signal>
    <receiver>Dialog</receiver>
    <slot>reject()</slot>
@@ -687,6 +671,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Dialog</receiver>
+   <slot>on_accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1072</x>
+     <y>564</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>888</x>
+     <y>543</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>btn_train_set_clicked()</slot>
@@ -695,5 +695,6 @@
   <slot>show_right_click_context()</slot>
   <slot>move_label()</slot>
   <slot>on_selection_changed()</slot>
+  <slot>on_accept()</slot>
  </slots>
 </ui>

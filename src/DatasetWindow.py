@@ -9,10 +9,26 @@ class DatasetWindow(QDialog, Ui_Dialog):
 
     def __init__(self):
         super().__init__()
+        self.train_set_filename = ['','']
+        self.test_set_filename = ['','']
+        self.labels_filename = ['','']
 
     def show(self):
         self.setupUi(self)
         return self.exec_()
+
+    def on_accept(self):
+
+        if not os.path.isfile(self.train_set_filename[0]) and not os.path.isfile(self.labels_filename[0]):
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setText("File does not exist.")
+            msg.setInformativeText("")
+            msg.setWindowTitle("Error")
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec_()
+        else:
+            self.accept()
 
     def show_right_click_context(self, pos):
         self.popMenu = QMenu(self)
@@ -73,27 +89,31 @@ class DatasetWindow(QDialog, Ui_Dialog):
 
     def btn_train_set_clicked(self):
         filename = QFileDialog.getOpenFileName(self, 'Select File', os.getcwd(), 'Comma-seperated values (*.csv);;All Files (*.*)')
+
+        self.train_set_filename = filename
         self.txt_train_set.setText(filename[0])
+
 
     def btn_test_set_clicked(self):
         filename = QFileDialog.getOpenFileName(self, 'Select File', os.getcwd(), 'Comma-seperated values (*.csv);;All Files (*.*)')
+
+        self.test_set_filename = filename
         self.txt_test_set.setText(filename[0])
 
     def btn_labels_clicked(self):
         filename = QFileDialog.getOpenFileName(self, 'Select File', os.getcwd(), 'Comma-seperated values (*.csv);;All Files (*.*)')
 
+        self.labels_filename = filename
+        self.txt_labels.setText(filename[0])
+        self.lst_numeric.clear()
+
         # If a file was selected
         if filename:
             try:
-                self.txt_labels.setText(filename[0])
-                self.lst_numeric.clear()
                 with open(filename[0], 'r') as file:
                     reader = csv.reader(file)
                     for row in reader:
                         self.lst_numeric.addItem(row[0])
             except Exception:
                 print("Could not load file.")
-
-        self.lst_nominal.addItem("Test")
-        self.lst_binary.addItem("test")
 

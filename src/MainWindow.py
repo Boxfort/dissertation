@@ -15,9 +15,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dataset_window = DatasetWindow()
 
         if dataset_window.show() == QDialog.Accepted:
-            print("Accepted")
-        else:
-            print("Cancelled")
+            # Dataset accepted so grab data
+            self.train_set_filename = dataset_window.train_set_filename[0]
+            with open(self.train_set_filename, 'r') as file:
+                row_count = sum(1 for row in file)
+                self.txt_dataset.append("Training set rows: "+str(row_count))
+
+            self.test_set_filename = dataset_window.test_set_filename[0]
+            with open(self.test_set_filename, 'r') as file:
+                row_count = sum(1 for row in file)
+                self.txt_dataset.append("Training set rows: "+str(row_count))
+
+            self.labels_filename = dataset_window.labels_filename[0]
+            with open(self.labels_filename, 'r') as file:
+                row_count = sum(1 for row in file)
+                self.txt_dataset.append("Labels: "+str(row_count))
+
+
 
     def btn_alg1_clicked(self):
         filename = QFileDialog.getOpenFileName(self, 'Select File', os.getcwd(), 'Python scripts (*.py);; All Files (*.*)')
