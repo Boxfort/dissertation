@@ -17,6 +17,7 @@ binary_cols  = list()
 numeric_cols = list()
 
 # Loads values from a two column .csv file and stores in a dictionary object.
+# TODO: accept nominal, binary and numeric from outside source
 def load_cols(path):
     with open(path, 'r') as file:
         reader = csv.reader(file)

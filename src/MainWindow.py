@@ -1,7 +1,9 @@
 import sys
 import os
+import importlib.util
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
+from comniaUtils import *
 from Ui_MainWindow import Ui_MainWindow
 from DatasetWindow import DatasetWindow
 
@@ -16,6 +18,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if dataset_window.show() == QDialog.Accepted:
             # Dataset accepted so grab data
+            # TODO: Get column types set by user
             self.train_set_filename = dataset_window.train_set_filename[0]
             with open(self.train_set_filename, 'r') as file:
                 row_count = sum(1 for row in file)
@@ -60,5 +63,41 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Pass results from stage 1 to stage 2
         # Get results from stage 2
         # Display
+        self.load_data()
+
+        if os.path.isfile(self.txt_alg1.text()):
+            try:
+                classifier = self.load_module(self.txt_alg1.text())
+                classifier.run()
+            except Exception as e:
+                self.show_error("Failed to run classifier one.")
+        else:
+            self.show_error("Classifier one file does not exist!")
 
         print('Run!')
+
+    def load_data(self):
+        # Load column names
+        load_cols(self.labels_filename)
+        # Load training set
+        self.dataset_train = load_dataset(self.train_set_filename, dataset_cols)
+        self.dataset_train_oh = one_hot_encoding(self.dataset_train, nominal_cols)
+        # Load testing set
+        # TODO: Sample training set to get testing set, if no testing set chosen
+        self.dataset_test = load_dataset(self.test_set_filename, dataset_cols)
+        self.dataset_test_oh = one_hot_encoding(self.dataset_test, nominal_cols)
+        self.dataset_test_oh = clean_testing_set(self.dataset_train_oh, self.dataset_test_oh)
+
+    def show_error(self, message):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Warning)
+        msg.setText(message)
+        msg.setWindowTitle("Error")
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()
+
+    def load_module(self, filename):
+        spec = importlib.util.spec_from_file_location("module.name", filename)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
