@@ -18,8 +18,8 @@ class DatasetWindow(QDialog, Ui_Dialog):
         return self.exec_()
 
     def on_accept(self):
-
-        if not os.path.isfile(self.train_set_filename[0]) and not os.path.isfile(self.labels_filename[0]):
+        # See if mandory fields have been supplied with correct filename
+        if not os.path.isfile(self.train_set_filename[0]) or not os.path.isfile(self.labels_filename[0]):
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Warning)
             msg.setText("File does not exist.")

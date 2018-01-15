@@ -21,10 +21,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 row_count = sum(1 for row in file)
                 self.txt_dataset.append("Training set rows: "+str(row_count))
 
-            self.test_set_filename = dataset_window.test_set_filename[0]
-            with open(self.test_set_filename, 'r') as file:
-                row_count = sum(1 for row in file)
-                self.txt_dataset.append("Training set rows: "+str(row_count))
+            # Training is optional so check
+            if not dataset_window.test_set_filename[0] == '':
+                self.test_set_filename = dataset_window.test_set_filename[0]
+                with open(self.test_set_filename, 'r') as file:
+                    row_count = sum(1 for row in file)
+                    self.txt_dataset.append("Training set rows: "+str(row_count))
 
             self.labels_filename = dataset_window.labels_filename[0]
             with open(self.labels_filename, 'r') as file:
@@ -50,4 +52,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print('Toggled!')
 
     def btn_run_clicked(self):
+        # Determine whether 1 or 2 stage
+        # Load algorithms
+        # Load datasets
+        # Optionally flatten 1st stage
+        # Get results from stage 1
+        # Pass results from stage 1 to stage 2
+        # Get results from stage 2
+        # Display
+
         print('Run!')
