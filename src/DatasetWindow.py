@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from Ui_DatasetWindow import Ui_Dialog
 
+# TODO: Let user select label field
 class DatasetWindow(QDialog, Ui_Dialog):
 
     def __init__(self):
@@ -18,7 +19,7 @@ class DatasetWindow(QDialog, Ui_Dialog):
         return self.exec_()
 
     def on_accept(self):
-        # See if mandory fields have been supplied with correct filename
+
         if not os.path.isfile(self.train_set_filename[0]) or not os.path.isfile(self.labels_filename[0]):
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Warning)
@@ -113,6 +114,9 @@ class DatasetWindow(QDialog, Ui_Dialog):
                 with open(filename[0], 'r') as file:
                     reader = csv.reader(file)
                     for row in reader:
+                        # TODO: Remove hardcoded label column
+                        if row[0] == 'labels':
+                            continue
                         self.lst_numeric.addItem(row[0])
             except Exception:
                 print("Could not load file.")

@@ -1,6 +1,9 @@
 import sys
 import os
 import importlib.util
+import csv
+import numpy as np
+import pandas as pd
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from comniaUtils import *
@@ -16,27 +19,41 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def btn_dataset_clicked(self):
         dataset_window = DatasetWindow()
 
+        # Dataset accepted so grab data
         if dataset_window.show() == QDialog.Accepted:
-            # Dataset accepted so grab data
-            # TODO: Get column types set by user
+
+            # Grab training set
             self.train_set_filename = dataset_window.train_set_filename[0]
             with open(self.train_set_filename, 'r') as file:
                 row_count = sum(1 for row in file)
                 self.txt_dataset.append("Training set rows: "+str(row_count))
 
-            # Training is optional so check
+            # Test is optional so check
             if not dataset_window.test_set_filename[0] == '':
+                # Grab test set
                 self.test_set_filename = dataset_window.test_set_filename[0]
                 with open(self.test_set_filename, 'r') as file:
                     row_count = sum(1 for row in file)
                     self.txt_dataset.append("Training set rows: "+str(row_count))
 
+            # Grab labels
             self.labels_filename = dataset_window.labels_filename[0]
             with open(self.labels_filename, 'r') as file:
                 row_count = sum(1 for row in file)
                 self.txt_dataset.append("Labels: "+str(row_count))
 
+            # Grab categorised labels
+            self.nominal_cols = []
+            for index in range(dataset_window.lst_nominal.count()):
+                self.nominal_cols.append(dataset_window.lst_nominal.item(index).text())
 
+            self.binary_cols = []
+            for index in range(dataset_window.lst_binary.count()):
+                self.binary_cols.append(dataset_window.lst_binary.item(index).text())
+
+            self.numeric_cols = []
+            for index in range(dataset_window.lst_numeric.count()):
+                self.numeric_cols.append(dataset_window.lst_numeric.item(index).text())
 
     def btn_alg1_clicked(self):
         filename = QFileDialog.getOpenFileName(self, 'Select File', os.getcwd(), 'Python scripts (*.py);; All Files (*.*)')
@@ -63,14 +80,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Pass results from stage 1 to stage 2
         # Get results from stage 2
         # Display
-        self.load_data()
+
+        # Load datasets
+        try:
+            self.load_data()
+        except Exception as e:
+            self.show_error("Failed to load dataset.", str(e))
 
         if os.path.isfile(self.txt_alg1.text()):
             try:
                 classifier = self.load_module(self.txt_alg1.text())
-                classifier.run()
+                classifier.run(self.dataset_train_oh, self.dataset_test_oh)
             except Exception as e:
-                self.show_error("Failed to run classifier one.")
+                self.show_error("Failed to run classifier one.", str(e))
         else:
             self.show_error("Classifier one file does not exist!")
 
@@ -78,20 +100,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def load_data(self):
         # Load column names
-        load_cols(self.labels_filename)
+        self.dataset_cols = self.load_columns_from_file(self.labels_filename)
         # Load training set
-        self.dataset_train = load_dataset(self.train_set_filename, dataset_cols)
-        self.dataset_train_oh = one_hot_encoding(self.dataset_train, nominal_cols)
+        self.dataset_train = self.load_dataset_from_file(self.train_set_filename, self.dataset_cols)
+        self.dataset_train_oh = self.one_hot_encoding(self.dataset_train)
+
         # Load testing set
         # TODO: Sample training set to get testing set, if no testing set chosen
-        self.dataset_test = load_dataset(self.test_set_filename, dataset_cols)
-        self.dataset_test_oh = one_hot_encoding(self.dataset_test, nominal_cols)
-        self.dataset_test_oh = clean_testing_set(self.dataset_train_oh, self.dataset_test_oh)
+        self.dataset_test = self.load_dataset_from_file(self.test_set_filename, self.dataset_cols)
+        self.dataset_test_oh = self.one_hot_encoding(self.dataset_test)
 
-    def show_error(self, message):
+        # Add missing columns
+        self.dataset_test_oh = self.clean_testing_set(self.dataset_train_oh, self.dataset_test_oh)
+
+    def show_error(self, message, info = None):
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Warning)
         msg.setText(message)
+        if info:
+            msg.setDetailedText(info)
         msg.setWindowTitle("Error")
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec_()
@@ -101,3 +128,51 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         return module
+
+    # loads dataset columns
+    def load_columns_from_file(self, path):
+        dataset_cols = []
+        with open(path, 'r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                dataset_cols.append(row[0])
+        return dataset_cols
+
+    # loads a dataset and divides into 8 partitions.
+    def load_dataset_from_file(self, path, fields):
+        return pd.read_csv(path, index_col=False, names=fields)
+
+    # Replaces Nominal Columns with several binary columns
+    def one_hot_encoding(self, dataset):
+        dataset_oh = dataset
+        to_concat = []
+        for column in dataset:
+            if column in self.nominal_cols:
+                print(column)
+                df_oh = pd.get_dummies(dataset[column], prefix=column)
+                to_concat.append(df_oh)
+                dataset_oh = dataset_oh.drop(column, axis=1)
+                for column_oh in df_oh:
+                    self.binary_cols.append(column_oh)
+
+        to_concat = pd.concat(to_concat, axis=1)
+        dataset_oh = pd.concat([to_concat, dataset_oh], axis=1)
+
+        return dataset_oh
+
+    # Adds columns to the testing set which are missing based on its training set, removes errors relating to seperate OHE
+    def clean_testing_set(self, train_set, test_set):
+        new_test_set = test_set
+        for column in list(train_set.columns.values):
+            if column not in list(test_set.columns.values):
+                idx = train_set.columns.get_loc(column)
+                new_test_set.insert(idx, column, 0)
+        return new_test_set
+
+    def flatten_attacks(self, dataset):
+        dataset_flat = dataset
+        mask = dataset_flat['labels'] != 'normal'
+        column_name = 'labels'
+        dataset_flat.loc[mask, column_name] = 'attack'
+        return dataset_flat
+

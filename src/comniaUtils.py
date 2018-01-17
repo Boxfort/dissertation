@@ -4,32 +4,16 @@ import numpy as np
 import pandas as pd
 from collections import OrderedDict
 
-dataset_cols    = list() # [Field Name]
-dataset_types   = list()
-dataset_attacks = dict() # [Attack Name, Attack Type]
+# TODO: Move comnia utils into MainWindow, simpifies everything
 
-nominal_inx = [1, 2, 3]
-binary_inx  = [6, 11, 13, 14, 20, 21]
-numeric_inx = list(set(range(41)).difference(nominal_inx).difference(binary_inx))
-
-nominal_cols = list()
-binary_cols  = list()
-numeric_cols = list()
-
-# Loads values from a two column .csv file and stores in a dictionary object.
-# TODO: accept nominal, binary and numeric from outside source
+# Loads dataset columns
 def load_cols(path):
-    with open(path, 'r') as file:
+    dataset_cols = []
+    with open(path, 'rU') as file:
         reader = csv.reader(file)
         for row in reader:
             dataset_cols.append(row[0])
-            dataset_types.append(row[1])
-    for i in nominal_inx:
-        nominal_cols.append(dataset_cols[i])
-    for i in binary_inx:
-        binary_cols.append(dataset_cols[i])
-    for i in numeric_inx:
-        numeric_cols.append(dataset_cols[i])
+    return dataset_cols
 
 def load_attacks(path):
     with open(path, 'rU') as file:
@@ -53,11 +37,12 @@ def get_attribute_ratio(dataset):
     return OrderedDict(sorted(ratio_dict.items(), key=lambda v: -v[1]))
 
 # Replaces Nominal Columns with several binary columns
-def one_hot_encoding(dataset, nominalCols):
+def one_hot_encoding(dataset, nominal_cols):
     dataset_oh = dataset
     to_concat = []
     for column in dataset:
-        if column in nominalCols:
+        if column in nominal_cols:
+            print(column)
             df_oh = pd.get_dummies(dataset[column], prefix=column)
             to_concat.append(df_oh)
             dataset_oh = dataset_oh.drop(column, axis=1)
