@@ -51,7 +51,6 @@ class DatasetWindow(QDialog, Ui_Dialog):
 
     # TODO: Theres definetly a better way of moving between lists
     #     : Could probably condense rc_move and move_label methods into one method
-
     def rc_move_numeric(self, extra):
         items = self.lastList.selectedItems()
         for item in items:
@@ -117,7 +116,16 @@ class DatasetWindow(QDialog, Ui_Dialog):
                         # TODO: Remove hardcoded label column
                         if row[0] == 'labels':
                             continue
-                        self.lst_numeric.addItem(row[0])
+                        try:
+                            if row[1] in ['binary', 'b']:
+                                self.lst_binary.addItem(row[0])
+                            elif row[1] in ['symbolic', 'nominal', 'categorical', 'cat', 's', 'c']:
+                                self.lst_nominal.addItem(row[0])
+                            else:
+                                self.lst_numeric.addItem(row[0])
+                        except Exception:
+                            self.lst_numeric.addItem(row[0])
+
             except Exception:
                 print("Could not load file.")
 

@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-from comniaUtils import *
+from sklearn.metrics import classification_report
 from Ui_MainWindow import Ui_MainWindow
 from DatasetWindow import DatasetWindow
 
@@ -69,7 +69,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.label.setEnabled(not self.label.isEnabled())
         self.txt_alg2.setEnabled(not self.txt_alg2.isEnabled())
         self.btn_alg2.setEnabled(not self.btn_alg2.isEnabled())
-        print('Toggled!')
 
     def btn_run_clicked(self):
         # Determine whether 1 or 2 stage
@@ -87,16 +86,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         except Exception as e:
             self.show_error("Failed to load dataset.", str(e))
 
+        self.stage_one_result = None
+
         if os.path.isfile(self.txt_alg1.text()):
             try:
                 classifier = self.load_module(self.txt_alg1.text())
-                classifier.run(self.dataset_train_oh, self.dataset_test_oh)
+                self.stage_one_result = classifier.run(self.dataset_train_oh, self.dataset_test_oh)
             except Exception as e:
                 self.show_error("Failed to run classifier one.", str(e))
         else:
             self.show_error("Classifier one file does not exist!")
 
-        print('Run!')
+        y_test = self.dataset_test_oh['labels']
+        print(classification_report(y_test,self.stage_one_result))
 
     def load_data(self):
         # Load column names
@@ -148,7 +150,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         to_concat = []
         for column in dataset:
             if column in self.nominal_cols:
-                print(column)
                 df_oh = pd.get_dummies(dataset[column], prefix=column)
                 to_concat.append(df_oh)
                 dataset_oh = dataset_oh.drop(column, axis=1)
