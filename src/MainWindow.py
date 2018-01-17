@@ -137,21 +137,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             except Exception as e:
                 self.show_error("Failed to run classifier two.", str(e))
 
-            # TODO: Construct combined result set and fix the names jesus christ
-            print("ds_test_oh : " + str(len(self.dataset_test_oh.index)))
-            s1_test_normal = self.dataset_test_oh[self.stage_one_result == 'normal']
+            # Combine results from both stages into one, ensuring testing set labels match result order
+            stage_one_test_normal = self.dataset_test_oh[self.stage_one_result == 'normal']
             total_test = self.dataset_test_oh[self.stage_one_result == 'normal'].append(self.dataset_test_oh[self.stage_one_result != 'normal'])
-            print("total_test : " + str(len(total_test.index)))
             total_res = np.append(self.stage_one_result[self.stage_one_result=='normal'], self.stage_two_result)
-            print("total_res : " + str(len(total_res)))
-            print("ds_test_oh : " + str(len(self.dataset_test_oh.index)))
 
             y_test = total_test['labels']
             print(classification_report(y_test,total_res))
-
         else:
             # TODO: Get results for stage 1
-            print("")
+            y_test = self.dataset_test_oh['labels']
+            print(classification_report(y_test, self.stage_one_result))
 
     def load_data(self):
         # Load column names
