@@ -97,6 +97,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.show_error("Classifier one file does not exist!")
 
+        # Get indices of results where an attack is classified, and construct a new test dataset of only attacks for stage two
+        self.dataset_second_test = self.dataset_test_oh.loc[self.dataset_test_oh['labels'] != 'normal']
+
+        print(self.dataset_second_test)
+
         y_test = self.dataset_test_oh['labels']
         print(classification_report(y_test,self.stage_one_result))
 
