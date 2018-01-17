@@ -15,12 +15,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.train_set_filename = ''
+        self.test_set_filename = ''
+        self.labels_filename = ''
+        self.numeric_cols = []
+        self.nominal_cols = []
+        self.binary_cols = []
 
     def btn_dataset_clicked(self):
         dataset_window = DatasetWindow()
 
         # Dataset accepted so grab data
-        if dataset_window.show() == QDialog.Accepted:
+        if dataset_window.show(self.train_set_filename, self.test_set_filename, self.labels_filename, self.numeric_cols, self.nominal_cols, self.binary_cols) == QDialog.Accepted:
+
+            self.txt_dataset.clear()
 
             # Grab training set
             self.train_set_filename = dataset_window.train_set_filename[0]
@@ -128,11 +136,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.stage_two_result = classifier_two.run(self.dataset_second_train, self.dataset_second_test)
             except Exception as e:
                 self.show_error("Failed to run classifier two.", str(e))
+
+            # TODO: Construct combined result set and fix the names jesus christ
+            print("ds_test_oh : " + str(len(self.dataset_test_oh.index)))
+            s1_test_normal = self.dataset_test_oh[self.stage_one_result == 'normal']
+            total_test = self.dataset_test_oh[self.stage_one_result == 'normal'].append(self.dataset_test_oh[self.stage_one_result != 'normal'])
+            print("total_test : " + str(len(total_test.index)))
+            total_res = np.append(self.stage_one_result[self.stage_one_result=='normal'], self.stage_two_result)
+            print("total_res : " + str(len(total_res)))
+            print("ds_test_oh : " + str(len(self.dataset_test_oh.index)))
+
+            y_test = total_test['labels']
+            print(classification_report(y_test,total_res))
+
         else:
             # TODO: Get results for stage 1
             print("")
-
-    # TODO: If two stage construct a full result set comprised of 'normal' from stage one and everything from stage two
 
     def load_data(self):
         # Load column names

@@ -10,12 +10,27 @@ class DatasetWindow(QDialog, Ui_Dialog):
 
     def __init__(self):
         super().__init__()
-        self.train_set_filename = ['','']
-        self.test_set_filename = ['','']
-        self.labels_filename = ['','']
 
-    def show(self):
+    def show(self, train_filename = '', test_filename = '', labels_filename = '', numeric = [], nominal = [], binary = []):
         self.setupUi(self)
+        self.train_set_filename = [train_filename,'']
+        self.test_set_filename = [test_filename,'']
+        self.labels_filename = [labels_filename,'']
+
+        self.txt_train_set.setText(train_filename)
+        self.txt_test_set.setText(test_filename)
+        self.txt_labels.setText(labels_filename)
+
+        if numeric:
+            for item in numeric:
+                self.lst_numeric.addItem(item)
+        if nominal:
+            for item in nominal:
+                self.lst_nominal.addItem(item)
+        if binary:
+            for item in binary:
+                self.lst_binary.addItem(item)
+
         return self.exec_()
 
     def on_accept(self):
