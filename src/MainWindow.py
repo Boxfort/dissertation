@@ -85,25 +85,54 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.load_data()
         except Exception as e:
             self.show_error("Failed to load dataset.", str(e))
+            return
 
-        self.stage_one_result = None
-
-        if os.path.isfile(self.txt_alg1.text()):
-            try:
-                classifier = self.load_module(self.txt_alg1.text())
-                self.stage_one_result = classifier.run(self.dataset_train_oh, self.dataset_test_oh)
-            except Exception as e:
-                self.show_error("Failed to run classifier one.", str(e))
-        else:
+        # Check if the first algorithm file exists
+        if not os.path.isfile(self.txt_alg1.text()):
             self.show_error("Classifier one file does not exist!")
+            return
+
+        # If two stage is selected check if the second algorithm file exists
+        if self.chk_two_stage.isChecked() and not os.path.isfile(self.txt_alg2.text()):
+            self.show_error("Classifier two file does not exist!")
+            return
+
+        try:
+            classifier = self.load_module(self.txt_alg1.text())
+
+            if self.chk_two_stage.isChecked():
+                # TODO: flatten training too 
+                print(self.dataset_test_oh)
+                self.dataset_test_oh_flattened = self.flatten_attacks(self.dataset_test_oh)
+                self.dataset_train_oh_flattened = self.flatten_attacks(self.dataset_train_oh)
+                print(self.dataset_test_oh)
+                self.stage_one_result = classifier.run(self.dataset_train_oh_flattened, self.dataset_test_oh_flattened)
+            else:
+                self.stage_one_result = classifier.run(self.dataset_train_oh, self.dataset_test_oh)
+
+        except Exception as e:
+            self.show_error("Failed to run classifier one.", str(e))
 
         # Get indices of results where an attack is classified, and construct a new test dataset of only attacks for stage two
-        self.dataset_second_test = self.dataset_test_oh.loc[self.dataset_test_oh['labels'] != 'normal']
+        self.dataset_second_test = self.dataset_test_oh.loc[self.stage_one_result != 'normal']
+        self.dataset_second_train = self.dataset_train_oh.loc[self.dataset_train_oh['labels'] != 'normal']
 
-        print(self.dataset_second_test)
+        if self.chk_two_stage.isChecked():
+            # Run second stage
+            # Get indices of results where an attack is classified, and construct a new test dataset of only attacks for stage two
+            self.dataset_second_test = self.dataset_test_oh.loc[self.stage_one_result != 'normal']
+            self.dataset_second_train = self.dataset_train_oh.loc[self.dataset_train_oh['labels'] != 'normal']
 
-        y_test = self.dataset_test_oh['labels']
-        print(classification_report(y_test,self.stage_one_result))
+            try:
+                classifier_two = self.load_module(self.txt_alg2.text())
+                self.stage_two_result = classifier_two.run(self.dataset_second_train, self.dataset_second_test)
+            except Exception as e:
+                self.show_error("Failed to run classifier two.", str(e))
+        else:
+            # TODO: Get results for stage 1
+            print("")
+
+    # TODO: If two stage construct a full result set comprised of 'normal' from stage one and everything from stage two
 
     def load_data(self):
         # Load column names
@@ -176,7 +205,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return new_test_set
 
     def flatten_attacks(self, dataset):
-        dataset_flat = dataset
+        dataset_flat = dataset.copy() # Copy instead of reference
         mask = dataset_flat['labels'] != 'normal'
         column_name = 'labels'
         dataset_flat.loc[mask, column_name] = 'attack'
