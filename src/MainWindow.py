@@ -42,7 +42,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dataset_window.show(self.train_set_filename, self.test_set_filename, self.labels_filename, self.numeric_cols, self.nominal_cols, self.binary_cols) == QDialog.Accepted:
 
             self.txt_dataset.clear()
-            self.test_set_filename = None
+            self.test_set_filename = ''
             self.folds = None
 
             # Grab training set
@@ -122,13 +122,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # TODO: Gather and average results from all folds
         if self.folds:
             # Partitioning Dataset
-            fold_size = len(self.dataset_test_oh.index) / self.folds
+            fold_size = len(self.dataset_train_oh.index) / self.folds
 
-            for i in range(0, self.folds + 1):
+            for i in range(0, self.folds):
                 start = math.floor(i * fold_size)
                 end = math.floor((i + 1) * fold_size)
                 fold_test_set = self.dataset_train_oh[start:end]
                 fold_train_set = self.dataset_train_oh.copy().drop(self.dataset_train_oh.index[start:end])
+                print("len sub : " + str(len(fold_train_set.index)))
+                print("len ful : " + str(len(self.dataset_train_oh.index)))
                 self.run_classifiers(fold_train_set, fold_test_set)
         else:
             self.run_classifiers(self.dataset_train_oh, self.dataset_test_oh)
@@ -149,7 +151,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         except Exception as e:
             msg = ErrorMessage("Failed to run classifier one.", str(e))
             msg.show()
+            return
 
+        # TODO: If subset has no normal traffic it crashes fix this !
         # Get indices of results where an attack is classified, and construct a new test dataset of only attacks for stage two
         self.dataset_second_test = testing_set.loc[self.stage_one_result != 'normal']
         self.dataset_second_train = training_set.loc[training_set['labels'] != 'normal']
@@ -167,6 +171,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             except Exception as e:
                 msg = ErrorMessage("Failed to run classifier two.", str(e))
                 msg.show()
+                return
 
             # Combine results from both stages into one, ensuring testing set labels match result order
             stage_one_test_normal = testing_set[self.stage_one_result == 'normal']

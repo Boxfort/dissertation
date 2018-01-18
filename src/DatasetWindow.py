@@ -48,7 +48,7 @@ class DatasetWindow(QDialog, Ui_Dialog):
             msg.show()
             return
 
-        if not chk_folds.isChecked() and not os.path.isfile(self.test_set_filename[0]):
+        if not self.chk_folds.isChecked() and not os.path.isfile(self.test_set_filename[0]):
             msg = ErrorMessage("Testing set file does not exist!")
             msg.show()
             return
