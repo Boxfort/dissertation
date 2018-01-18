@@ -1,5 +1,6 @@
 import sys
 import os
+import math
 import importlib.util
 import csv
 import numpy as np
@@ -41,6 +42,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dataset_window.show(self.train_set_filename, self.test_set_filename, self.labels_filename, self.numeric_cols, self.nominal_cols, self.binary_cols) == QDialog.Accepted:
 
             self.txt_dataset.clear()
+            self.test_set_filename = None
+            self.folds = None
 
             # Grab training set
             self.train_set_filename = dataset_window.train_set_filename[0]
@@ -116,35 +119,47 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             msg.show()
             return
 
-        # Partitioning Dataset
-        #for i in range(0, self.folds + 1):
+        # TODO: Gather and average results from all folds
+        if self.folds:
+            # Partitioning Dataset
+            fold_size = len(self.dataset_test_oh.index) / self.folds
+
+            for i in range(0, self.folds + 1):
+                start = math.floor(i * fold_size)
+                end = math.floor((i + 1) * fold_size)
+                fold_test_set = self.dataset_train_oh[start:end]
+                fold_train_set = self.dataset_train_oh.copy().drop(self.dataset_train_oh.index[start:end])
+                self.run_classifiers(fold_train_set, fold_test_set)
+        else:
+            self.run_classifiers(self.dataset_train_oh, self.dataset_test_oh)
 
 
+    def run_classifiers(self, training_set, testing_set):
         try:
             print("Running classfier one...")
             classifier = self.load_module(self.txt_alg1.text())
 
             if self.chk_two_stage.isChecked():
-                self.dataset_test_oh_flattened = self.flatten_attacks(self.dataset_test_oh)
-                self.dataset_train_oh_flattened = self.flatten_attacks(self.dataset_train_oh)
-                self.stage_one_result = classifier.run(self.dataset_train_oh_flattened, self.dataset_test_oh_flattened)
+                testing_set_flattened = self.flatten_attacks(testing_set)
+                training_set_flattened = self.flatten_attacks(training_set)
+                self.stage_one_result = classifier.run(training_set_flattened, testing_set_flattened)
             else:
-                self.stage_one_result = classifier.run(self.dataset_train_oh, self.dataset_test_oh)
+                self.stage_one_result = classifier.run(training_set, testing_set)
 
         except Exception as e:
             msg = ErrorMessage("Failed to run classifier one.", str(e))
             msg.show()
 
         # Get indices of results where an attack is classified, and construct a new test dataset of only attacks for stage two
-        self.dataset_second_test = self.dataset_test_oh.loc[self.stage_one_result != 'normal']
-        self.dataset_second_train = self.dataset_train_oh.loc[self.dataset_train_oh['labels'] != 'normal']
+        self.dataset_second_test = testing_set.loc[self.stage_one_result != 'normal']
+        self.dataset_second_train = training_set.loc[training_set['labels'] != 'normal']
 
         if self.chk_two_stage.isChecked():
             # Run second stage
             # Get indices of results where an attack is classified, and construct a new test dataset of only attacks for stage two
             print("Running classifier two...")
-            self.dataset_second_test = self.dataset_test_oh.loc[self.stage_one_result != 'normal']
-            self.dataset_second_train = self.dataset_train_oh.loc[self.dataset_train_oh['labels'] != 'normal']
+            self.dataset_second_test = testing_set.loc[self.stage_one_result != 'normal']
+            self.dataset_second_train = training_set.loc[training_set['labels'] != 'normal']
 
             try:
                 classifier_two = self.load_module(self.txt_alg2.text())
@@ -154,15 +169,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 msg.show()
 
             # Combine results from both stages into one, ensuring testing set labels match result order
-            stage_one_test_normal = self.dataset_test_oh[self.stage_one_result == 'normal']
-            total_test = self.dataset_test_oh[self.stage_one_result == 'normal'].append(self.dataset_test_oh[self.stage_one_result != 'normal'])
+            stage_one_test_normal = testing_set[self.stage_one_result == 'normal']
+            total_test = testing_set[self.stage_one_result == 'normal'].append(testing_set[self.stage_one_result != 'normal'])
             total_res = np.append(self.stage_one_result[self.stage_one_result=='normal'], self.stage_two_result)
 
             y_test = total_test['labels']
             print(classification_report(y_test,total_res))
         else:
             # Get results from stage one
-            y_test = self.dataset_test_oh['labels']
+            y_test = testing_set['labels']
             print(classification_report(y_test, self.stage_one_result))
 
     def load_data(self):
@@ -172,13 +187,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.dataset_train = self.load_dataset_from_file(self.train_set_filename, self.dataset_cols)
         self.dataset_train_oh = self.one_hot_encoding(self.dataset_train)
 
-        # Load testing set
-        # TODO: Sample training set to get testing set, if no testing set chosen
-        self.dataset_test = self.load_dataset_from_file(self.test_set_filename, self.dataset_cols)
-        self.dataset_test_oh = self.one_hot_encoding(self.dataset_test)
+        if not self.folds:
+            # Load testing set
+            # TODO: Sample training set to get testing set, if no testing set chosen
+            self.dataset_test = self.load_dataset_from_file(self.test_set_filename, self.dataset_cols)
+            self.dataset_test_oh = self.one_hot_encoding(self.dataset_test)
 
-        # Add missing columns
-        self.dataset_test_oh = self.clean_testing_set(self.dataset_train_oh, self.dataset_test_oh)
+            # Add missing columns
+            self.dataset_test_oh = self.clean_testing_set(self.dataset_train_oh, self.dataset_test_oh)
 
     def load_module(self, filename):
         spec = importlib.util.spec_from_file_location("module.name", filename)
