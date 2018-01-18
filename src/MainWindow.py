@@ -108,6 +108,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.show_error("Classifier two file does not exist!")
             return
 
+        # Partitioning Dataset
+        for i in range(0, self.folds + 1)
+
         try:
             print("Running classfier one...")
             classifier = self.load_module(self.txt_alg1.text())
