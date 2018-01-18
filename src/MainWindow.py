@@ -10,9 +10,12 @@ from sklearn.metrics import classification_report
 from Ui_MainWindow import Ui_MainWindow
 from DatasetWindow import DatasetWindow
 
+# TODO: k-fold cross validation.
+#     : classification reporting
+#     : Graphs and results
 class MainWindow(QMainWindow, Ui_MainWindow):
 
-    def __init__(self):
+    def __init__(self, app):
         super().__init__()
         self.setupUi(self)
         self.train_set_filename = ''
@@ -21,6 +24,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.numeric_cols = []
         self.nominal_cols = []
         self.binary_cols = []
+
+        sys.stdout = self
+        self.app = app
+
+    def write(self, txt):
+        self.plainTextEdit.insertPlainText(txt)
+        # Tell the GUI to refresh
+        self.app.processEvents()
 
     def btn_dataset_clicked(self):
         dataset_window = DatasetWindow()
@@ -79,16 +90,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btn_alg2.setEnabled(not self.btn_alg2.isEnabled())
 
     def btn_run_clicked(self):
-        # Determine whether 1 or 2 stage
-        # Load algorithms
         # Load datasets
-        # Optionally flatten 1st stage
-        # Get results from stage 1
-        # Pass results from stage 1 to stage 2
-        # Get results from stage 2
-        # Display
-
-        # Load datasets
+        print("Loading data...")
         try:
             self.load_data()
         except Exception as e:
@@ -106,14 +109,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
 
         try:
+            print("Running classfier one...")
             classifier = self.load_module(self.txt_alg1.text())
 
             if self.chk_two_stage.isChecked():
-                # TODO: flatten training too 
-                print(self.dataset_test_oh)
                 self.dataset_test_oh_flattened = self.flatten_attacks(self.dataset_test_oh)
                 self.dataset_train_oh_flattened = self.flatten_attacks(self.dataset_train_oh)
-                print(self.dataset_test_oh)
                 self.stage_one_result = classifier.run(self.dataset_train_oh_flattened, self.dataset_test_oh_flattened)
             else:
                 self.stage_one_result = classifier.run(self.dataset_train_oh, self.dataset_test_oh)
@@ -128,6 +129,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.chk_two_stage.isChecked():
             # Run second stage
             # Get indices of results where an attack is classified, and construct a new test dataset of only attacks for stage two
+            print("Running classifier two...")
             self.dataset_second_test = self.dataset_test_oh.loc[self.stage_one_result != 'normal']
             self.dataset_second_train = self.dataset_train_oh.loc[self.dataset_train_oh['labels'] != 'normal']
 
@@ -145,7 +147,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             y_test = total_test['labels']
             print(classification_report(y_test,total_res))
         else:
-            # TODO: Get results for stage 1
+            # Get results from stage one
             y_test = self.dataset_test_oh['labels']
             print(classification_report(y_test, self.stage_one_result))
 
