@@ -9,6 +9,7 @@ from PyQt5.QtCore import *
 from sklearn.metrics import classification_report
 from Ui_MainWindow import Ui_MainWindow
 from DatasetWindow import DatasetWindow
+from ErrorMessage import ErrorMessage
 
 # TODO: k-fold cross validation.
 #     : classification reporting
@@ -55,6 +56,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     row_count = sum(1 for row in file)
                     self.txt_dataset.append("Training set rows: "+str(row_count))
 
+            # No testing set so grab fold count
+            else:
+                self.folds = dataset_window.spn_folds.value()
+
             # Grab labels
             self.labels_filename = dataset_window.labels_filename[0]
             with open(self.labels_filename, 'r') as file:
@@ -95,21 +100,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         try:
             self.load_data()
         except Exception as e:
-            self.show_error("Failed to load dataset.", str(e))
+            msg = ErrorMessage("Failed to load dataset.", str(e))
+            msg.show()
             return
 
         # Check if the first algorithm file exists
         if not os.path.isfile(self.txt_alg1.text()):
-            self.show_error("Classifier one file does not exist!")
+            msg = ErrorMessage("Classifier one file does not exist!")
+            msg.show()
             return
 
         # If two stage is selected check if the second algorithm file exists
         if self.chk_two_stage.isChecked() and not os.path.isfile(self.txt_alg2.text()):
-            self.show_error("Classifier two file does not exist!")
+            msg = ErrorMessage("Classifier two file does not exist!")
+            msg.show()
             return
 
         # Partitioning Dataset
-        for i in range(0, self.folds + 1)
+        #for i in range(0, self.folds + 1):
+
 
         try:
             print("Running classfier one...")
@@ -123,7 +132,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.stage_one_result = classifier.run(self.dataset_train_oh, self.dataset_test_oh)
 
         except Exception as e:
-            self.show_error("Failed to run classifier one.", str(e))
+            msg = ErrorMessage("Failed to run classifier one.", str(e))
+            msg.show()
 
         # Get indices of results where an attack is classified, and construct a new test dataset of only attacks for stage two
         self.dataset_second_test = self.dataset_test_oh.loc[self.stage_one_result != 'normal']
@@ -140,7 +150,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 classifier_two = self.load_module(self.txt_alg2.text())
                 self.stage_two_result = classifier_two.run(self.dataset_second_train, self.dataset_second_test)
             except Exception as e:
-                self.show_error("Failed to run classifier two.", str(e))
+                msg = ErrorMessage("Failed to run classifier two.", str(e))
+                msg.show()
 
             # Combine results from both stages into one, ensuring testing set labels match result order
             stage_one_test_normal = self.dataset_test_oh[self.stage_one_result == 'normal']
@@ -168,16 +179,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Add missing columns
         self.dataset_test_oh = self.clean_testing_set(self.dataset_train_oh, self.dataset_test_oh)
-
-    def show_error(self, message, info = None):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Warning)
-        msg.setText(message)
-        if info:
-            msg.setDetailedText(info)
-        msg.setWindowTitle("Error")
-        msg.setStandardButtons(QMessageBox.Ok)
-        msg.exec_()
 
     def load_module(self, filename):
         spec = importlib.util.spec_from_file_location("module.name", filename)

@@ -4,6 +4,7 @@ import csv
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from Ui_DatasetWindow import Ui_Dialog
+from ErrorMessage import ErrorMessage
 
 # TODO: Let user select label field
 class DatasetWindow(QDialog, Ui_Dialog):
@@ -33,18 +34,31 @@ class DatasetWindow(QDialog, Ui_Dialog):
 
         return self.exec_()
 
+    def chk_folds_toggled(self):
+        self.spn_folds.setEnabled(not self.spn_folds.isEnabled())
+        self.lbl_folds.setEnabled(not self.lbl_folds.isEnabled())
+        self.txt_test_set.setEnabled(not self.txt_test_set.isEnabled())
+        self.lbl_testing.setEnabled(not self.lbl_testing.isEnabled())
+        self.btn_test_set.setEnabled(not self.btn_test_set.isEnabled())
+
     def on_accept(self):
 
-        if not os.path.isfile(self.train_set_filename[0]) or not os.path.isfile(self.labels_filename[0]):
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Warning)
-            msg.setText("File does not exist.")
-            msg.setInformativeText("")
-            msg.setWindowTitle("Error")
-            msg.setStandardButtons(QMessageBox.Ok)
-            msg.exec_()
-        else:
-            self.accept()
+        if not os.path.isfile(self.train_set_filename[0]):
+            msg = ErrorMessage("Training set file does not exist!")
+            msg.show()
+            return
+
+        if not chk_folds.isChecked() and not os.path.isfile(self.test_set_filename[0]):
+            msg = ErrorMessage("Testing set file does not exist!")
+            msg.show()
+            return
+
+        if not os.path.isfile(self.labels_filename[0]):
+            msg = ErrorMessage("Field names file does not exist!")
+            msg.show()
+            return
+
+        self.accept()
 
     def show_right_click_context(self, pos):
         self.popMenu = QMenu(self)
