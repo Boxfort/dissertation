@@ -5,8 +5,10 @@ import importlib.util
 import csv
 import numpy as np
 import pandas as pd
+from collections import defaultdict
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 from sklearn.metrics import classification_report
 from Ui_MainWindow import Ui_MainWindow
 from DatasetWindow import DatasetWindow
@@ -32,6 +34,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def write(self, txt):
         self.plainTextEdit.insertPlainText(txt)
+        self.plainTextEdit.verticalScrollBar().setValue(self.plainTextEdit.verticalScrollBar().maximum())
         # Tell the GUI to refresh
         self.app.processEvents()
 
@@ -121,17 +124,52 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # TODO: Gather and average results from all folds
         if self.folds:
+
+            fold_results = []
+
             # Partitioning Dataset
             fold_size = len(self.dataset_train_oh.index) / self.folds
 
             for i in range(0, self.folds):
+                print("Running fold " + str(i+1) + " of " + str(self.folds))
                 start = math.floor(i * fold_size)
                 end = math.floor((i + 1) * fold_size)
                 fold_test_set = self.dataset_train_oh[start:end]
                 fold_train_set = self.dataset_train_oh.copy().drop(self.dataset_train_oh.index[start:end])
-                print("len sub : " + str(len(fold_train_set.index)))
-                print("len ful : " + str(len(self.dataset_train_oh.index)))
-                self.run_classifiers(fold_train_set, fold_test_set)
+                result = self.run_classifiers(fold_train_set, fold_test_set)
+
+                if not result:
+                    return
+
+                fold_results.append(result)
+
+            # Calculate average
+
+            # Iterate over each fold results
+            avg_results = pd.DataFrame(fold_results[0]).T
+
+            iterresults = iter(fold_results)
+            next(iterresults)
+            for item in iterresults:
+                df = pd.DataFrame(item).T
+                avg_results = avg_results.add(df, fill_value=0)
+
+            empty_rows = [0] * len(avg_results.index)
+
+            # If there is a row with no samples, count so it can be discounted during averaging
+            for item in fold_results:
+                df = pd.DataFrame(item).T
+                for row in range(0, len(df.index)):
+                    if df.iloc[row]['support'] == 0.0:
+                        empty_rows[row] += 1
+
+            for row in range(0, len(avg_results.index)):
+                divisor = self.folds - empty_rows[row]
+                avg_results.iloc[row]['f1-score'] = round(avg_results.iloc[row]['recall'] / divisor, 3)
+                avg_results.iloc[row]['precision'] = round(avg_results.iloc[row]['recall'] / divisor, 3)
+                avg_results.iloc[row]['recall'] = round(avg_results.iloc[row]['recall'] / divisor, 3)
+
+            print(avg_results)
         else:
             self.run_classifiers(self.dataset_train_oh, self.dataset_test_oh)
 
@@ -153,7 +191,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             msg.show()
             return
 
-        # TODO: If subset has no normal traffic it crashes fix this !
         # Get indices of results where an attack is classified, and construct a new test dataset of only attacks for stage two
         self.dataset_second_test = testing_set.loc[self.stage_one_result != 'normal']
         self.dataset_second_train = training_set.loc[training_set['labels'] != 'normal']
@@ -179,11 +216,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             total_res = np.append(self.stage_one_result[self.stage_one_result=='normal'], self.stage_two_result)
 
             y_test = total_test['labels']
-            print(classification_report(y_test,total_res))
+            return self.report2dict(classification_report(y_test,total_res))
         else:
             # Get results from stage one
             y_test = testing_set['labels']
-            print(classification_report(y_test, self.stage_one_result))
+            return self.report2dict(classification_report(y_test, self.stage_one_result))
+
+    def report2dict(self, cr):
+        # Parse rows
+        tmp = list()
+        for row in cr.split("\n"):
+            parsed_row = [x for x in row.split("  ") if len(x) > 0]
+            if len(parsed_row) > 0:
+                tmp.append(parsed_row)
+
+        # Store in dictionary
+        measures = tmp[0]
+
+        D_class_data = defaultdict(dict)
+        for row in tmp[1:]:
+            class_label = row[0].strip()
+            for j, m in enumerate(measures):
+                D_class_data[class_label][m.strip()] = float(row[j + 1].strip())
+        return D_class_data
 
     def load_data(self):
         # Load column names
