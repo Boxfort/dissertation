@@ -226,6 +226,15 @@
                <attribute name="title">
                 <string>Graphs</string>
                </attribute>
+               <layout class="QGridLayout" name="gridLayout">
+                <item row="0" column="0">
+                 <widget class="QPushButton" name="findme">
+                  <property name="text">
+                   <string>PushButton</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </widget>
              <widget class="QGroupBox" name="groupBox">
@@ -355,8 +364,8 @@
    <slot>chk_two_stage_toggled()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>75</x>
-     <y>368</y>
+     <x>84</x>
+     <y>379</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -387,8 +396,8 @@
    <slot>btn_run_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>186</x>
-     <y>551</y>
+     <x>195</x>
+     <y>593</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -403,8 +412,8 @@
    <slot>btn_dataset_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>222</x>
-     <y>244</y>
+     <x>231</x>
+     <y>255</y>
     </hint>
     <hint type="destinationlabel">
      <x>288</x>

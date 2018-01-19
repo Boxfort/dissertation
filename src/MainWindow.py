@@ -13,10 +13,8 @@ from sklearn.metrics import classification_report
 from Ui_MainWindow import Ui_MainWindow
 from DatasetWindow import DatasetWindow
 from ErrorMessage import ErrorMessage
+from PlotCanvas import PlotCanvas
 
-# TODO: k-fold cross validation.
-#     : classification reporting
-#     : Graphs and results
 class MainWindow(QMainWindow, Ui_MainWindow):
 
     def __init__(self, app):
@@ -31,6 +29,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         sys.stdout = self
         self.app = app
+
+        self.graph = PlotCanvas(self.tab_2)
+        self.gridLayout.addWidget(self.graph, 0, 0, 1, 1)
 
     def write(self, txt):
         self.plainTextEdit.insertPlainText(txt)
@@ -122,7 +123,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             msg.show()
             return
 
-        # TODO: Gather and average results from all folds
         if self.folds:
 
             fold_results = []
