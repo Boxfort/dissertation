@@ -12,7 +12,7 @@ class DatasetWindow(QDialog, Ui_Dialog):
     def __init__(self):
         super().__init__()
 
-    def show(self, train_filename = '', test_filename = '', labels_filename = '', numeric = [], nominal = [], binary = []):
+    def show(self, train_filename = '', test_filename = '', labels_filename = '', numeric = [], nominal = [], binary = [], folds = 1):
         self.setupUi(self)
         self.train_set_filename = [train_filename,'']
         self.test_set_filename = [test_filename,'']
@@ -21,6 +21,9 @@ class DatasetWindow(QDialog, Ui_Dialog):
         self.txt_train_set.setText(train_filename)
         self.txt_test_set.setText(test_filename)
         self.txt_labels.setText(labels_filename)
+
+        if folds:
+            self.spn_folds.setValue(folds)
 
         if numeric:
             for item in numeric:

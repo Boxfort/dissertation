@@ -23,6 +23,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.train_set_filename = ''
         self.test_set_filename = ''
         self.labels_filename = ''
+        self.folds = None
         self.numeric_cols = []
         self.nominal_cols = []
         self.binary_cols = []
@@ -43,7 +44,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dataset_window = DatasetWindow()
 
         # Dataset accepted so grab data
-        if dataset_window.show(self.train_set_filename, self.test_set_filename, self.labels_filename, self.numeric_cols, self.nominal_cols, self.binary_cols) == QDialog.Accepted:
+        if dataset_window.show(self.train_set_filename, self.test_set_filename, self.labels_filename, self.numeric_cols, self.nominal_cols, self.binary_cols, self.folds) == QDialog.Accepted:
 
             self.txt_dataset.clear()
             self.test_set_filename = ''
@@ -66,7 +67,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # No testing set so grab fold count
             else:
                 self.folds = dataset_window.spn_folds.value()
-                self.txt_dataset.append("K-Fold Cross Validation with " + self.folds + " folds.")
+                self.txt_dataset.append("K-Fold Cross Validation with " + str(self.folds) + " folds.")
 
             # Grab labels
             self.labels_filename = dataset_window.labels_filename[0]
@@ -126,30 +127,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if self.folds:
 
-            fold_results = []
+            if self.folds == 1:
+                print(classification_report(self.dataset_train_oh['labels'], self.run_classifiers(self.dataset_train_oh, self.dataset_train_oh)))
+            else:
+                fold_results = []
 
-            # Partitioning Dataset
-            fold_size = len(self.dataset_train_oh.index) / self.folds
+                # Partitioning Dataset
+                fold_size = len(self.dataset_train_oh.index) / self.folds
 
-            for i in range(0, self.folds):
-                print("Running fold " + str(i+1) + " of " + str(self.folds))
-                start = math.floor(i * fold_size)
-                end = math.floor((i + 1) * fold_size)
-                fold_test_set = self.dataset_train_oh[start:end]
-                fold_train_set = self.dataset_train_oh.copy().drop(self.dataset_train_oh.index[start:end])
-                result = self.run_classifiers(fold_train_set, fold_test_set)
+                for i in range(0, self.folds):
+                    print("Running fold " + str(i+1) + " of " + str(self.folds))
+                    start = math.floor(i * fold_size)
+                    end = math.floor((i + 1) * fold_size)
+                    fold_test_set = self.dataset_train_oh[start:end]
+                    fold_train_set = self.dataset_train_oh.copy().drop(self.dataset_train_oh.index[start:end])
+                    result = self.run_classifiers(fold_train_set, fold_test_set)
 
-                if result == []:
-                    return
+                    if result == []:
+                        return
 
-                print(result)
-                fold_results += list(result)
+                    print(result)
+                    fold_results += list(result)
 
-            print(classification_report(self.dataset_train_oh['labels'], fold_results))
+                print(classification_report(self.dataset_train_oh['labels'], fold_results))
 
         else:
-            self.run_classifiers(self.dataset_train_oh, self.dataset_test_oh)
-
+            print(classification_report(self.dataset_train_oh['labels'], self.run_classifiers(self.dataset_train_oh, self.dataset_test_oh)))
 
     def run_classifiers(self, training_set, testing_set):
         try:
@@ -197,6 +200,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # Get results from stage one
             return self.stage_one_result
 
+    # Converts classification report into a dictionary so that individual values can be grabbed
     def report2dict(self, cr):
         # Parse rows
         tmp = list()
