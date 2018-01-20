@@ -185,10 +185,8 @@ class Ui_MainWindow(object):
         self.actionAlgorithm = QtWidgets.QAction(MainWindow)
         self.actionAlgorithm.setObjectName("actionAlgorithm")
         self.actionSettings = QtWidgets.QAction(MainWindow)
-        self.actionSettings.setShortcut("")
         self.actionSettings.setObjectName("actionSettings")
         self.actionExit = QtWidgets.QAction(MainWindow)
-        self.actionExit.setShortcut("")
         self.actionExit.setObjectName("actionExit")
         self.menuNew.addAction(self.actionAlgorithm)
         self.menuFile.addAction(self.menuNew.menuAction())
@@ -204,6 +202,8 @@ class Ui_MainWindow(object):
         self.btn_alg2.clicked.connect(MainWindow.btn_alg2_clicked)
         self.btn_run.clicked.connect(MainWindow.btn_run_clicked)
         self.btn_dataset.clicked.connect(MainWindow.btn_dataset_clicked)
+        self.actionAlgorithm.triggered.connect(MainWindow.on_actionAlgorithm)
+        self.actionExit.triggered.connect(MainWindow.on_actionQuit)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -224,8 +224,11 @@ class Ui_MainWindow(object):
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuNew.setTitle(_translate("MainWindow", "New"))
         self.actionAlgorithm.setText(_translate("MainWindow", "Algorithm"))
+        self.actionAlgorithm.setShortcut(_translate("MainWindow", "Ctrl+Shift+N"))
         self.actionSettings.setText(_translate("MainWindow", "Settings"))
+        self.actionSettings.setShortcut(_translate("MainWindow", "Ctrl+Alt+S"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
+        self.actionExit.setShortcut(_translate("MainWindow", "Ctrl+Q"))
 
 
 if __name__ == "__main__":

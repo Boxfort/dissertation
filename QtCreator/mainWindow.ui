@@ -321,13 +321,16 @@
    <property name="text">
     <string>Algorithm</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+N</string>
+   </property>
   </action>
   <action name="actionSettings">
    <property name="text">
     <string>Settings</string>
    </property>
    <property name="shortcut">
-    <string comment="Ctrl+Alt+s"/>
+    <string>Ctrl+Alt+S</string>
    </property>
   </action>
   <action name="actionExit">
@@ -335,7 +338,7 @@
     <string>Exit</string>
    </property>
    <property name="shortcut">
-    <string comment="Ctrl+Q"/>
+    <string>Ctrl+Q</string>
    </property>
   </action>
  </widget>
@@ -421,6 +424,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionAlgorithm</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_actionAlgorithm()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>408</x>
+     <y>325</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionExit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_actionQuit()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>408</x>
+     <y>325</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>btn_dataset_clicked()</slot>
@@ -428,5 +463,7 @@
   <slot>chk_two_stage_toggled()</slot>
   <slot>btn_alg2_clicked()</slot>
   <slot>btn_run_clicked()</slot>
+  <slot>on_actionAlgorithm()</slot>
+  <slot>on_actionQuit()</slot>
  </slots>
 </ui>

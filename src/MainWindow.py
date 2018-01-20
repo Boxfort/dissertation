@@ -66,6 +66,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # No testing set so grab fold count
             else:
                 self.folds = dataset_window.spn_folds.value()
+                self.txt_dataset.append("K-Fold Cross Validation with " + self.folds + " folds.")
 
             # Grab labels
             self.labels_filename = dataset_window.labels_filename[0]
@@ -281,4 +282,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         column_name = 'labels'
         dataset_flat.loc[mask, column_name] = 'attack'
         return dataset_flat
+
+    # Create a new algorithm file
+    def on_actionAlgorithm(self):
+        try:
+            filename = QFileDialog.getSaveFileName(self, 'New Classifier', os.getcwd(), 'Python Scripts (*.py)')[0]
+            if filename[len(filename)-3:len(filename)] != '.py':
+                filename += '.py'
+
+            f = open(filename,"w+")
+            f.write("import numpy as np\n")
+            f.write("import pandas as pd\n")
+            f.write("\n")
+            f.write("# Returns an array of classifier predicitons on test set.\n")
+            f.write("def run(training_set, testing_set):\n")
+            f.write("   raise NotImplementedError('Classifier run method not implemented.')\n")
+            f.close()
+
+        except Exception as e:
+            msg = ErrorMessage("Could not create file.", str(e))
+            msg.show()
+
+        print(filename)
+
+    def on_actionQuit(self):
+        QCoreApplication.instance().quit()
 
