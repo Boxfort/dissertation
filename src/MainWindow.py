@@ -138,38 +138,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 fold_train_set = self.dataset_train_oh.copy().drop(self.dataset_train_oh.index[start:end])
                 result = self.run_classifiers(fold_train_set, fold_test_set)
 
-                if not result:
+                if result == []:
                     return
 
-                fold_results.append(result)
+                print(result)
+                fold_results += list(result)
 
-            # Calculate average
+            print(classification_report(self.dataset_train_oh['labels'], fold_results))
 
-            # Iterate over each fold results
-            avg_results = pd.DataFrame(fold_results[0]).T
-
-            iterresults = iter(fold_results)
-            next(iterresults)
-            for item in iterresults:
-                df = pd.DataFrame(item).T
-                avg_results = avg_results.add(df, fill_value=0)
-
-            empty_rows = [0] * len(avg_results.index)
-
-            # If there is a row with no samples, count so it can be discounted during averaging
-            for item in fold_results:
-                df = pd.DataFrame(item).T
-                for row in range(0, len(df.index)):
-                    if df.iloc[row]['support'] == 0.0:
-                        empty_rows[row] += 1
-
-            for row in range(0, len(avg_results.index)):
-                divisor = self.folds - empty_rows[row]
-                avg_results.iloc[row]['f1-score'] = round(avg_results.iloc[row]['recall'] / divisor, 3)
-                avg_results.iloc[row]['precision'] = round(avg_results.iloc[row]['recall'] / divisor, 3)
-                avg_results.iloc[row]['recall'] = round(avg_results.iloc[row]['recall'] / divisor, 3)
-
-            print(avg_results)
         else:
             self.run_classifiers(self.dataset_train_oh, self.dataset_test_oh)
 
@@ -189,7 +165,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         except Exception as e:
             msg = ErrorMessage("Failed to run classifier one.", str(e))
             msg.show()
-            return
+            return []
 
         # Get indices of results where an attack is classified, and construct a new test dataset of only attacks for stage two
         self.dataset_second_test = testing_set.loc[self.stage_one_result != 'normal']
@@ -208,19 +184,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             except Exception as e:
                 msg = ErrorMessage("Failed to run classifier two.", str(e))
                 msg.show()
-                return
+                return []
 
             # Combine results from both stages into one, ensuring testing set labels match result order
             stage_one_test_normal = testing_set[self.stage_one_result == 'normal']
             total_test = testing_set[self.stage_one_result == 'normal'].append(testing_set[self.stage_one_result != 'normal'])
             total_res = np.append(self.stage_one_result[self.stage_one_result=='normal'], self.stage_two_result)
 
-            y_test = total_test['labels']
-            return self.report2dict(classification_report(y_test,total_res))
+            return total_res
         else:
             # Get results from stage one
-            y_test = testing_set['labels']
-            return self.report2dict(classification_report(y_test, self.stage_one_result))
+            return self.stage_one_result
 
     def report2dict(self, cr):
         # Parse rows
