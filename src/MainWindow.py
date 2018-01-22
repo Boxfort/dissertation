@@ -1,10 +1,13 @@
 import sys
 import os
 import math
+import datetime
+import time
 import importlib.util
 import csv
 import numpy as np
 import pandas as pd
+from pandas_ml import ConfusionMatrix
 from collections import defaultdict
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -125,6 +128,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             msg.show()
             return
 
+        expected = pd.DataFrame()
+        results = []
+
         if self.folds:
 
             if self.folds == 1:
@@ -146,13 +152,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     if result == []:
                         return
 
-                    print(result)
-                    fold_results += list(result)
+                    # Construct dataset reshuffled for two stage
+                    if self.chk_two_stage.isChecked():
+                        expected = expected.append(fold_test_set[self.stage_one_result == 'normal'].append(fold_test_set[self.stage_one_result != 'normal']))
+                    else:
+                        expected = self.dataset_train_oh
 
-                print(classification_report(self.dataset_train_oh['labels'], fold_results))
+                    results += list(result)
 
         else:
-            print(classification_report(self.dataset_train_oh['labels'], self.run_classifiers(self.dataset_train_oh, self.dataset_test_oh)))
+            results = self.run_classifiers(self.dataset_train_oh, self.dataset_test_oh)
+
+            if self.chk_two_stage.isChecked():
+                expected = self.dataset_test_oh[self.stage_one_result == 'normal'].append(self.dataset_test_oh[self.stage_one_result != 'normal'])
+            else:
+                expected = self.dataset_test_oh
+
+        print(classification_report(expected['labels'], results))
+        self.write_results_to_file([classification_report(expected['labels'], results), ConfusionMatrix(expected['labels'], results)])
 
     def run_classifiers(self, training_set, testing_set):
         try:
@@ -218,6 +235,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for j, m in enumerate(measures):
                 D_class_data[class_label][m.strip()] = float(row[j + 1].strip())
         return D_class_data
+
+    def write_results_to_file(self, results):
+
+        results_folder = os.getcwd() + '/results'
+
+        if not os.path.exists(results_folder):
+            os.makedirs(results_folder)
+
+        path = results_folder + '/' + os.path.splitext(os.path.basename(self.txt_alg1.text()))[0] + '_'
+        if self.chk_two_stage.isChecked():
+            path += os.path.splitext(os.path.basename(self.txt_alg2.text()))[0] + '_'
+        path += datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d-%H:%M:%S') + '.txt'
+
+        with open(path, 'w+') as file:
+            file.write("CLASSIFIER RESULTS\n\n")
+            file.write("TRAINING SET = " + self.train_set_filename + '\n\n')
+            if self.folds:
+                file.write("K-Folds Cross Validation with " + str(self.folds) + ' folds\n\n')
+            else:
+                file.write("TESTING SET = " + self.test_set_filename + '\n\n')
+
+            file.write("CLASSIFIER ONE = " + self.txt_alg1.text() + '\n\n')
+
+            if self.chk_two_stage.isChecked():
+                file.write("CLASSIFIER TWO = " + self.txt_alg1.text() + '\n\n')
+
+            for result in results:
+                file.write(str(result) + '\n\n')
 
     def load_data(self):
         # Load column names
