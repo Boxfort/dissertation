@@ -16,7 +16,7 @@ from sklearn.metrics import classification_report
 from Ui_MainWindow import Ui_MainWindow
 from DatasetWindow import DatasetWindow
 from ErrorMessage import ErrorMessage
-from PlotCanvas import PlotCanvas
+from QBarChart import QBarChart
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
@@ -34,8 +34,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         sys.stdout = self
         self.app = app
 
-        self.graph = PlotCanvas(self.tab_2)
+        # Tab widget corner button
+        self.tabButton = QToolButton(self)
+        self.tabButton.setText('+')
+        font = self.tabButton.font()
+        font.setBold(True)
+        self.tabButton.setFont(font)
+        self.tab_classifiers.setCornerWidget(self.tabButton)
+        self.tabButton.clicked.connect(self.add_page)
+
+        self.graph = QBarChart(self.tab_2)
         self.gridLayout.addWidget(self.graph, 0, 0, 1, 1)
+
+    def add_page(self):
+        print("DO IT BROTHER")
 
     def write(self, txt):
         self.plainTextEdit.insertPlainText(txt)
