@@ -43,9 +43,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tab_classifiers.setCornerWidget(self.tabButton)
         self.tabButton.clicked.connect(self.add_page)
 
-        self.graph = QBarChart(self.tab_2)
-        self.gridLayout.addWidget(self.graph, 0, 0, 1, 1)
-
     def add_page(self):
         print("DO IT BROTHER")
 
@@ -54,6 +51,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.plainTextEdit.verticalScrollBar().setValue(self.plainTextEdit.verticalScrollBar().maximum())
         # Tell the GUI to refresh
         self.app.processEvents()
+
+    def construct_graph(self, stats):
+        self.graph = QBarChart(stats, self.tab_2)
+        self.gridLayout.addWidget(self.graph, 0, 0, 1, 1)
 
     def btn_dataset_clicked(self):
         dataset_window = DatasetWindow()
@@ -181,6 +182,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 expected = self.dataset_test_oh
 
         print(classification_report(expected['labels'], results))
+        #print(ConfusionMatrix(expected['labels'],results).stats()['overall']['Accuracy'])
+        #print(ConfusionMatrix(expected['labels'],results).stats()['class'].keys())
+
+        cms = ConfusionMatrix(expected['labels'], results).stats()
+
+        # TODO: THIS IS TEMPORARY FOR TESTING
+        tograph = [cms['class']['back'], cms['class']['nmap']]
+        self.construct_graph(tograph)
+
         self.write_results_to_file([classification_report(expected['labels'], results), ConfusionMatrix(expected['labels'], results)])
 
     def run_classifiers(self, training_set, testing_set):
@@ -228,25 +238,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             # Get results from stage one
             return self.stage_one_result
-
-    # Converts classification report into a dictionary so that individual values can be grabbed
-    def report2dict(self, cr):
-        # Parse rows
-        tmp = list()
-        for row in cr.split("\n"):
-            parsed_row = [x for x in row.split("  ") if len(x) > 0]
-            if len(parsed_row) > 0:
-                tmp.append(parsed_row)
-
-        # Store in dictionary
-        measures = tmp[0]
-
-        D_class_data = defaultdict(dict)
-        for row in tmp[1:]:
-            class_label = row[0].strip()
-            for j, m in enumerate(measures):
-                D_class_data[class_label][m.strip()] = float(row[j + 1].strip())
-        return D_class_data
 
     def write_results_to_file(self, results):
 
