@@ -89,113 +89,7 @@
               <attribute name="title">
                <string>1</string>
               </attribute>
-              <layout class="QVBoxLayout" name="verticalLayout_4">
-               <item>
-                <widget class="QLabel" name="label_2">
-                 <property name="text">
-                  <string>Classifier One</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="Line" name="line_5">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="txt_alg1">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="btn_alg1">
-                 <property name="text">
-                  <string>Select Classifier....</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="Line" name="line">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="chk_two_stage">
-                 <property name="text">
-                  <string>Two Stage</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="Line" name="line_3">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="text">
-                  <string>Classifier Two</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="txt_alg2">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="btn_alg2">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="text">
-                  <string>Select Classifier...</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="Line" name="line_4">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="verticalSpacer">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
+              <layout class="QVBoxLayout" name="verticalLayout_4"/>
              </widget>
              <widget class="QWidget" name="tab_4">
               <attribute name="title">
@@ -259,6 +153,83 @@
                <attribute name="title">
                 <string>Results</string>
                </attribute>
+               <layout class="QGridLayout" name="gridLayout_2">
+                <item row="0" column="0">
+                 <widget class="QTableWidget" name="tableWidget">
+                  <property name="rowCount">
+                   <number>29</number>
+                  </property>
+                  <property name="columnCount">
+                   <number>8</number>
+                  </property>
+                  <row>
+                   <property name="text">
+                    <string>oh its a row</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>New Row</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>DAMN SON </string>
+                   </property>
+                  </row>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <row/>
+                  <column>
+                   <property name="text">
+                    <string>New Column</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Testaroony</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>New Column</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Hello</string>
+                   </property>
+                  </column>
+                  <column/>
+                  <column/>
+                  <column/>
+                  <column/>
+                 </widget>
+                </item>
+               </layout>
               </widget>
               <widget class="QWidget" name="tab_2">
                <attribute name="title">
@@ -374,54 +345,6 @@
  </widget>
  <resources/>
  <connections>
-  <connection>
-   <sender>btn_alg1</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>btn_alg1_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>166</x>
-     <y>337</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>285</x>
-     <y>353</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>chk_two_stage</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>chk_two_stage_toggled()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>84</x>
-     <y>379</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>398</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btn_alg2</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>btn_alg2_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>173</x>
-     <y>459</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>487</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>btn_run</sender>
    <signal>clicked()</signal>
