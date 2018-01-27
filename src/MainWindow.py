@@ -18,6 +18,7 @@ from DatasetWindow import DatasetWindow
 from ErrorMessage import ErrorMessage
 from QBarChart import QBarChart
 from QClfSelector import QClfSelector
+from QCustomTab import QCustomTab
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
@@ -31,7 +32,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.numeric_cols = []
         self.nominal_cols = []
         self.binary_cols = []
-        self.clftabs = []
 
         sys.stdout = self
         self.app = app
@@ -44,13 +44,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tabButton.setFont(font)
         self.tab_classifiers.setCornerWidget(self.tabButton)
         self.tabButton.clicked.connect(self.add_page)
+        self.tab_classifiers.removeTab(1)
 
+        # Add the first clf tab
         self.test_clf = QClfSelector()
         self.verticalLayout_4.addWidget(self.test_clf)
-        self.clftabs.append(self.test_clf)
 
     def add_page(self):
-        print("DO IT BROTHER")
+        tab = QWidget()
+        clfWidget = QClfSelector()
+        self.tab_classifiers.addTab(tab, str(self.tab_classifiers.count()+1))
+        layout = QVBoxLayout(tab)
+        layout.addWidget(clfWidget)
+
+    def on_tab_close_requested(self, tab_ix):
+        if tab_ix == 0:
+            return
+
+        self.tab_classifiers.removeTab(tab_ix)
 
     def write(self, txt):
         self.plainTextEdit.insertPlainText(txt)
@@ -121,36 +132,37 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             msg.show()
             return
 
-        for tab in self.clftabs:
-            if not os.path.isfile(tab.txt_alg1.text()):
-                msg = ErrorMessage("Classifier one file does not exist!")
+        for i in range(self.tab_classifiers.count()):
+            if not os.path.isfile(self.tab_classifiers.widget(i).children()[1].txt_alg1.text()):
+                msg = ErrorMessage("Tab "+i+": Classifier one file does not exist!")
                 msg.show()
                 return
-            if tab.chk_two_stage.isChecked() and not os.path.isfile(tab.txt_alg2.text()):
-                msg = ErrorMessage("Classifier one file does not exist!")
+            if self.tab_classifiers.widget(i).children()[1].chk_two_stage.isChecked() and not os.path.isfile(self.tab_classifiers.widget(i).children()[1].txt_alg2.text()):
+                msg = ErrorMessage("Tab "+i+": Classifier two file does not exist!")
                 msg.show()
                 return
 
         results = []
 
         # Run each tab and gather results
-        for tab in self.clftabs:
+        for i in range(self.tab_classifiers.count()):
             if self.folds:
-                results.append(tab.run_folds(self.dataset_train_oh, self.folds))
+                results.append(self.tab_classifiers.widget(i).children()[1].run_folds(self.dataset_train_oh, self.folds))
             else:
-                results.append(tab.run_testing_set(self.dataset_train_oh, self.dataset_test_oh))
-
-        # TODO: For each clfselector run algorithms
+                results.append(self.tab_classifiers.widget(i).children()[1].run_testing_set(self.dataset_train_oh, self.dataset_test_oh))
 
         #print(classification_report(expected['labels'], results))
         #print(ConfusionMatrix(expected['labels'],results).stats()['overall']['Accuracy'])
         #print(ConfusionMatrix(expected['labels'],results).stats()['class'].keys())
-
         #cms = ConfusionMatrix(expected['labels'], results).stats()
 
+        tograph = []
+
         # TODO: THIS IS TEMPORARY FOR TESTING
-        #tograph = [cms['class']['back'], cms['class']['nmap']]
-        #self.construct_graph(tograph)
+        for result in results:
+            tograph.append(ConfusionMatrix(self.dataset_train_oh['labels'], result).stats()['class']['normal'])
+
+        self.construct_graph(tograph)
 
         #self.write_results_to_file([classification_report(expected['labels'], results), ConfusionMatrix(expected['labels'], results)])
 

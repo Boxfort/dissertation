@@ -3,6 +3,7 @@ import math
 import os
 import numpy as np
 import pandas as pd
+from sklearn.metrics import classification_report
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -32,11 +33,9 @@ class QClfSelector(QWidget, Ui_clfSelector):
 
     def run_folds(self, training_set, folds):
 
-        expected = pd.DataFrame()
         results = []
 
         if folds == 1:
-            expected = training_set['labels']
             results = self.run_classifiers(training_set, training_set)
         else:
             fold_results = []
@@ -55,19 +54,13 @@ class QClfSelector(QWidget, Ui_clfSelector):
                 if result == []:
                     return
 
-                # Construct dataset reshuffled for two stage
-                if self.chk_two_stage.isChecked():
-                    expected = expected.append(fold_test_set[self.stage_one_result == 'normal'].append(fold_test_set[self.stage_one_result != 'normal']))
-                else:
-                    expected = training_set
-
                 results += list(result)
 
-        return [expected['labels'], results]
+        return results
 
     def run_testing_set(self, training_set, testing_set):
         result = self.run_classifiers(training_set, testing_set)
-        return [training_set['labels'], result]
+        return result
 
     def run_classifiers(self, training_set, testing_set):
 
@@ -87,20 +80,15 @@ class QClfSelector(QWidget, Ui_clfSelector):
             # Run second stage
             # Get indices of results where an attack is classified, and construct a new test dataset of only attacks for stage two
             print("Running classifier two...")
-            dataset_second_test = testing_set.loc[stage_one_result != 'normal']
-            dataset_second_train = training_set.loc[training_set['labels'] != 'normal']
-
-            stage_two_result = []
+            dataset_second_test = testing_set[stage_one_result != 'normal']
+            dataset_second_train = training_set[training_set['labels'] != 'normal']
 
             classifier_two = self.load_module(self.txt_alg2.text())
-            stage_two_result = classifier_two.run(self.dataset_second_train, self.dataset_second_test)
+            stage_two_result = classifier_two.run(dataset_second_train, testing_set)
 
-            # Combine results from both stages into one, ensuring testing set labels match result order
-            stage_one_test_normal = testing_set[stage_one_result == 'normal']
-            total_test = testing_set[stage_one_result == 'normal'].append(testing_set[stage_one_result != 'normal'])
-            total_res = np.append(stage_one_result[stage_one_result=='normal'], stage_two_result)
+            stage_two_result[ np.where(stage_one_result == 'normal') ] = 'normal'
 
-            return total_res
+            return stage_two_result
         else:
             # Get results from stage one
             return stage_one_result
