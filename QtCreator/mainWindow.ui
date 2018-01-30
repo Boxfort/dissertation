@@ -7,9 +7,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>818</width>
-    <height>651</height>
+    <width>1024</width>
+    <height>768</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -22,10 +28,13 @@
        <item>
         <widget class="QSplitter" name="splitter_2">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -48,7 +57,7 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>150</width>
+            <width>20</width>
             <height>0</height>
            </size>
           </property>
@@ -56,7 +65,7 @@
            <item>
             <widget class="QTextEdit" name="txt_dataset">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -82,6 +91,12 @@
            </item>
            <item>
             <widget class="QTabWidget" name="tab_classifiers">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="currentIndex">
               <number>0</number>
              </property>
@@ -112,9 +127,27 @@
           </layout>
          </widget>
          <widget class="QWidget" name="widget" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
             <widget class="QSplitter" name="splitter">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
@@ -132,7 +165,7 @@
                </size>
               </property>
               <property name="currentIndex">
-               <number>0</number>
+               <number>1</number>
               </property>
               <widget class="QWidget" name="tab">
                <attribute name="title">
@@ -220,12 +253,62 @@
                <attribute name="title">
                 <string>Graphs</string>
                </attribute>
-               <layout class="QGridLayout" name="gridLayout"/>
+               <layout class="QVBoxLayout" name="verticalLayout_6">
+                <item>
+                 <widget class="QWidget" name="widget_5" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_3">
+                   <item>
+                    <widget class="QComboBox" name="cmb_graph_class">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="sizeAdjustPolicy">
+                      <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="btn_show_graph">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="text">
+                      <string>Show</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="graph_container" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout"/>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </widget>
              <widget class="QGroupBox" name="groupBox">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -281,7 +364,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>818</width>
+     <width>1024</width>
      <height>20</height>
     </rect>
    </property>
@@ -338,7 +421,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>195</x>
-     <y>593</y>
+     <y>710</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -354,7 +437,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>231</x>
-     <y>304</y>
+     <y>363</y>
     </hint>
     <hint type="destinationlabel">
      <x>288</x>
@@ -402,11 +485,27 @@
    <hints>
     <hint type="sourcelabel">
      <x>111</x>
-     <y>347</y>
+     <y>406</y>
     </hint>
     <hint type="destinationlabel">
      <x>7</x>
      <y>325</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_show_graph</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>btn_show_graph_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>945</x>
+     <y>98</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1017</x>
+     <y>43</y>
     </hint>
    </hints>
   </connection>
@@ -420,5 +519,6 @@
   <slot>on_actionAlgorithm()</slot>
   <slot>on_actionQuit()</slot>
   <slot>on_tab_close_requested()</slot>
+  <slot>btn_show_graph_clicked()</slot>
  </slots>
 </ui>

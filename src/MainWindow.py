@@ -18,7 +18,6 @@ from DatasetWindow import DatasetWindow
 from ErrorMessage import ErrorMessage
 from QBarChart import QBarChart
 from QClfSelector import QClfSelector
-from QCustomTab import QCustomTab
 
 class MainWindow(QMainWindow, Ui_MainWindow):
 
@@ -35,6 +34,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         sys.stdout = self
         self.app = app
+
+        self.splitter_2.setSizes([200, 600])
+        self.splitter.setSizes([700, 100])
 
         # Tab widget corner button
         self.tabButton = QToolButton(self)
@@ -72,6 +74,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def construct_graph(self, stats):
         self.graph = QBarChart(stats, self.tab_2)
         self.gridLayout.addWidget(self.graph, 0, 0, 1, 1)
+
+    def btn_show_graph_clicked(self):
+        tograph = []
+        the_class = str(self.cmb_graph_class.currentText())
+
+        # TODO: THIS IS TEMPORARY FOR TESTING
+        for result in self.results:
+            tograph.append(ConfusionMatrix(self.dataset_train_oh['labels'], result).stats()['class'][the_class])
+
+        self.construct_graph(tograph)
 
     def btn_dataset_clicked(self):
         dataset_window = DatasetWindow()
@@ -134,7 +146,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         for i in range(self.tab_classifiers.count()):
             if not os.path.isfile(self.tab_classifiers.widget(i).children()[1].txt_alg1.text()):
-                msg = ErrorMessage("Tab "+i+": Classifier one file does not exist!")
+                msg = ErrorMessage("Tab "+str(i)+": Classifier one file does not exist!")
                 msg.show()
                 return
             if self.tab_classifiers.widget(i).children()[1].chk_two_stage.isChecked() and not os.path.isfile(self.tab_classifiers.widget(i).children()[1].txt_alg2.text()):
@@ -156,15 +168,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #print(ConfusionMatrix(expected['labels'],results).stats()['class'].keys())
         #cms = ConfusionMatrix(expected['labels'], results).stats()
 
-        tograph = []
-
-        # TODO: THIS IS TEMPORARY FOR TESTING
-        for result in results:
-            tograph.append(ConfusionMatrix(self.dataset_train_oh['labels'], result).stats()['class']['normal'])
-
-        self.construct_graph(tograph)
+        self.results = results
+        self.populate_graph_combo()
 
         #self.write_results_to_file([classification_report(expected['labels'], results), ConfusionMatrix(expected['labels'], results)])
+
+
+    def populate_graph_combo(self):
+        self.cmb_graph_class.setEnabled(True)
+        self.btn_show_graph.setEnabled(True)
+        self.cmb_graph_class.addItems(self.dataset_train_oh['labels'].unique())
 
     def write_results_to_file(self, results):
 
