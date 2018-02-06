@@ -4,6 +4,8 @@ import pandas as pd
 from sklearn import svm
 from sklearn.preprocessing import StandardScaler
 
+stochastic = False
+
 def run(train_set, test_set):
 
     cls = svm.SVC(kernel='rbf', cache_size=2048, gamma=1e-1, C=10)

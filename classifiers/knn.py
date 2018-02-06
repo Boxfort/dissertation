@@ -5,6 +5,8 @@ from collections import OrderedDict
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neighbors import NearestNeighbors
 
+stochastic = False
+
 def run(train_set, test_set):
     knn = KNeighborsClassifier(n_neighbors=3, algorithm='kd_tree')
 

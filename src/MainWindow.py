@@ -79,9 +79,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         tograph = []
         the_class = str(self.cmb_graph_class.currentText())
 
-        # TODO: THIS IS TEMPORARY FOR TESTING
         for result in self.results:
-            tograph.append(ConfusionMatrix(self.dataset_train_oh['labels'], result).stats()['class'][the_class])
+
+            cm = None
+
+            if result[1]:
+                multi_dataset = self.dataset_train_oh.copy()
+                for i in range(self.runs - 1):
+                    multi_dataset = multi_dataset.append(self.dataset_train_oh)
+
+                cm = ConfusionMatrix(multi_dataset['labels'], result[0])
+                print(result[0])
+
+            else:
+                cm = ConfusionMatrix(self.dataset_train_oh['labels'], result[0])
+
+            stats = cm.stats()['class'][the_class]
+
+            print(stats)
+
+            #for column in stats.columns:
+            #    stats = stats.div(self.runs, column)
+
+            tograph.append(cm.stats()['class'][the_class])
 
         self.construct_graph(tograph)
 
@@ -113,6 +133,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             else:
                 self.folds = dataset_window.spn_folds.value()
                 self.txt_dataset.append("K-Fold Cross Validation with " + str(self.folds) + " folds.")
+
+            # Grab runs
+            self.runs = dataset_window.spn_runs.value()
 
             # Grab labels
             self.labels_filename = dataset_window.labels_filename[0]
@@ -158,10 +181,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Run each tab and gather results
         for i in range(self.tab_classifiers.count()):
-            if self.folds:
-                results.append(self.tab_classifiers.widget(i).children()[1].run_folds(self.dataset_train_oh, self.folds))
+
+            self.tab_classifiers.widget(i).children()[1].load_modules()
+
+            # If the classfiers are stochastic run them multiple times
+            if self.tab_classifiers.widget(i).children()[1].classifier_one.stochastic or (self.tab_classifiers.widget(i).children()[1].chk_two_stage.isChecked() and self.tab_classifiers.widget(i).children()[1].classifier_two.stochastic):
+
+                sub_result = []
+
+                for j in range(self.runs):
+                    if self.folds:
+                        sub_result = sub_result + list(self.tab_classifiers.widget(i).children()[1].run_folds(self.dataset_train_oh, self.folds))
+                    else:
+                        sub_result = sub_result + list(self.tab_classifiers.widget(i).children()[1].run_testing_set(self.dataset_train_oh, self.dataset_test_oh))
+
+                results.append([sub_result, True])
+
             else:
-                results.append(self.tab_classifiers.widget(i).children()[1].run_testing_set(self.dataset_train_oh, self.dataset_test_oh))
+
+                if self.folds:
+                    results.append([self.tab_classifiers.widget(i).children()[1].run_folds(self.dataset_train_oh, self.folds), False])
+                else:
+                    results.append([self.tab_classifiers.widget(i).children()[1].run_testing_set(self.dataset_train_oh, self.dataset_test_oh), False])
+
 
         #print(classification_report(expected['labels'], results))
         #print(ConfusionMatrix(expected['labels'],results).stats()['overall']['Accuracy'])
@@ -172,7 +214,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.populate_graph_combo()
 
         #self.write_results_to_file([classification_report(expected['labels'], results), ConfusionMatrix(expected['labels'], results)])
-
 
     def populate_graph_combo(self):
         self.cmb_graph_class.setEnabled(True)

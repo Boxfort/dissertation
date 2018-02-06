@@ -4,6 +4,8 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPClassifier
 
+stochastic = True
+
 def run(train_set, test_set):
 
     mlp = MLPClassifier(hidden_layer_sizes=(100), solver='adam', learning_rate='invscaling')

@@ -30,7 +30,7 @@ class QBarChart(FigureCanvas):
         y=[1,2,3]
         z=[11,12,13]
 
-        colors = ['r','g','b']
+        colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'w']
 
         a = np.arange(4)
 
@@ -41,7 +41,7 @@ class QBarChart(FigureCanvas):
         for stat in self.stats:
             values = [stat['TP: True Positive'], stat['TN: True Negative'], stat['FP: False Positive'], stat['FN: False Negative']]
             bar = ax.bar(a+(.25*count), values, width=0.2, color=[colors[count]], align='center')
-            self.autolabel(bar, ax)
+            #self.autolabel(bar, ax)
             count += 1
             print(values)
 
@@ -53,7 +53,7 @@ class QBarChart(FigureCanvas):
         #p2 = ax.bar(ind, womenMeans, width, bottom=menMeans, yerr=womenStd)
 
         ax.set_ylabel('Number of Detections')
-        ax.set_title('Detection Rate')
+        ax.set_title('Detection Rate', fontsize=24)
         ax.set_xticks(np.arange(4))
         ax.set_xticklabels(['TP', 'TN', 'FP', 'FN'])
         #ax.legend((s1[0], s2[0], s3[0]), ('x', 'y', 'z'))

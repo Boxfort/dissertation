@@ -62,35 +62,33 @@ class QClfSelector(QWidget, Ui_clfSelector):
         result = self.run_classifiers(training_set, testing_set)
         return result
 
+    def load_modules(self):
+        self.classifier_one = self.load_module(self.txt_alg1.text())
+
+        if self.chk_two_stage.isChecked():
+            self.classifier_two = self.load_module(self.txt_alg2.text())
+
     def run_classifiers(self, training_set, testing_set):
 
         print("Running classfier one...")
-        classifier = self.load_module(self.txt_alg1.text())
-
-        stage_one_result = []
 
         if self.chk_two_stage.isChecked():
             testing_set_flattened = self.flatten_attacks(testing_set)
             training_set_flattened = self.flatten_attacks(training_set)
-            stage_one_result = classifier.run(training_set_flattened, testing_set_flattened)
-        else:
-            stage_one_result = classifier.run(training_set, testing_set)
-
-        if self.chk_two_stage.isChecked():
+            stage_one_result = self.classifier_one.run(training_set_flattened, testing_set_flattened)
             # Run second stage
             # Get indices of results where an attack is classified, and construct a new test dataset of only attacks for stage two
             print("Running classifier two...")
             dataset_second_test = testing_set[stage_one_result != 'normal']
             dataset_second_train = training_set[training_set['labels'] != 'normal']
 
-            classifier_two = self.load_module(self.txt_alg2.text())
-            stage_two_result = classifier_two.run(dataset_second_train, testing_set)
-
+            stage_two_result = self.classifier_two.run(dataset_second_train, testing_set)
             stage_two_result[ np.where(stage_one_result == 'normal') ] = 'normal'
 
             return stage_two_result
         else:
             # Get results from stage one
+            stage_one_result = self.classifier_one.run(training_set, testing_set)
             return stage_one_result
 
     def load_module(self, filename):
