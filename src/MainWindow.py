@@ -173,7 +173,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 msg.show()
                 return
             if self.tab_classifiers.widget(i).children()[1].chk_two_stage.isChecked() and not os.path.isfile(self.tab_classifiers.widget(i).children()[1].txt_alg2.text()):
-                msg = ErrorMessage("Tab "+i+": Classifier two file does not exist!")
+                msg = ErrorMessage("Tab "+str(i)+": Classifier two file does not exist!")
                 msg.show()
                 return
 
@@ -204,6 +204,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 else:
                     results.append([self.tab_classifiers.widget(i).children()[1].run_testing_set(self.dataset_train_oh, self.dataset_test_oh), False])
 
+            self.write_results_to_file(results[i], self.tab_classifiers.widget(i).children()[1])
+
 
         #print(classification_report(expected['labels'], results))
         #print(ConfusionMatrix(expected['labels'],results).stats()['overall']['Accuracy'])
@@ -213,23 +215,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.results = results
         self.populate_graph_combo()
 
-        #self.write_results_to_file([classification_report(expected['labels'], results), ConfusionMatrix(expected['labels'], results)])
 
     def populate_graph_combo(self):
         self.cmb_graph_class.setEnabled(True)
         self.btn_show_graph.setEnabled(True)
         self.cmb_graph_class.addItems(self.dataset_train_oh['labels'].unique())
 
-    def write_results_to_file(self, results):
+    def write_results_to_file(self, result, clfinfo):
 
         results_folder = os.getcwd() + '/results'
 
         if not os.path.exists(results_folder):
             os.makedirs(results_folder)
 
-        path = results_folder + '/' + os.path.splitext(os.path.basename(self.txt_alg1.text()))[0] + '_'
-        if self.chk_two_stage.isChecked():
-            path += os.path.splitext(os.path.basename(self.txt_alg2.text()))[0] + '_'
+        path = results_folder + '/' + os.path.splitext(os.path.basename(clfinfo.txt_alg1.text()))[0] + '_'
+        if clfinfo.chk_two_stage.isChecked():
+            path += os.path.splitext(os.path.basename(clfinfo.txt_alg2.text()))[0] + '_'
         path += datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d-%H:%M:%S') + '.txt'
 
         with open(path, 'w+') as file:
@@ -240,13 +241,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             else:
                 file.write("TESTING SET = " + self.test_set_filename + '\n\n')
 
-            file.write("CLASSIFIER ONE = " + self.txt_alg1.text() + '\n\n')
+            file.write("CLASSIFIER ONE = " + clfinfo.txt_alg1.text() + '\n\n')
 
-            if self.chk_two_stage.isChecked():
-                file.write("CLASSIFIER TWO = " + self.txt_alg1.text() + '\n\n')
+            if clfinfo.chk_two_stage.isChecked():
+                file.write("CLASSIFIER TWO = " + clfinfo.txt_alg2.text() + '\n\n')
 
-            for result in results:
-                file.write(str(result) + '\n\n')
+            expected = None
+
+            if result[1]:
+                expected = self.dataset_train_oh.copy()
+                for i in range(self.runs - 1):
+                    expected = multi_dataset.append(self.dataset_train_oh)
+            else:
+                expected = self.dataset_train_oh['labels']
+
+            cm = ConfusionMatrix(expected, result[0])
+
+            # Check if needs averaged
+            file.write(str(classification_report(expected, result[0])) + '\n\n')
+            file.write(str(cm) + '\n\n')
+            file.write(str(cm.stats()) + '\n\n')
 
     def load_data(self):
         # Load column names
