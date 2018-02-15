@@ -7,8 +7,10 @@ import importlib.util
 import csv
 import numpy as np
 import pandas as pd
+import pprint
 from pandas_ml import ConfusionMatrix
-from collections import defaultdict
+from pandas_ml.confusion_matrix.bcm import BinaryConfusionMatrix
+from collections import defaultdict, OrderedDict
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -242,7 +244,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             cm = ConfusionMatrix(expected, result[0])
 
             text += str(classification_report(expected, result[0])) + '\n\n'
-            text += str(cm.stats()) + '\n\n'
+            text +=  str(cm.stats([ 'population', 'P', 'N', 'PositiveTest', 'NegativeTest', 'TP', 'TN', 'FP', 'FN', 'TPR', 'TNR', 'PPV', 'NPV', 'FPR', 'FDR', 'FNR', 'ACC', 'F1_score',  'informedness', 'markedness', 'prevalence', 'LRP', 'LRN', 'DOR', 'FOR']))
             self.add_result_tab(count, text)
             count += 1
 
@@ -293,7 +295,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             file.write(str(classification_report(expected, result[0])) + '\n\n')
             file.write(str(cm) + '\n\n')
-            file.write(str(cm.stats()) + '\n\n')
+            file.write(str(cm.stats([ 'population', 'P', 'N', 'PositiveTest', 'NegativeTest', 'TP', 'TN', 'FP', 'FN', 'TPR', 'TNR', 'PPV', 'NPV', 'FPR', 'FDR', 'FNR', 'ACC', 'F1_score',  'informedness', 'markedness', 'prevalence', 'LRP', 'LRN', 'DOR', 'FOR'])) + '\n\n')
 
     def load_data(self):
         # Load column names
