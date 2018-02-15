@@ -10,12 +10,13 @@ DPI = 100
 
 class QBarChart(FigureCanvas):
 
-    def __init__(self, stats, parent=None ):
+    def __init__(self, stats, runs, stochastic, parent=None ):
         self.fig = Figure(figsize=(WIDTH, HEIGHT), dpi=DPI)
         self.stats = stats
         FigureCanvas.__init__(self, self.fig)
         self.setParent(parent)
-
+        self.stochastic = stochastic
+        self.runs = runs
         FigureCanvas.setSizePolicy(self,
                 QSizePolicy.Expanding,
                 QSizePolicy.Expanding)
@@ -39,11 +40,14 @@ class QBarChart(FigureCanvas):
         count = 0
 
         for stat in self.stats:
-            values = [stat['TP: True Positive'], stat['TN: True Negative'], stat['FP: False Positive'], stat['FN: False Negative']]
+            if self.stochastic[count]:
+                values = [stat['TP: True Positive']/self.runs, stat['TN: True Negative']/self.runs, stat['FP: False Positive']/self.runs, stat['FN: False Negative']/self.runs]
+            else:
+                values = [stat['TP: True Positive'], stat['TN: True Negative'], stat['FP: False Positive'], stat['FN: False Negative']]
+
             bar = ax.bar(a+(.25*count), values, width=0.2, color=[colors[count]], align='center')
-            #self.autolabel(bar, ax)
+            self.autolabel(bar, ax)
             count += 1
-            print(values)
 
         #s1 = ax.bar(a-.25, x, width=0.2, color='r', align='center')
         #s2 = ax.bar(a, y, width=0.2, color='g', align='center')
@@ -53,7 +57,7 @@ class QBarChart(FigureCanvas):
         #p2 = ax.bar(ind, womenMeans, width, bottom=menMeans, yerr=womenStd)
 
         ax.set_ylabel('Number of Detections')
-        ax.set_title('Detection Rate', fontsize=24)
+        ax.set_title('Detection Rate')
         ax.set_xticks(np.arange(4))
         ax.set_xticklabels(['TP', 'TN', 'FP', 'FN'])
         #ax.legend((s1[0], s2[0], s3[0]), ('x', 'y', 'z'))

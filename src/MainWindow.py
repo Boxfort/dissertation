@@ -47,6 +47,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tab_classifiers.setCornerWidget(self.tabButton)
         self.tabButton.clicked.connect(self.add_page)
         self.tab_classifiers.removeTab(1)
+        self.tabWidget.removeTab(0)
 
         # Add the first clf tab
         self.test_clf = QClfSelector()
@@ -58,6 +59,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tab_classifiers.addTab(tab, str(self.tab_classifiers.count()+1))
         layout = QVBoxLayout(tab)
         layout.addWidget(clfWidget)
+
+    def add_result_tab(self, tabname, content):
+        tab = QWidget()
+        txtbox = QPlainTextEdit()
+        self.tabWidget.addTab(tab, str(tabname))
+        layout = QVBoxLayout(tab)
+        layout.addWidget(txtbox)
+        txtbox.setPlainText(content)
+        txtbox.setReadOnly(True)
+        f = QFont("unexistent")
+        f.setStyleHint(QFont.Monospace)
+        txtbox.setFont(f);
 
     def on_tab_close_requested(self, tab_ix):
         if tab_ix == 0:
@@ -71,17 +84,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Tell the GUI to refresh
         self.app.processEvents()
 
-    def construct_graph(self, stats):
-        self.graph = QBarChart(stats, self.tab_2)
+    def construct_graph(self, stats, stochastic):
+        self.graph = QBarChart(stats, self.runs, stochastic, self.tab_2)
         self.gridLayout.addWidget(self.graph, 0, 0, 1, 1)
 
     def btn_show_graph_clicked(self):
         tograph = []
         the_class = str(self.cmb_graph_class.currentText())
+        stochastic = []
 
         for result in self.results:
 
             cm = None
+            stochastic.append(result[1])
 
             if result[1]:
                 multi_dataset = self.dataset_train_oh.copy()
@@ -89,21 +104,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     multi_dataset = multi_dataset.append(self.dataset_train_oh)
 
                 cm = ConfusionMatrix(multi_dataset['labels'], result[0])
-                print(result[0])
 
             else:
                 cm = ConfusionMatrix(self.dataset_train_oh['labels'], result[0])
 
             stats = cm.stats()['class'][the_class]
 
-            print(stats)
-
             #for column in stats.columns:
             #    stats = stats.div(self.runs, column)
 
             tograph.append(cm.stats()['class'][the_class])
 
-        self.construct_graph(tograph)
+        self.construct_graph(tograph, stochastic)
 
     def btn_dataset_clicked(self):
         dataset_window = DatasetWindow()
@@ -212,6 +224,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #print(ConfusionMatrix(expected['labels'],results).stats()['class'].keys())
         #cms = ConfusionMatrix(expected['labels'], results).stats()
 
+        if self.tabWidget.count() > 1:
+            for i in range(1, self.tabWidget.count()):
+                self.tabWidget.removeTab(1)
+
+        count = 1
+        for result in results:
+            expected = None
+            text = ''
+            if result[1]:
+                expected = self.dataset_train_oh.copy()['labels']
+                for i in range(self.runs - 1):
+                    expected = expected.append(self.dataset_train_oh['labels'])
+            else:
+                expected = self.dataset_train_oh['labels']
+
+            cm = ConfusionMatrix(expected, result[0])
+
+            text += str(classification_report(expected, result[0])) + '\n\n'
+            text += str(cm.stats()) + '\n\n'
+            self.add_result_tab(count, text)
+            count += 1
+
         self.results = results
         self.populate_graph_combo()
 
@@ -249,15 +283,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             expected = None
 
             if result[1]:
-                expected = self.dataset_train_oh.copy()
+                expected = self.dataset_train_oh.copy()['labels']
                 for i in range(self.runs - 1):
-                    expected = multi_dataset.append(self.dataset_train_oh)
+                    expected = expected.append(self.dataset_train_oh['labels'])
             else:
                 expected = self.dataset_train_oh['labels']
 
             cm = ConfusionMatrix(expected, result[0])
 
-            # Check if needs averaged
             file.write(str(classification_report(expected, result[0])) + '\n\n')
             file.write(str(cm) + '\n\n')
             file.write(str(cm.stats()) + '\n\n')
@@ -336,8 +369,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         except Exception as e:
             msg = ErrorMessage("Could not create file.", str(e))
             msg.show()
-
-        print(filename)
 
     def on_actionQuit(self):
         QCoreApplication.instance().quit()

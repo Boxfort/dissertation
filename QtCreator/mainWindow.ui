@@ -165,7 +165,7 @@
                </size>
               </property>
               <property name="currentIndex">
-               <number>1</number>
+               <number>0</number>
               </property>
               <widget class="QWidget" name="tab">
                <attribute name="title">
@@ -173,78 +173,13 @@
                </attribute>
                <layout class="QGridLayout" name="gridLayout_2">
                 <item row="0" column="0">
-                 <widget class="QTableWidget" name="tableWidget">
-                  <property name="rowCount">
-                   <number>29</number>
+                 <widget class="QPlainTextEdit" name="plainTextEdit_2">
+                  <property name="enabled">
+                   <bool>false</bool>
                   </property>
-                  <property name="columnCount">
-                   <number>8</number>
+                  <property name="textInteractionFlags">
+                   <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                   </property>
-                  <row>
-                   <property name="text">
-                    <string>oh its a row</string>
-                   </property>
-                  </row>
-                  <row>
-                   <property name="text">
-                    <string>New Row</string>
-                   </property>
-                  </row>
-                  <row>
-                   <property name="text">
-                    <string>DAMN SON </string>
-                   </property>
-                  </row>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <row/>
-                  <column>
-                   <property name="text">
-                    <string>New Column</string>
-                   </property>
-                  </column>
-                  <column>
-                   <property name="text">
-                    <string>Testaroony</string>
-                   </property>
-                  </column>
-                  <column>
-                   <property name="text">
-                    <string>New Column</string>
-                   </property>
-                  </column>
-                  <column>
-                   <property name="text">
-                    <string>Hello</string>
-                   </property>
-                  </column>
-                  <column/>
-                  <column/>
-                  <column/>
-                  <column/>
                  </widget>
                 </item>
                </layout>
