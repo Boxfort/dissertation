@@ -29,10 +29,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.train_set_filename = ''
         self.test_set_filename = ''
         self.labels_filename = ''
+        self.attacks_filename = ''
         self.folds = None
         self.numeric_cols = []
         self.nominal_cols = []
         self.binary_cols = []
+        self.attacks = defaultdict(list)
 
         sys.stdout = self
         self.app = app
@@ -110,11 +112,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             else:
                 cm = ConfusionMatrix(self.dataset_train_oh['labels'], result[0])
 
-            stats = cm.stats()['class'][the_class]
-
-            #for column in stats.columns:
-            #    stats = stats.div(self.runs, column)
-
             tograph.append(cm.stats()['class'][the_class])
 
         self.construct_graph(tograph, stochastic)
@@ -123,7 +120,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dataset_window = DatasetWindow()
 
         # Dataset accepted so grab data
-        if dataset_window.show(self.train_set_filename, self.test_set_filename, self.labels_filename, self.numeric_cols, self.nominal_cols, self.binary_cols, self.folds) == QDialog.Accepted:
+        if dataset_window.show(self.train_set_filename, self.test_set_filename, self.labels_filename, self.attacks_filename, self.numeric_cols, self.nominal_cols, self.binary_cols, self.folds) == QDialog.Accepted:
 
             self.txt_dataset.clear()
             self.test_set_filename = ''
@@ -134,6 +131,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             with open(self.train_set_filename, 'r') as file:
                 row_count = sum(1 for row in file)
                 self.txt_dataset.append("Training set rows: "+str(row_count))
+
+            if not dataset_window.test_set_filename[0] == '':
+                # Grab test set
+                self.test_set_filename = dataset_window.test_set_filename[0]
+                with open(self.test_set_filename, 'r') as file:
+                    row_count = sum(1 for row in file)
+                    self.txt_dataset.append("Training set rows: "+str(row_count))
+
+            # attacks
+            if not dataset_window.attacks_filename[0] == '':
+                self.attacks_filename = dataset_window.attacks_filename[0]
+                
 
             # Test is optional so check
             if not dataset_window.test_set_filename[0] == '':
@@ -220,12 +229,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             self.write_results_to_file(results[i], self.tab_classifiers.widget(i).children()[1])
 
-
-        #print(classification_report(expected['labels'], results))
-        #print(ConfusionMatrix(expected['labels'],results).stats()['overall']['Accuracy'])
-        #print(ConfusionMatrix(expected['labels'],results).stats()['class'].keys())
-        #cms = ConfusionMatrix(expected['labels'], results).stats()
-
         if self.tabWidget.count() > 1:
             for i in range(1, self.tabWidget.count()):
                 self.tabWidget.removeTab(1)
@@ -243,8 +246,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             cm = ConfusionMatrix(expected, result[0])
 
-            text += str(classification_report(expected, result[0])) + '\n\n'
-            text +=  str(cm.stats([ 'population', 'P', 'N', 'PositiveTest', 'NegativeTest', 'TP', 'TN', 'FP', 'FN', 'TPR', 'TNR', 'PPV', 'NPV', 'FPR', 'FDR', 'FNR', 'ACC', 'F1_score',  'informedness', 'markedness', 'prevalence', 'LRP', 'LRN', 'DOR', 'FOR']))
+            with pd.option_context('display.max_rows', None, 'display.max_columns', 100):
+                text += str(classification_report(expected, result[0])) + '\n\n'
+                text += str(self.get_attacks_stats(cm)) + '\n\n'
+                text += str(cm.stats())
+
             self.add_result_tab(count, text)
             count += 1
 
@@ -256,6 +262,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.cmb_graph_class.setEnabled(True)
         self.btn_show_graph.setEnabled(True)
         self.cmb_graph_class.addItems(self.dataset_train_oh['labels'].unique())
+
 
     def write_results_to_file(self, result, clfinfo):
 
@@ -293,9 +300,57 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             cm = ConfusionMatrix(expected, result[0])
 
-            file.write(str(classification_report(expected, result[0])) + '\n\n')
-            file.write(str(cm) + '\n\n')
-            file.write(str(cm.stats([ 'population', 'P', 'N', 'PositiveTest', 'NegativeTest', 'TP', 'TN', 'FP', 'FN', 'TPR', 'TNR', 'PPV', 'NPV', 'FPR', 'FDR', 'FNR', 'ACC', 'F1_score',  'informedness', 'markedness', 'prevalence', 'LRP', 'LRN', 'DOR', 'FOR'])) + '\n\n')
+            with pd.option_context('display.max_rows', None, 'display.max_columns', 100):
+                file.write(str(classification_report(expected, result[0])) + '\n\n')
+                file.write(str(self.get_attacks_stats(cm)) + '\n\n')
+                file.write(str(cm) + '\n\n')
+                file.write(str(cm.stats()))
+
+    def get_attacks_stats(self, cm):
+
+        columns = ['precision', 'recall', 'f1-score', 'fp-rate', 'support']
+        class_df = pd.DataFrame(columns=columns)
+
+        cms = cm.stats()['class']
+
+        for k in self.attacks.keys():
+            df = cms[self.attacks[k]]
+            fp = df[df.index.str.startswith('FP: False Positive')].iloc[0].tolist()
+            tn = df[df.index.str.startswith('TN: True Negative')].iloc[0].tolist()
+            fn = df[df.index.str.startswith('FN: False Negative')].iloc[0].tolist()
+            tp = df[df.index.str.startswith('TP: True Positive')].iloc[0].tolist()
+
+            p = list()
+            r = list()
+            f1 = list()
+            fpr = list()
+            s = list()
+
+            for i in range(len(fp)):
+                # Precision (TP / (TP + FP))
+                p.append(tp[i] / (tp[i] + fp[i]))
+                # Recall ( TP / (TP + FN))
+                r.append(tp[i]/ (tp[i] + fn[i]))
+                # f1-score ( 2 * ((P * R) / (P + R)))
+                f1.append(2 * ((p[i] * r[i]) / (p[i] + r[i])))
+                # fp-rate ( FP / (TN + FP))
+                fpr.append((fp[i] / (tn[i] + fp[i])) * 100)
+                # support (TP+FN)
+                s.append(tp[i] + fn[i])
+
+            p = np.nan_to_num(p)
+            r = np.nan_to_num(r)
+            f1 = np.nan_to_num(f1)
+            fpr = np.nan_to_num(fpr)
+
+            pavg = sum(p) / len(p)
+            ravg = sum(r) / len(r)
+            f1avg = sum(f1) / len(f1)
+            fpravg = sum(fpr) / len(fpr)
+
+            class_df.loc[k] = [round(pavg,2),round(ravg,2),round(f1avg,2),round(fpravg,4),sum(s)]
+
+        return class_df
 
     def load_data(self):
         # Load column names
@@ -312,6 +367,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             # Add missing columns
             self.dataset_test_oh = self.clean_testing_set(self.dataset_train_oh, self.dataset_test_oh)
+
+        if not self.attacks_filename == '':
+            labellist = self.dataset_train_oh['labels'].unique()
+            # Fix attack list
+            with open(self.attacks_filename, 'r') as file:
+                    reader = csv.reader(file)
+                    for row in reader:
+                        if row[0] in labellist:
+                            self.attacks[row[1]].append(row[0])
 
     # loads dataset columns
     def load_columns_from_file(self, path):

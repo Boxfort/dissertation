@@ -12,15 +12,17 @@ class DatasetWindow(QDialog, Ui_Dialog):
     def __init__(self):
         super().__init__()
 
-    def show(self, train_filename = '', test_filename = '', labels_filename = '', numeric = [], nominal = [], binary = [], folds = 1):
+    def show(self, train_filename = '', test_filename = '', labels_filename = '', attacks_filename = '', numeric = [], nominal = [], binary = [], folds = 1):
         self.setupUi(self)
         self.train_set_filename = [train_filename,'']
         self.test_set_filename = [test_filename,'']
         self.labels_filename = [labels_filename,'']
+        self.attacks_filename = [attacks_filename,'']
 
         self.txt_train_set.setText(train_filename)
         self.txt_test_set.setText(test_filename)
         self.txt_labels.setText(labels_filename)
+        self.txt_attacks.setText(attacks_filename)
 
         if folds:
             self.spn_folds.setValue(folds)
@@ -58,6 +60,11 @@ class DatasetWindow(QDialog, Ui_Dialog):
 
         if not os.path.isfile(self.labels_filename[0]):
             msg = ErrorMessage("Field names file does not exist!")
+            msg.show()
+            return
+
+        if not os.path.isfile(self.attacks_filename[0]) and not self.attacks_filename[0] == '':
+            msg = ErrorMessage("Attacks filepath does not exist!")
             msg.show()
             return
 
@@ -131,6 +138,13 @@ class DatasetWindow(QDialog, Ui_Dialog):
 
         self.test_set_filename = filename
         self.txt_test_set.setText(filename[0])
+
+    def btn_attacks_clicked(self):
+        filename = QFileDialog.getOpenFileName(self, 'Select File', os.getcwd(), 'Comma-seperated values (*.csv);;All Files (*.*)')
+
+        self.attacks_filename = filename
+        self.txt_attacks.setText(filename[0])
+
 
     def btn_labels_clicked(self):
         filename = QFileDialog.getOpenFileName(self, 'Select File', os.getcwd(), 'Comma-seperated values (*.csv);;All Files (*.*)')
