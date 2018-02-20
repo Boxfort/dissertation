@@ -104,3 +104,15 @@ ENV/
 out/
 .idea/
 *.iml
+
+# Latex
+*.pdf
+*.log
+*.aux
+*.bbl
+*.lof
+*.bcf
+*.blg
+*.run.xml
+*.lot
+*.toc
