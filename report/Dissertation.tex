@@ -29,6 +29,11 @@
 \usepackage{tikz}
 \usetikzlibrary{matrix,chains,positioning,decorations.pathreplacing,arrows}
 
+% MY PACKAGES
+\usepackage{adjustbox}
+\usepackage{pdfpages}
+\usepackage{multicol}
+
 %header and footer settings
 \pagestyle{fancyplain}
 \fancyhf{}
@@ -126,14 +131,16 @@ Insert acknowledgements here
 
 \begin{appendices}
 \section{Project Overview}
-%insert IPO
+
+%\input{ipo}
+\includepdf[pages=-]{ipo}
 
 \begin{subappendices}
 \subsection{Project Timeline}
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\textwidth]{Ganttchart}
+	\includegraphics[width=1.11\textwidth,angle=90]{Ganttchart}
 	\caption{Project Timeline Gantt Chart}
 \end{figure}
 
@@ -142,7 +149,7 @@ Insert acknowledgements here
 \newpage
 
 \section{Second Formal Review Output}
-Insert a copy of the project review form you were given at the end of the review by the second marker
+\includepdf[pages=-]{interim}
 
 \section{Diary Sheets (or other project management evidence)}
 Insert diary sheets here together with any project management plan you have
