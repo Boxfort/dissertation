@@ -296,6 +296,8 @@ INPUT /usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryplotmark
 INPUT /usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryplotmarks.code.tex
 INPUT /usr/share/texlive/texmf-dist/tex/latex/tools/multicol.sty
 INPUT /usr/share/texlive/texmf-dist/tex/latex/tools/multicol.sty
+INPUT /usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+INPUT /usr/share/texlive/texmf-dist/tex/latex/float/float.sty
 INPUT /usr/share/texlive/texmf-dist/tex/latex/biblatex-apa/british-apa.lbx
 INPUT /usr/share/texlive/texmf-dist/tex/latex/biblatex-apa/british-apa.lbx
 INPUT /usr/share/texlive/texmf-dist/tex/latex/biblatex-apa/british-apa.lbx
@@ -548,6 +550,9 @@ INPUT diaries.pdf
 INPUT ./diaries.pdf
 INPUT diaries.pdf
 INPUT ./diaries.pdf
+INPUT classuml.pdf
+INPUT ./classuml.pdf
+INPUT ./classuml.pdf
 INPUT recall.tex
 INPUT recall.tex
 INPUT f1score.tex

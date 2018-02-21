@@ -34,6 +34,7 @@
 \usepackage{pdfpages}
 \usepackage{pgfplots}
 \usepackage{multicol}
+\usepackage{float}
 
 %header and footer settings
 \pagestyle{fancyplain}
@@ -139,7 +140,7 @@ Insert acknowledgements here
 \begin{subappendices}
 \subsection{Project Timeline}
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=1.11\textwidth,angle=90]{Ganttchart}
 	\caption{Project Timeline Gantt Chart}
@@ -158,14 +159,31 @@ Insert acknowledgements here
 \section{Appendix 4 and following}
 insert content here and for each of the other appendices, the title may be just on a page by itself, the pages of the appendices are not numbered, unless an included document such as a user manual or design document is itself pager numbered.
 
+\newpage
+
+\section{Class Diagram}
+\begin{figure}[H]
+	\makebox[\textwidth][c]{\includegraphics[width=1.4\textwidth, center]{classuml.pdf}}
+\caption{UML Class Diagram}
+\label{classdiagram}
+\end{figure}
+
+\newpage
+
 \section{Recall}
 \input{recall}
+
+\newpage
 
 \section{F1-Score}
 \input{f1score}
 
+\newpage
+
 \section{Precision}
 \input{precision}
+
+\newpage
 
 \end{appendices}
 
