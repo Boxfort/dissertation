@@ -1,0 +1,475 @@
+CLASSIFIER RESULTS
+
+TRAINING SET = /home/jack/Documents/dissertation/datasets/NSL-KDD/KDDTrain.csv
+
+K-Folds Cross Validation with 10 folds
+
+CLASSIFIER ONE = /home/jack/Documents/dissertation/classifiers/mlp.py
+
+CLASSIFIER TWO = /home/jack/Documents/dissertation/classifiers/svm.py
+
+                 precision    recall  f1-score   support
+
+           back       0.99      0.99      0.99     28680
+buffer_overflow       0.94      0.49      0.64       900
+      ftp_write       1.00      0.50      0.67       240
+   guess_passwd       1.00      0.91      0.95      1590
+           imap       1.00      0.73      0.84       330
+        ipsweep       0.98      0.99      0.98    107970
+           land       0.59      0.44      0.51       540
+     loadmodule       0.98      0.22      0.36       270
+       multihop       0.66      0.24      0.35       210
+        neptune       1.00      1.00      1.00   1236420
+           nmap       0.97      0.94      0.96     44790
+         normal       1.00      1.00      1.00   2020290
+           perl       1.00      0.59      0.74        90
+            phf       1.00      0.75      0.86       120
+            pod       1.00      0.99      0.99      6030
+      portsweep       0.92      0.98      0.95     87930
+        rootkit       0.00      0.00      0.00       300
+          satan       0.99      0.95      0.97    108990
+          smurf       0.99      0.99      0.99     79380
+            spy       0.00      0.00      0.00        60
+       teardrop       1.00      1.00      1.00     26760
+    warezclient       0.90      0.88      0.89     26700
+    warezmaster       0.94      0.77      0.85       600
+
+    avg / total       0.99      0.99      0.99   3779190
+
+
+        precision  recall  f1-score  fp-rate    support
+dos          0.93    0.92      0.93   0.0098  1377810.0
+u2r          0.73    0.34      0.45   0.0002     1560.0
+r2l          0.80    0.61      0.68   0.0114    29850.0
+probe        0.97    0.97      0.97   0.0785   349680.0
+normal       1.00    1.00      1.00   0.4093  2020290.0
+
+Predicted         back  buffer_overflow  ftp_write  guess_passwd  imap  \
+Actual                                                                   
+back             28290                0          0             0     0   
+buffer_overflow      0              420          0             0     0   
+ftp_write            0                0        120             0     0   
+guess_passwd         0                0          0          1440     0   
+imap                 0                0          0             0   240   
+ipsweep              0                0          0             0     0   
+land                 0                0          0             0     0   
+loadmodule           0                0          0             0     0   
+multihop             0                0          0             0     0   
+neptune              0                0          0             0     0   
+nmap                 0                0          0             0     0   
+normal             360               30          0             0     0   
+perl                 0                0          0             0     0   
+phf                  0                0          0             0     0   
+pod                  0                0          0             0     0   
+portsweep            0                0          0             0     0   
+rootkit              0                0          0             0     0   
+satan                0                0          0             0     0   
+smurf                0                0          0             0     0   
+spy                  0                0          0             0     0   
+teardrop             0                0          0             0     0   
+warezclient          0                0          0             0     0   
+warezmaster          0                0          0             0     0   
+__all__          28650              450        120          1440   240   
+
+Predicted        ipsweep  land  loadmodule  multihop  neptune   nmap   normal  \
+Actual                                                                          
+back                   0     0           0         0        0      0      330   
+buffer_overflow        0     0           0         0        0      0      270   
+ftp_write              0     0           0         0        0      0       60   
+guess_passwd           0     0           0         0        0      0       60   
+imap                   0     0           0         0        0      0       60   
+ipsweep           106770     0           0         0        0    510      330   
+land                   0   300           0         0        0      0       90   
+loadmodule             0     0          60         0        0      0       90   
+multihop               0     0           0        60        0      0      120   
+neptune                0     0           0         0  1236270      0       30   
+nmap                1050     0           0         0        0  42270       30   
+normal               900   180           0         0       60    630  2012340   
+perl                   0     0           0         0        0      0        0   
+phf                    0     0           0         0        0      0        0   
+pod                    0     0           0         0        0      0       30   
+portsweep             30     0           0         0      720      0      480   
+rootkit                0     0           0         0        0      0      210   
+satan                120     0           0         0        0     30     2040   
+smurf                 30     0           0         0        0      0      390   
+spy                    0     0           0         0        0      0       60   
+teardrop               0     0           0         0        0      0        0   
+warezclient            0     0           0         0        0      0     2430   
+warezmaster            0     0           0        30        0      0       90   
+__all__           108900   480          60        90  1237050  43440  2019540   
+
+Predicted        perl  phf   pod  portsweep  rootkit   satan  smurf  spy  \
+Actual                                                                     
+back                0    0     0         60        0       0      0    0   
+buffer_overflow     0    0     0        180        0       0      0    0   
+ftp_write           0    0     0         60        0       0      0    0   
+guess_passwd        0    0     0         90        0       0      0    0   
+imap                0    0     0         30        0       0      0    0   
+ipsweep             0    0     0        360        0       0      0    0   
+land                0    0     0        150        0       0      0    0   
+loadmodule          0    0     0        120        0       0      0    0   
+multihop            0    0     0         30        0       0      0    0   
+neptune             0    0     0        120        0       0      0    0   
+nmap                0    0     0       1350        0      90      0    0   
+normal              0    0     0       1350        0     570    510    0   
+perl               60    0     0         30        0       0      0    0   
+phf                 0   90     0         30        0       0      0    0   
+pod                 0    0  6000          0        0       0      0    0   
+portsweep           0    0     0      86310        0     390      0    0   
+rootkit             0    0     0         60        0      30      0    0   
+satan               0    0     0       3000        0  103800      0    0   
+smurf               0    0     0          0        0       0  78960    0   
+spy                 0    0     0          0        0       0      0    0   
+teardrop            0    0     0         30        0       0      0    0   
+warezclient         0    0     0        150        0       0      0    0   
+warezmaster         0    0     0          0        0       0      0    0   
+__all__            60   90  6000      93510        0  104880  79470    0   
+
+Predicted        teardrop  warezclient  warezmaster  __all__  
+Actual                                                        
+back                    0            0            0    28680  
+buffer_overflow         0           30            0      900  
+ftp_write               0            0            0      240  
+guess_passwd            0            0            0     1590  
+imap                    0            0            0      330  
+ipsweep                 0            0            0   107970  
+land                    0            0            0      540  
+loadmodule              0            0            0      270  
+multihop                0            0            0      210  
+neptune                 0            0            0  1236420  
+nmap                    0            0            0    44790  
+normal                  0         3300           60  2020290  
+perl                    0            0            0       90  
+phf                     0            0            0      120  
+pod                     0            0            0     6030  
+portsweep               0            0            0    87930  
+rootkit                 0            0            0      300  
+satan                   0            0            0   108990  
+smurf                   0            0            0    79380  
+spy                     0            0            0       60  
+teardrop            26730            0            0    26760  
+warezclient             0        24120            0    26700  
+warezmaster             0            0          480      600  
+__all__             26730        27450          540  3779190  
+
+OrderedDict([('cm', Predicted         back  buffer_overflow  ftp_write  guess_passwd  imap  \
+Actual                                                                   
+back             28290                0          0             0     0   
+buffer_overflow      0              420          0             0     0   
+ftp_write            0                0        120             0     0   
+guess_passwd         0                0          0          1440     0   
+imap                 0                0          0             0   240   
+ipsweep              0                0          0             0     0   
+land                 0                0          0             0     0   
+loadmodule           0                0          0             0     0   
+multihop             0                0          0             0     0   
+neptune              0                0          0             0     0   
+nmap                 0                0          0             0     0   
+normal             360               30          0             0     0   
+perl                 0                0          0             0     0   
+phf                  0                0          0             0     0   
+pod                  0                0          0             0     0   
+portsweep            0                0          0             0     0   
+rootkit              0                0          0             0     0   
+satan                0                0          0             0     0   
+smurf                0                0          0             0     0   
+spy                  0                0          0             0     0   
+teardrop             0                0          0             0     0   
+warezclient          0                0          0             0     0   
+warezmaster          0                0          0             0     0   
+__all__          28650              450        120          1440   240   
+
+Predicted        ipsweep  land  loadmodule  multihop  neptune   nmap   normal  \
+Actual                                                                          
+back                   0     0           0         0        0      0      330   
+buffer_overflow        0     0           0         0        0      0      270   
+ftp_write              0     0           0         0        0      0       60   
+guess_passwd           0     0           0         0        0      0       60   
+imap                   0     0           0         0        0      0       60   
+ipsweep           106770     0           0         0        0    510      330   
+land                   0   300           0         0        0      0       90   
+loadmodule             0     0          60         0        0      0       90   
+multihop               0     0           0        60        0      0      120   
+neptune                0     0           0         0  1236270      0       30   
+nmap                1050     0           0         0        0  42270       30   
+normal               900   180           0         0       60    630  2012340   
+perl                   0     0           0         0        0      0        0   
+phf                    0     0           0         0        0      0        0   
+pod                    0     0           0         0        0      0       30   
+portsweep             30     0           0         0      720      0      480   
+rootkit                0     0           0         0        0      0      210   
+satan                120     0           0         0        0     30     2040   
+smurf                 30     0           0         0        0      0      390   
+spy                    0     0           0         0        0      0       60   
+teardrop               0     0           0         0        0      0        0   
+warezclient            0     0           0         0        0      0     2430   
+warezmaster            0     0           0        30        0      0       90   
+__all__           108900   480          60        90  1237050  43440  2019540   
+
+Predicted        perl  phf   pod  portsweep  rootkit   satan  smurf  spy  \
+Actual                                                                     
+back                0    0     0         60        0       0      0    0   
+buffer_overflow     0    0     0        180        0       0      0    0   
+ftp_write           0    0     0         60        0       0      0    0   
+guess_passwd        0    0     0         90        0       0      0    0   
+imap                0    0     0         30        0       0      0    0   
+ipsweep             0    0     0        360        0       0      0    0   
+land                0    0     0        150        0       0      0    0   
+loadmodule          0    0     0        120        0       0      0    0   
+multihop            0    0     0         30        0       0      0    0   
+neptune             0    0     0        120        0       0      0    0   
+nmap                0    0     0       1350        0      90      0    0   
+normal              0    0     0       1350        0     570    510    0   
+perl               60    0     0         30        0       0      0    0   
+phf                 0   90     0         30        0       0      0    0   
+pod                 0    0  6000          0        0       0      0    0   
+portsweep           0    0     0      86310        0     390      0    0   
+rootkit             0    0     0         60        0      30      0    0   
+satan               0    0     0       3000        0  103800      0    0   
+smurf               0    0     0          0        0       0  78960    0   
+spy                 0    0     0          0        0       0      0    0   
+teardrop            0    0     0         30        0       0      0    0   
+warezclient         0    0     0        150        0       0      0    0   
+warezmaster         0    0     0          0        0       0      0    0   
+__all__            60   90  6000      93510        0  104880  79470    0   
+
+Predicted        teardrop  warezclient  warezmaster  __all__  
+Actual                                                        
+back                    0            0            0    28680  
+buffer_overflow         0           30            0      900  
+ftp_write               0            0            0      240  
+guess_passwd            0            0            0     1590  
+imap                    0            0            0      330  
+ipsweep                 0            0            0   107970  
+land                    0            0            0      540  
+loadmodule              0            0            0      270  
+multihop                0            0            0      210  
+neptune                 0            0            0  1236420  
+nmap                    0            0            0    44790  
+normal                  0         3300           60  2020290  
+perl                    0            0            0       90  
+phf                     0            0            0      120  
+pod                     0            0            0     6030  
+portsweep               0            0            0    87930  
+rootkit                 0            0            0      300  
+satan                   0            0            0   108990  
+smurf                   0            0            0    79380  
+spy                     0            0            0       60  
+teardrop            26730            0            0    26760  
+warezclient             0        24120            0    26700  
+warezmaster             0            0          480      600  
+__all__             26730        27450          540  3779190  ), ('overall', OrderedDict([('Accuracy', 0.9936335563970057), ('95% CI', (0.9935528565412394, 0.9937134984968615)), ('No Information Rate', 'ToDo'), ('P-Value [Acc > NIR]', 0.0), ('Kappa', 0.9894647052714347), ("Mcnemar's Test P-Value", 'ToDo')])), ('class', Classes                                      back buffer_overflow  \
+Population                                3779190         3779190   
+P: Condition positive                       28680             900   
+N: Condition negative                     3750510         3778290   
+Test outcome positive                       28650             450   
+Test outcome negative                     3750540         3778740   
+TP: True Positive                           28290             420   
+TN: True Negative                         3750150         3778260   
+FP: False Positive                            360              30   
+FN: False Negative                            390             480   
+TPR: (Sensitivity, hit rate, recall)     0.986402        0.466667   
+TNR=SPC: (Specificity)                   0.999904        0.999992   
+PPV: Pos Pred Value (Precision)          0.987435        0.933333   
+NPV: Neg Pred Value                      0.999896        0.999873   
+FPR: False-out                        9.59869e-05      7.9401e-06   
+FDR: False Discovery Rate               0.0125654       0.0666667   
+FNR: Miss Rate                          0.0135983        0.533333   
+ACC: Accuracy                            0.999802        0.999865   
+F1 score                                 0.986918        0.622222   
+Informedness                             0.986306        0.466659   
+Markedness                               0.987331        0.933206   
+Prevalence                             0.00758893     0.000238146   
+LR+: Positive likelihood ratio            10276.4         58773.4   
+LR-: Negative likelihood ratio          0.0135996        0.533338   
+DOR: Diagnostic odds ratio                 755639          110199   
+FOR: False omission rate              0.000103985     0.000127026   
+
+Classes                                 ftp_write guess_passwd         imap  \
+Population                                3779190      3779190      3779190   
+P: Condition positive                         240         1590          330   
+N: Condition negative                     3778950      3777600      3778860   
+Test outcome positive                         120         1440          240   
+Test outcome negative                     3779070      3777750      3778950   
+TP: True Positive                             120         1440          240   
+TN: True Negative                         3778950      3777600      3778860   
+FP: False Positive                              0            0            0   
+FN: False Negative                            120          150           90   
+TPR: (Sensitivity, hit rate, recall)          0.5      0.90566     0.727273   
+TNR=SPC: (Specificity)                          1            1            1   
+PPV: Pos Pred Value (Precision)                 1            1            1   
+NPV: Neg Pred Value                      0.999968      0.99996     0.999976   
+FPR: False-out                                  0            0            0   
+FDR: False Discovery Rate                       0            0            0   
+FNR: Miss Rate                                0.5    0.0943396     0.272727   
+ACC: Accuracy                            0.999968      0.99996     0.999976   
+F1 score                                 0.666667     0.950495     0.842105   
+Informedness                                  0.5      0.90566     0.727273   
+Markedness                               0.999968      0.99996     0.999976   
+Prevalence                            6.35057e-05  0.000420725  8.73203e-05   
+LR+: Positive likelihood ratio                inf          inf          inf   
+LR-: Negative likelihood ratio                0.5    0.0943396     0.272727   
+DOR: Diagnostic odds ratio                    inf          inf          inf   
+FOR: False omission rate              3.17538e-05  3.97062e-05  2.38161e-05   
+
+Classes                                   ipsweep         land   loadmodule  \
+Population                                3779190      3779190      3779190   
+P: Condition positive                      107970          540          270   
+N: Condition negative                     3671220      3778650      3778920   
+Test outcome positive                      108900          480           60   
+Test outcome negative                     3670290      3778710      3779130   
+TP: True Positive                          106770          300           60   
+TN: True Negative                         3669090      3778470      3778920   
+FP: False Positive                           2130          180            0   
+FN: False Negative                           1200          240          210   
+TPR: (Sensitivity, hit rate, recall)     0.988886     0.555556     0.222222   
+TNR=SPC: (Specificity)                    0.99942     0.999952            1   
+PPV: Pos Pred Value (Precision)          0.980441        0.625            1   
+NPV: Neg Pred Value                      0.999673     0.999936     0.999944   
+FPR: False-out                        0.000580189  4.76361e-05            0   
+FDR: False Discovery Rate               0.0195592        0.375            0   
+FNR: Miss Rate                          0.0111142     0.444444     0.777778   
+ACC: Accuracy                            0.999119     0.999889     0.999944   
+F1 score                                 0.984645     0.588235     0.363636   
+Informedness                             0.988306     0.555508     0.222222   
+Markedness                               0.980114     0.624936     0.999944   
+Prevalence                              0.0285696  0.000142888  7.14439e-05   
+LR+: Positive likelihood ratio            1704.42      11662.5          inf   
+LR-: Negative likelihood ratio          0.0111207     0.444466     0.777778   
+DOR: Diagnostic odds ratio                 153266      26239.4          inf   
+FOR: False omission rate               0.00032695  6.35137e-05  5.55683e-05   
+
+Classes                                  multihop      neptune         nmap  \
+Population                                3779190      3779190      3779190   
+P: Condition positive                         210      1236420        44790   
+N: Condition negative                     3778980      2542770      3734400   
+Test outcome positive                          90      1237050        43440   
+Test outcome negative                     3779100      2542140      3735750   
+TP: True Positive                              60      1236270        42270   
+TN: True Negative                         3778950      2541990      3733230   
+FP: False Positive                             30          780         1170   
+FN: False Negative                            150          150         2520   
+TPR: (Sensitivity, hit rate, recall)     0.285714     0.999879     0.943737   
+TNR=SPC: (Specificity)                   0.999992     0.999693     0.999687   
+PPV: Pos Pred Value (Precision)          0.666667     0.999369     0.973066   
+NPV: Neg Pred Value                       0.99996     0.999941     0.999325   
+FPR: False-out                        7.93865e-06  0.000306752  0.000313303   
+FDR: False Discovery Rate                0.333333  0.000630532    0.0269337   
+FNR: Miss Rate                           0.714286  0.000121318    0.0562626   
+ACC: Accuracy                            0.999952     0.999754     0.999024   
+F1 score                                      0.4     0.999624     0.958177   
+Informedness                             0.285706     0.999572     0.943424   
+Markedness                               0.666627      0.99931     0.972392   
+Prevalence                            5.55675e-05     0.327165    0.0118517   
+LR+: Positive likelihood ratio            35990.3      3259.57      3012.22   
+LR-: Negative likelihood ratio           0.714291  0.000121355    0.0562802   
+DOR: Diagnostic odds ratio                  50386  2.68597e+07      53521.8   
+FOR: False omission rate               3.9692e-05  5.90054e-05  0.000674563   
+
+Classes                                   normal         perl          phf  \
+Population                               3779190      3779190      3779190   
+P: Condition positive                    2020290           90          120   
+N: Condition negative                    1758900      3779100      3779070   
+Test outcome positive                    2019540           60           90   
+Test outcome negative                    1759650      3779130      3779100   
+TP: True Positive                        2012340           60           90   
+TN: True Negative                        1751700      3779100      3779070   
+FP: False Positive                          7200            0            0   
+FN: False Negative                          7950           30           30   
+TPR: (Sensitivity, hit rate, recall)    0.996065     0.666667         0.75   
+TNR=SPC: (Specificity)                  0.995907            1            1   
+PPV: Pos Pred Value (Precision)         0.996435            1            1   
+NPV: Neg Pred Value                     0.995482     0.999992     0.999992   
+FPR: False-out                        0.00409347            0            0   
+FDR: False Discovery Rate             0.00356517            0            0   
+FNR: Miss Rate                        0.00393508     0.333333         0.25   
+ACC: Accuracy                           0.995991     0.999992     0.999992   
+F1 score                                 0.99625          0.8     0.857143   
+Informedness                            0.991971     0.666667         0.75   
+Markedness                              0.991917     0.999992     0.999992   
+Prevalence                              0.534583  2.38146e-05  3.17528e-05   
+LR+: Positive likelihood ratio            243.33          inf          inf   
+LR-: Negative likelihood ratio        0.00395125     0.333333         0.25   
+DOR: Diagnostic odds ratio               61583.1          inf          inf   
+FOR: False omission rate              0.00451794  7.93834e-06   7.9384e-06   
+
+Classes                                       pod    portsweep      rootkit  \
+Population                                3779190      3779190      3779190   
+P: Condition positive                        6030        87930          300   
+N: Condition negative                     3773160      3691260      3778890   
+Test outcome positive                        6000        93510            0   
+Test outcome negative                     3773190      3685680      3779190   
+TP: True Positive                            6000        86310            0   
+TN: True Negative                         3773160      3684060      3778890   
+FP: False Positive                              0         7200            0   
+FN: False Negative                             30         1620          300   
+TPR: (Sensitivity, hit rate, recall)     0.995025     0.981576            0   
+TNR=SPC: (Specificity)                          1     0.998049            1   
+PPV: Pos Pred Value (Precision)                 1     0.923003          NaN   
+NPV: Neg Pred Value                      0.999992      0.99956     0.999921   
+FPR: False-out                                  0   0.00195055            0   
+FDR: False Discovery Rate                       0    0.0769971          NaN   
+FNR: Miss Rate                         0.00497512    0.0184237            1   
+ACC: Accuracy                            0.999992     0.997666     0.999921   
+F1 score                                 0.997506     0.951389            0   
+Informedness                             0.995025     0.979626            0   
+Markedness                               0.999992     0.922563          NaN   
+Prevalence                             0.00159558    0.0232669  7.93821e-05   
+LR+: Positive likelihood ratio                inf       503.23          NaN   
+LR-: Negative likelihood ratio         0.00497512    0.0184598            1   
+DOR: Diagnostic odds ratio                    inf      27260.9          NaN   
+FOR: False omission rate              7.95083e-06  0.000439539  7.93821e-05   
+
+Classes                                     satan        smurf          spy  \
+Population                                3779190      3779190      3779190   
+P: Condition positive                      108990        79380           60   
+N: Condition negative                     3670200      3699810      3779130   
+Test outcome positive                      104880        79470            0   
+Test outcome negative                     3674310      3699720      3779190   
+TP: True Positive                          103800        78960            0   
+TN: True Negative                         3669120      3699300      3779130   
+FP: False Positive                           1080          510            0   
+FN: False Negative                           5190          420           60   
+TPR: (Sensitivity, hit rate, recall)     0.952381     0.994709            0   
+TNR=SPC: (Specificity)                   0.999706     0.999862            1   
+PPV: Pos Pred Value (Precision)          0.989703     0.993582          NaN   
+NPV: Neg Pred Value                      0.998587     0.999886     0.999984   
+FPR: False-out                        0.000294262  0.000137845            0   
+FDR: False Discovery Rate               0.0102975   0.00641752          NaN   
+FNR: Miss Rate                           0.047619   0.00529101            1   
+ACC: Accuracy                            0.998341     0.999754     0.999984   
+F1 score                                 0.970683     0.994145            0   
+Informedness                             0.952087     0.994571            0   
+Markedness                                0.98829     0.993469          NaN   
+Prevalence                              0.0288395    0.0210045  1.58764e-05   
+LR+: Positive likelihood ratio            3236.51      7216.15          NaN   
+LR-: Negative likelihood ratio          0.0476331   0.00529173            1   
+DOR: Diagnostic odds ratio                67946.7  1.36366e+06          NaN   
+FOR: False omission rate               0.00141251  0.000113522  1.58764e-05   
+
+Classes                                  teardrop  warezclient  warezmaster  
+Population                                3779190      3779190      3779190  
+P: Condition positive                       26760        26700          600  
+N: Condition negative                     3752430      3752490      3778590  
+Test outcome positive                       26730        27450          540  
+Test outcome negative                     3752460      3751740      3778650  
+TP: True Positive                           26730        24120          480  
+TN: True Negative                         3752430      3749160      3778530  
+FP: False Positive                              0         3330           60  
+FN: False Negative                             30         2580          120  
+TPR: (Sensitivity, hit rate, recall)     0.998879     0.903371          0.8  
+TNR=SPC: (Specificity)                          1     0.999113     0.999984  
+PPV: Pos Pred Value (Precision)                 1     0.878689     0.888889  
+NPV: Neg Pred Value                      0.999992     0.999312     0.999968  
+FPR: False-out                                  0  0.000887411  1.58789e-05  
+FDR: False Discovery Rate                       0     0.121311     0.111111  
+FNR: Miss Rate                         0.00112108    0.0966292          0.2  
+ACC: Accuracy                            0.999992     0.998436     0.999952  
+F1 score                                 0.999439     0.890859     0.842105  
+Informedness                             0.998879     0.902483     0.799984  
+Markedness                               0.999992     0.878001     0.888857  
+Prevalence                             0.00708088   0.00706501  0.000158764  
+LR+: Positive likelihood ratio                inf      1017.98      50381.2  
+LR-: Negative likelihood ratio         0.00112108     0.096715     0.200003  
+DOR: Diagnostic odds ratio                    inf      10525.6       251902  
+FOR: False omission rate              7.99476e-06  0.000687681  3.17574e-05  )])
