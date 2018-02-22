@@ -15,10 +15,6 @@
     width=1.2\textwidth,
     height=0.8\paperheight
     ]
-    \addplot coordinates {(0.92,k-NN) (0.95,MLP) (0.93,SVM) 
-	                  (0.90,k-NN/k-NN) (0.94,k-NN/MLP) (0.90,k-NN/SVM) 
-		          (0.89,MLP/k-NN) (0.94,MLP/MLP) (0.92,MLP/SVM) 
-		          (0.93,SVM/k-NN) (0.98,SVM/MLP) (0.93,SVM/SVM)};
     \addplot coordinates {(0.18,k-NN) (0.34,MLP) (0.36,SVM) 
 	                  (0.18,k-NN/k-NN) (0.19,k-NN/MLP) (0.21,k-NN/SVM) 
 		          (0.28,MLP/k-NN) (0.44,MLP/MLP) (0.34,MLP/SVM) 
@@ -27,11 +23,16 @@
 	                  (0.57,k-NN/k-NN) (0.57,k-NN/MLP) (0.55,k-NN/SVM) 
 		          (0.53,MLP/k-NN) (0.65,MLP/MLP) (0.61,MLP/SVM) 
 		          (0.56,SVM/k-NN) (0.67,SVM/MLP) (0.60,SVM/SVM)};
+    \addplot coordinates {(0.92,k-NN) (0.95,MLP) (0.93,SVM) 
+	                  (0.90,k-NN/k-NN) (0.94,k-NN/MLP) (0.90,k-NN/SVM) 
+		          (0.89,MLP/k-NN) (0.94,MLP/MLP) (0.92,MLP/SVM) 
+		          (0.93,SVM/k-NN) (0.98,SVM/MLP) (0.93,SVM/SVM)};
+
     \addplot coordinates {(0.88,k-NN) (0.98,MLP) (0.95,SVM) 
 	                  (0.88,k-NN/k-NN) (0.98,k-NN/MLP) (0.97,k-NN/SVM) 
 		          (0.88,MLP/k-NN) (0.98,MLP/MLP) (0.97,MLP/SVM) 
 		          (0.88,SVM/k-NN) (0.98,SVM/MLP) (0.97,SVM/SVM)};
-    \legend{dos,u2r,r2l,probe}
+    \legend{u2r,r2l,dos,probe}
 \end{axis}
 \end{tikzpicture}
 \end{adjustbox}

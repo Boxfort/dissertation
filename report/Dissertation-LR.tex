@@ -72,7 +72,7 @@ While searching for relevant papers on the subject of network intrusion detectio
 	\subsubsection{Artificial Neural Network}
 	According to \cite{caudill1987neural} an artificial neural network (ANN) is \textit{"a computing system made up of a number of simple, highly interconnected processing elements, which process information by their dynamic state response to external inputs"}. The ANN is inspired by and aims to recreate the operation of a biological neural network, found within the brains of living animals. The neural network consists of several layers of neurons or nodes, which are interconnected by axioms each of which has its own associated weight which is altered over the course of the training of the network. These weights are adjusted through a method called backpropagation. A network will typically consist of three layers; the input layer, the hidden layer(s), and the output layer, shown in Figure \ref{fig:ANN}.
 	
-	\input{neuralnetworkdiagram}
+	\input{figures/neuralnetworkdiagram}
 	
 	The input layer is where the neural network receives the data which it is to process. This input layer is then connected via weighted axioms to the hidden layer(s). The hidden layer may consist of many layers and is responsible for the recognition of patterns within the input data. These hidden layers are then connected to the output layer, which gives the result or classification of the input data.
 	The ANN is trained by feeding in a labelled dataset containing inputs and expected output(s). Each data entry which is fed into the network slightly alters the weights of all axioms within the network depending on the inputs and outputs, which when performed a large number of times allows the network to recognise patterns within input data and attempt to predict the correct output.
@@ -94,7 +94,7 @@ This basic form of neural network is also called a feed forward neural network (
 	\subsubsection{Recurrent Neural Network}
 	A recurrent neural network (RNN) is a class of artificial neural network where the connections within the network connect back to previous neurons in order to form a cycle of nodes as shown in Figure \ref{fig:RNN}. Having the neural network be structured in this manner allows it to process a sequence of input vectors allowing it to process data which relies on other vectors for context. RNNs are typically applied to problems such as handwriting recognition or speech recognition, however they can be particularly effective in network detection intrusion in recognising sequences of network traffic which alone are not suspicious but in a specific order can then be classified as intrusive behaviour.
 
-		\input{rnndiagram}
+		\input{figures/rnndiagram}
 	
 	The first paper to advocate for the use of RNNs within the field of network intrusion detection was \cite{debar1992application} in which it was found RNNs to be a promising method of detecting intrusions. A later paper \cite{ryan1998intrusion} re-enforces this statement finding this method to be very effective when employed on real worlds data. Two papers using RNNs in order to detect network intrusions, \cite{tong2009research} and \cite{ghosh1999study} found this approach to have high rate of correct detection of 90\%-100\%, however with a slightly higher false positive rate than other methods of intrusion detection such as the SOM. 
 	

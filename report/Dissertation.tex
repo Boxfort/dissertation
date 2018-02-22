@@ -9,6 +9,7 @@
 % !TEX TS-program = pdflatex
 % !TEX encoding = UTF-8 Unicode
 \usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+%\usepackage[margin=3.5cm]{geometry}
 
 \usepackage{graphicx} % support the \includegraphics command and options
 
@@ -35,6 +36,18 @@
 \usepackage{pgfplots}
 \usepackage{multicol}
 \usepackage{float}
+\usepackage{blindtext}
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+            {-2.5ex\@plus -1ex \@minus -.25ex}%
+            {1.25ex \@plus .25ex}%
+            {\normalfont\normalsize\bfseries}}
+\makeatother
+
+\setcounter{secnumdepth}{4} % how many sectioning levels to assign numbers to
+\setcounter{tocdepth}{4}    % how many sectioning levels to show in ToC
+
 
 %header and footer settings
 \pagestyle{fancyplain}
@@ -108,7 +121,131 @@ Insert acknowledgements here
 \subsection{WEKA}
 	
 \section{Software}
-\subsection{Requirements}
+This section of the report will provide a high level description of the functionality and requirements of the software as well as describing the role of the user which will interact with the system. Detailed descriptions of functionality will also be included, and a list of hardware and software constraints, dependencies and assumptions made about the system and users. A detailed testing description will then be given outlining any and all unit testing and functional testing which will take place. Finally an evaluation will take place assessing how well the produced software meets its initial requirements and design.
+\subsection{Overall Description}
+\subsubsection{Product Perspective}
+\subsubsection{Product Functions}
+\subsubsection{User Characteristics}
+\subsubsection{Operating Environment}
+\subsection{Specific Requirements}
+\subsubsection{User Interface}
+\subsubsection{Functional Requirements}
+\paragraph{FR1 - Select Classifiers}
+\textbf{ID:} FR1 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} N/A
+\paragraph{FR2 - Select Two Stage Classification}
+\textbf{ID:} FR2 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} N/A
+\paragraph{FR3 - Run Classifiers}
+\textbf{ID:} FR3 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR4 - Create New Classifier}
+\textbf{ID:} FR3 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR5 - Classifier Debug Output}
+\textbf{ID:} FR3 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} N/A
+\paragraph{FR6 - Multiple Classifier Configurations}
+\textbf{ID:} FR6 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR6 - Aggregate Results by Attack}
+\textbf{ID:} FR6 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR6 - Write Results to File}
+\textbf{ID:} FR6 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR6 - View Results}
+\textbf{ID:} FR6 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR6 - Graph Results}
+\textbf{ID:} FR6 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR6 - Select Training Dataset}
+\textbf{ID:} FR6 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR6 - Select Testing Dataset}
+\textbf{ID:} FR6 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR6 - k-Fold Cross Validation}
+\textbf{ID:} FR6 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR6 - Select Dataset Column Labels}
+\textbf{ID:} FR6 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR6 - Select Dataset Attack Categories}
+\textbf{ID:} FR6 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR6 - Categorise Dataset Fields}
+\textbf{ID:} FR6 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR6 - One Hot Encoding}
+\textbf{ID:} FR6 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR6 - Load Data}
+\textbf{ID:} FR6 \\
+\textbf{TITLE:} Some name \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} FR1, FR2
+
+
+\subsubsection{Non-Functional Requirements}
+\paragraph{QR1 - Some name}
+\textbf{ID:} QR1 \\
+\textbf{TITLE:} Some name \\
+\textbf{DESC:} \blindtext \\
+\textbf{DEP:} N/A
 \subsection{Design}
 \subsection{Implementation}
 \subsection{Testing}
@@ -135,14 +272,14 @@ Insert acknowledgements here
 \section{Project Overview}
 
 %\input{ipo}
-\includepdf[pages=-]{ipo}
+\includepdf[pages=-]{figures/ipo}
 
 \begin{subappendices}
 \subsection{Project Timeline}
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1.11\textwidth,angle=90]{Ganttchart}
+	\includegraphics[width=1.11\textwidth,angle=90]{figures/Ganttchart}
 	\caption{Project Timeline Gantt Chart}
 \end{figure}
 
@@ -151,37 +288,40 @@ Insert acknowledgements here
 \newpage
 
 \section{Second Formal Review Output}
-\includepdf[pages=-]{interim}
+\includepdf[pages=-]{figures/interim}
 
 \section{Diary Sheets (or other project management evidence)}
-\includepdf[page=-]{diaries}
-
-\section{Appendix 4 and following}
-insert content here and for each of the other appendices, the title may be just on a page by itself, the pages of the appendices are not numbered, unless an included document such as a user manual or design document is itself pager numbered.
-
-\newpage
+\includepdf[page=-]{figures/diaries}
 
 \section{Class Diagram}
 \begin{figure}[H]
-	\makebox[\textwidth][c]{\includegraphics[width=1.4\textwidth, center]{classuml.pdf}}
+	\makebox[\textwidth][c]{\includegraphics[width=1.4\textwidth, center]{figures/classuml.pdf}}
 \caption{UML Class Diagram}
 \label{classdiagram}
 \end{figure}
 
 \newpage
 
-\section{Recall}
-\input{recall}
+\section{Use Case Diagram}
+\begin{figure}[H]
+	\makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth, center]{figures/usecase.pdf}}
+\caption{UML Use Case Diagram}
+\label{usecase}
+\end{figure}
+
+
+\section{NSL-KDD Recall}
+\input{plots/recall}
 
 \newpage
 
-\section{F1-Score}
-\input{f1score}
+\section{NSL-KDD F1-Score}
+\input{plots/f1score}
 
 \newpage
 
-\section{Precision}
-\input{precision}
+\section{NSL-KDD Precision}
+\input{plots/precision}
 
 \newpage
 
