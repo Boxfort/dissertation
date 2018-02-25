@@ -11,10 +11,12 @@ from MainWindow import MainWindow
 app = QApplication(sys.argv)
 TEST_FIELDS = os.path.join(os.path.dirname(__file__), 'data/testfields.csv')
 TEST_DATASET = os.path.join(os.path.dirname(__file__), 'data/testdataset.csv')
+TEST_DATASET2 = os.path.join(os.path.dirname(__file__), 'data/testdataset2.csv')
 
 class TestMainWindow(unittest.TestCase):
 
     def setUp(self):
+        self.stdout = sys.stdout
         self.test_window = MainWindow(app)
         self.set_window_defaults()
 
@@ -22,6 +24,9 @@ class TestMainWindow(unittest.TestCase):
         self.test_window.txt_dataset.setText("")
         self.test_window.plainTextEdit.setPlainText("")
         self.test_window.runs = 0
+        self.test_window.binary_cols = []
+        self.test_window.nominal_cols = []
+        self.test_window.numeric_cols = []
 
     def test_window_defaults(self):
         self.assertEqual("","")
@@ -39,34 +44,57 @@ class TestMainWindow(unittest.TestCase):
     def test_write(self):
         to_write = "Test"
         self.test_window.write(to_write)
-        self.assertEqual(to_write in self.test_window.plainTextEdit.toPlainText(), True)
+        self.assertTrue(to_write in self.test_window.plainTextEdit.toPlainText())
 
     def test_construct_graph(self):
         stats = [{'FP: False Positive':100,'FN: False Negative':100,'TP: True Positive':100,'TN: True Negative':100}]
         stochastic = [False]
         self.test_window.construct_graph(stats, stochastic)
-        self.assertEqual(self.test_window.graph != None, True)
+        self.assertTrue(self.test_window.graph != None)
 
     def test_load_columns_from_file(self):
         result = self.test_window.load_columns_from_file(TEST_FIELDS)
-        self.assertEqual(result == ['a','b','c','d'], True)
+        self.assertTrue(result == ['a','b','c','d'])
 
     def test_load_dataset_from_file(self):
         fields = self.test_window.load_columns_from_file(TEST_FIELDS)
         result = self.test_window.load_dataset_from_file(TEST_DATASET, fields)
 
     def test_one_hot_encoding(self):
-
         column_names = ['a_a','a_b','a_c','a_d','b','c','d']
-
         self.test_window.binary_cols = ['b','c']
         self.test_window.nominal_cols = ['a']
         self.test_window.numeric_cols = ['d']
-
         fields = self.test_window.load_columns_from_file(TEST_FIELDS)
         dataset = self.test_window.load_dataset_from_file(TEST_DATASET, fields)
         dataset_oh = self.test_window.one_hot_encoding(dataset)
-        self.assertEqual(list(dataset_oh.columns) == column_names, True)
+        self.assertTrue(list(dataset_oh.columns) == column_names)
+
+    def test_clean_testing_set(self):
+        column_names = ['a_a','a_b','a_c','a_d','b','c','d']
+        self.test_window.binary_cols = ['b','c']
+        self.test_window.nominal_cols = ['a']
+        self.test_window.numeric_cols = ['d']
+        fields = self.test_window.load_columns_from_file(TEST_FIELDS)
+        dataset = self.test_window.load_dataset_from_file(TEST_DATASET, fields)
+        dataset2 = self.test_window.load_dataset_from_file(TEST_DATASET2, fields)
+        dataset_oh = self.test_window.one_hot_encoding(dataset)
+        dataset2_oh = self.test_window.one_hot_encoding(dataset2)
+        self.assertFalse(list(dataset2_oh.columns) == column_names)
+        dataset2_oh = self.test_window.clean_testing_set(dataset_oh, dataset2_oh)
+        self.assertTrue(list(dataset2_oh.columns) == column_names)
+
+    def test_clean_testing_set_no_new_columns(self):
+        column_names = ['a_a','a_b','a_c','a_d','b','c','d']
+        self.test_window.binary_cols = ['b','c']
+        self.test_window.nominal_cols = ['a']
+        self.test_window.numeric_cols = ['d']
+        fields = self.test_window.load_columns_from_file(TEST_FIELDS)
+        dataset = self.test_window.load_dataset_from_file(TEST_DATASET, fields)
+        dataset_oh = self.test_window.one_hot_encoding(dataset)
+        dataset2_oh = self.test_window.clean_testing_set(dataset_oh, dataset_oh)
+        self.assertTrue(list(dataset2_oh.columns) == column_names)
+
 
     def test_load_data(self):
         pass
