@@ -2,3 +2,4 @@ a,nominal
 b,binary
 c,binary
 d,numeric
+labels,symbolic
