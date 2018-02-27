@@ -7,7 +7,6 @@ import importlib.util
 import csv
 import numpy as np
 import pandas as pd
-import pprint
 from pandas_ml import ConfusionMatrix
 from pandas_ml.confusion_matrix.bcm import BinaryConfusionMatrix
 from collections import defaultdict, OrderedDict
@@ -31,6 +30,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.labels_filename = ''
         self.attacks_filename = ''
         self.folds = None
+        self.runs = 0
+        self.graph = None
+        self.results = []
         self.numeric_cols = []
         self.nominal_cols = []
         self.binary_cols = []
@@ -87,6 +89,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.plainTextEdit.verticalScrollBar().setValue(self.plainTextEdit.verticalScrollBar().maximum())
         # Tell the GUI to refresh
         self.app.processEvents()
+
+    def flush(self):
+        pass
 
     def construct_graph(self, stats, stochastic):
         self.graph = QBarChart(stats, self.runs, stochastic, self.tab_2)
@@ -188,17 +193,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         except Exception as e:
             msg = ErrorMessage("Failed to load dataset.", str(e))
             msg.show()
-            return
+            return msg
 
         for i in range(self.tab_classifiers.count()):
             if not os.path.isfile(self.tab_classifiers.widget(i).children()[1].txt_alg1.text()):
                 msg = ErrorMessage("Tab "+str(i)+": Classifier one file does not exist!")
                 msg.show()
-                return
+                return msg
             if self.tab_classifiers.widget(i).children()[1].chk_two_stage.isChecked() and not os.path.isfile(self.tab_classifiers.widget(i).children()[1].txt_alg2.text()):
                 msg = ErrorMessage("Tab "+str(i)+": Classifier two file does not exist!")
                 msg.show()
-                return
+                return msg
 
         results = []
 

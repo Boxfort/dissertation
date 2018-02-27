@@ -15,6 +15,8 @@ class QClfSelector(QWidget, Ui_clfSelector):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.classifier_one = None
+        self.classifier_two = None
 
     def btn_alg1_clicked(self):
         filename = QFileDialog.getOpenFileName(self, 'Select File', os.getcwd(), 'Python scripts (*.py);; All Files (*.*)')

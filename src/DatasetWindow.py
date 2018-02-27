@@ -11,9 +11,26 @@ class DatasetWindow(QDialog, Ui_Dialog):
 
     def __init__(self):
         super().__init__()
+        self.setupUi(self)
+        self.train_set_filename = ['','']
+        self.test_set_filename = ['','']
+        self.labels_filename = ['','']
+        self.attacks_filename = ['','']
+
+        self.txt_train_set.setText('')
+        self.txt_test_set.setText('')
+        self.txt_labels.setText('')
+        self.txt_attacks.setText('')
+
+        self.spn_folds.setValue(1)
+        self.spn_runs.setValue(1)
+
+        self.lst_numeric.clear()
+        self.lst_nominal.clear()
+        self.lst_binary.clear()
+
 
     def show(self, train_filename = '', test_filename = '', labels_filename = '', attacks_filename = '', numeric = [], nominal = [], binary = [], folds = 1):
-        self.setupUi(self)
         self.train_set_filename = [train_filename,'']
         self.test_set_filename = [test_filename,'']
         self.labels_filename = [labels_filename,'']
@@ -90,7 +107,7 @@ class DatasetWindow(QDialog, Ui_Dialog):
 
     # TODO: Theres definetly a better way of moving between lists
     #     : Could probably condense rc_move and move_label methods into one method
-    def rc_move_numeric(self, extra):
+    def rc_move_numeric(self):
         items = self.lastList.selectedItems()
         for item in items:
             self.lst_numeric.addItem(self.lastList.takeItem(self.lastList.row(item)))
@@ -155,23 +172,26 @@ class DatasetWindow(QDialog, Ui_Dialog):
 
         # If a file was selected
         if filename:
-            try:
-                with open(filename[0], 'r') as file:
-                    reader = csv.reader(file)
-                    for row in reader:
-                        # TODO: Remove hardcoded label column
-                        if row[0] == 'labels':
-                            continue
-                        try:
-                            if row[1] in ['binary', 'b']:
-                                self.lst_binary.addItem(row[0])
-                            elif row[1] in ['symbolic', 'nominal', 'categorical', 'cat', 's', 'c']:
-                                self.lst_nominal.addItem(row[0])
-                            else:
-                                self.lst_numeric.addItem(row[0])
-                        except Exception:
-                            self.lst_numeric.addItem(row[0])
+            load_cols(filename[0])
 
-            except Exception:
-                print("Could not load file.")
+    def load_cols(self, filename):
+        try:
+            with open(filename, 'r') as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    # TODO: Remove hardcoded label column
+                    if row[0] == 'labels':
+                        continue
+                    try:
+                        if row[1] in ['binary', 'b']:
+                            self.lst_binary.addItem(row[0])
+                        elif row[1] in ['symbolic', 'nominal', 'categorical', 'cat', 's', 'c']:
+                            self.lst_nominal.addItem(row[0])
+                        else:
+                            self.lst_numeric.addItem(row[0])
+                    except Exception:
+                        self.lst_numeric.addItem(row[0])
+
+        except Exception:
+            print("Could not load file.")
 

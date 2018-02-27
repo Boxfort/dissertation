@@ -49,20 +49,10 @@ class QBarChart(FigureCanvas):
             self.autolabel(bar, ax)
             count += 1
 
-        #s1 = ax.bar(a-.25, x, width=0.2, color='r', align='center')
-        #s2 = ax.bar(a, y, width=0.2, color='g', align='center')
-        #s3 = ax.bar(a+.25, z, width=0.2, color='b', align='center')
-
-        #p1 = ax.bar(ind, menMeans, width, color='#d62728', yerr=menStd)
-        #p2 = ax.bar(ind, womenMeans, width, bottom=menMeans, yerr=womenStd)
-
         ax.set_ylabel('Number of Detections')
         ax.set_title('Detection Rate')
         ax.set_xticks(np.arange(4))
         ax.set_xticklabels(['TP', 'TN', 'FP', 'FN'])
-        #ax.legend((s1[0], s2[0], s3[0]), ('x', 'y', 'z'))
-        #ax.set_xticklabels(np.arrange(len(series)))
-        #ax.legend(series, np.arrange(len(series)))
 
         self.draw()
 
