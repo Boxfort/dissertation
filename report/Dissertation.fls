@@ -554,6 +554,8 @@ INPUT figures/diaries.pdf
 INPUT ./figures/diaries.pdf
 INPUT figures/diaries.pdf
 INPUT ./figures/diaries.pdf
+INPUT tables/moscow.tex
+INPUT tables/moscow.tex
 INPUT figures/classuml.pdf
 INPUT ./figures/classuml.pdf
 INPUT ./figures/classuml.pdf

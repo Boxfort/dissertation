@@ -119,7 +119,7 @@ Insert acknowledgements here
 
 \section{Existing Software}
 \subsection{WEKA}
-	
+\subsection{SPLUNK}
 \section{Software}
 This section of the report will provide a high level description of the functionality and requirements of the software as well as describing the role of the user which will interact with the system. Detailed descriptions of functionality will also be included, and a list of hardware and software constraints, dependencies and assumptions made about the system and users. A detailed testing description will then be given outlining any and all unit testing and functional testing which will take place. Finally an evaluation will take place assessing how well the produced software meets its initial requirements and design.
 \subsection{Overall Description}
@@ -132,119 +132,185 @@ This section of the report will provide a high level description of the function
 \subsubsection{Functional Requirements}
 \paragraph{FR1 - Select Classifiers}
 \textbf{ID:} FR1 \\
-\textbf{TITLE:} Some name \\
+\textbf{TITLE:} Select Classifiers \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{DESC:}   \\
 \textbf{DEP:} N/A
 \paragraph{FR2 - Select Two Stage Classification}
 \textbf{ID:} FR2 \\
-\textbf{TITLE:} Some name \\
+\textbf{TITLE:} Select Two Stage Classification \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{DESC:}   \\
 \textbf{DEP:} N/A
 \paragraph{FR3 - Run Classifiers}
 \textbf{ID:} FR3 \\
-\textbf{TITLE:} Some name \\
+\textbf{TITLE:} Run Classifiers \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{DESC:}   \\
 \textbf{DEP:} FR1, FR2
 \paragraph{FR4 - Create New Classifier}
-\textbf{ID:} FR3 \\
-\textbf{TITLE:} Some name \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{ID:} FR4 \\
+\textbf{TITLE:} Create New Classifier \\
+\textbf{PRIORITY:} Low \\
+\textbf{DESC:}   \\
 \textbf{DEP:} FR1, FR2
-\paragraph{FR5 - Classifier Debug Output}
-\textbf{ID:} FR3 \\
-\textbf{TITLE:} Some name \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\paragraph{FR5 - Debug Output}
+\textbf{ID:} FR5 \\
+\textbf{TITLE:} Debug Output \\
+\textbf{PRIORITY:} Medium \\
+\textbf{DESC:}   \\
 \textbf{DEP:} N/A
 \paragraph{FR6 - Multiple Classifier Configurations}
 \textbf{ID:} FR6 \\
-\textbf{TITLE:} Some name \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{TITLE:} Multiple Classifier Configurations \\
+\textbf{PRIORITY:} Medium \\
+\textbf{DESC:}   \\
 \textbf{DEP:} FR1, FR2
-\paragraph{FR6 - Aggregate Results by Attack}
-\textbf{ID:} FR6 \\
-\textbf{TITLE:} Some name \\
+\paragraph{FR7 - Aggregate Results by Attack}
+\textbf{ID:} FR7 \\
+\textbf{TITLE:} Aggregate Results by Attack \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{DESC:}   \\
 \textbf{DEP:} FR1, FR2
-\paragraph{FR6 - Write Results to File}
-\textbf{ID:} FR6 \\
+\paragraph{FR8 - Write Results to File}
+\textbf{ID:} FR8 \\
 \textbf{TITLE:} Some name \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{PRIORITY:} Medium \\
+\textbf{DESC:}   \\
 \textbf{DEP:} FR1, FR2
-\paragraph{FR6 - View Results}
-\textbf{ID:} FR6 \\
-\textbf{TITLE:} Some name \\
+\paragraph{FR9 - Get Classification Results}
+\textbf{ID:} FR9 \\
+\textbf{TITLE:} Get Classification Results \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{DESC:}   \\
 \textbf{DEP:} FR1, FR2
-\paragraph{FR6 - Graph Results}
-\textbf{ID:} FR6 \\
-\textbf{TITLE:} Some name \\
+\paragraph{FR10 - Graph Results}
+\textbf{ID:} FR10 \\
+\textbf{TITLE:} Graph Results \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{DESC:}   \\
 \textbf{DEP:} FR1, FR2
-\paragraph{FR6 - Select Training Dataset}
-\textbf{ID:} FR6 \\
-\textbf{TITLE:} Some name \\
+\paragraph{FR11 - Select Training Dataset}
+\textbf{ID:} FR11 \\
+\textbf{TITLE:} Select Training Dataset \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{DESC:}   \\
 \textbf{DEP:} FR1, FR2
-\paragraph{FR6 - Select Testing Dataset}
-\textbf{ID:} FR6 \\
-\textbf{TITLE:} Some name \\
+\paragraph{FR12 - Select Testing Dataset}
+\textbf{ID:} FR12 \\
+\textbf{TITLE:} Select Testing Dataset \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{DESC:}   \\
 \textbf{DEP:} FR1, FR2
-\paragraph{FR6 - k-Fold Cross Validation}
-\textbf{ID:} FR6 \\
-\textbf{TITLE:} Some name \\
+\paragraph{FR13 - k-Fold Cross Validation}
+\textbf{ID:} FR13 \\
+\textbf{TITLE:} k-Fold Cross Validation \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{DESC:}   \\
 \textbf{DEP:} FR1, FR2
-\paragraph{FR6 - Select Dataset Column Labels}
-\textbf{ID:} FR6 \\
-\textbf{TITLE:} Some name \\
+\paragraph{FR14 - Select Dataset Column Labels}
+\textbf{ID:} FR14 \\
+\textbf{TITLE:} Select Dataset Column Labels \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{DESC:}   \\
 \textbf{DEP:} FR1, FR2
-\paragraph{FR6 - Select Dataset Attack Categories}
-\textbf{ID:} FR6 \\
-\textbf{TITLE:} Some name \\
+\paragraph{FR15 - Select Dataset Attack Categories}
+\textbf{ID:} FR15 \\
+\textbf{TITLE:} Select Dataset Attack Categories \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{DESC:}   \\
 \textbf{DEP:} FR1, FR2
-\paragraph{FR6 - Categorise Dataset Fields}
-\textbf{ID:} FR6 \\
-\textbf{TITLE:} Some name \\
+\paragraph{FR16 - Categorise Dataset Fields}
+\textbf{ID:} FR16 \\
+\textbf{TITLE:} Categorise Dataset Fields \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{DESC:}   \\
 \textbf{DEP:} FR1, FR2
-\paragraph{FR6 - One Hot Encoding}
-\textbf{ID:} FR6 \\
-\textbf{TITLE:} Some name \\
+\paragraph{FR17 - One Hot Encoding}
+\textbf{ID:} FR17 \\
+\textbf{TITLE:} One Hot Encoding \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{DESC:}   \\
 \textbf{DEP:} FR1, FR2
-\paragraph{FR6 - Load Data}
-\textbf{ID:} FR6 \\
-\textbf{TITLE:} Some name \\
+\paragraph{FR18 - Load Data}
+\textbf{ID:} FR18 \\
+\textbf{TITLE:} Load Data \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:} \blindtext \\
+\textbf{DESC:}   \\
 \textbf{DEP:} FR1, FR2
-
+\paragraph{FR19 - k-Nearest Neighbour Classifier}
+\textbf{ID:} FR19 \\
+\textbf{TITLE:} k-Nearest Neighbour Classifier \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:}   \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR20 - Multi-layer Perceptron Classifier}
+\textbf{ID:} FR20 \\
+\textbf{TITLE:} Multi-layer Perceptron Classifier \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:}   \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR21 - Negative Selection Classifier}
+\textbf{ID:} FR21 \\
+\textbf{TITLE:} Negative Selection Classifier \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:}   \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR22 - Support Vector Machine Classifier}
+\textbf{ID:} FR22 \\
+\textbf{TITLE:} Support Vector Machine Classifier \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:}   \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR23 - Stochastic Classifier Averaging}
+\textbf{ID:} FR23 \\
+\textbf{TITLE:} Stochastic Classifier Averaging \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:}   \\
+\textbf{DEP:} FR1, FR2
+\paragraph{FR24 - Feature Selection}
+\textbf{ID:} FR24 \\
+\textbf{TITLE:} Feature Selection \\
+\textbf{PRIORITY:} Low \\
+\textbf{DESC:}   \\
+\textbf{DEP:} N/A
 
 \subsubsection{Non-Functional Requirements}
-\paragraph{QR1 - Some name}
+\paragraph{QR1 - Robustness}
 \textbf{ID:} QR1 \\
-\textbf{TITLE:} Some name \\
-\textbf{DESC:} \blindtext \\
+\textbf{TITLE:} Robustness \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:}   \\
+\textbf{DEP:} N/A
+\paragraph{QR2 - Responsiveness} 
+\textbf{ID:} QR2 \\
+\textbf{TITLE:} Responsiveness \\
+\textbf{PRIORITY:} Medium \\
+\textbf{DESC:} UI should not hang during stuff.   \\
+\textbf{DEP:} N/A
+\paragraph{QR3 - Usability}
+\textbf{ID:} QR3 \\
+\textbf{TITLE:} Usability \\
+\textbf{PRIORITY:} Medium \\
+\textbf{DESC:}   \\
+\textbf{DEP:} N/A
+\paragraph{QR4 - Maintainability}
+\textbf{ID:} QR4 \\
+\textbf{TITLE:} Maintainability \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:}   \\
+\textbf{DEP:} N/A
+\paragraph{QR5 - Portability}
+\textbf{ID:} QR5 \\
+\textbf{TITLE:} Portability \\
+\textbf{PRIORITY:} Low \\
+\textbf{DESC:} Work on different systems and OS's  \\
+\textbf{DEP:} N/A
+\paragraph{QR6 - Correctness}
+\textbf{ID:} QR6  \\
+\textbf{TITLE:} Correctness \\
+\textbf{PRIORITY:} High \\
+\textbf{DESC:} Results MUST be correct.   \\
 \textbf{DEP:} N/A
 \subsection{Design}
 \subsection{Implementation}
@@ -252,10 +318,11 @@ This section of the report will provide a high level description of the function
 \subsection{Documentation}
 \subsection{Evaluation}
 
+\section{Methodology}
 \section{Evaulation of Network Intrusion Detection Algorithms}
 \subsection{k-Nearest Neighbours}
-\subsection{Artificial Neural Network}
-\subsection{Negative Selection}
+\subsection{Multi-layer Perceptron}
+\subsection{Support Vector Machine}
 \subsection{Single-Stage Classifiers Performance}
 \subsection{Two-stage Classifiers Performance}
 
@@ -292,6 +359,13 @@ This section of the report will provide a high level description of the function
 
 \section{Diary Sheets (or other project management evidence)}
 \includepdf[page=-]{figures/diaries}
+
+\newpage
+
+\section{MoSCoW Analysis}
+\input{tables/moscow}
+
+\newpage
 
 \section{Class Diagram}
 \begin{figure}[H]
