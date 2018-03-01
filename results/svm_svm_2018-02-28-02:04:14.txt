@@ -1,0 +1,187 @@
+CLASSIFIER RESULTS
+
+TRAINING SET = /home/jack/Documents/dissertation/datasets/UNSW-NB15/UNSW_NB15_training-set.csv
+
+K-Folds Cross Validation with 10 folds
+
+CLASSIFIER ONE = /home/jack/Documents/dissertation/classifiers/svm.py
+
+CLASSIFIER TWO = /home/jack/Documents/dissertation/classifiers/svm.py
+
+                precision    recall  f1-score   support
+
+      Analysis       0.06      0.00      0.00       677
+      Backdoor       0.00      0.00      0.00       583
+           DoS       0.23      0.13      0.17      4089
+      Exploits       0.57      0.83      0.68     11132
+       Fuzzers       0.53      0.45      0.49      6062
+       Generic       0.98      0.97      0.97     18871
+Reconnaissance       0.66      0.60      0.63      3496
+     Shellcode       0.39      0.24      0.30       378
+         Worms       1.00      0.05      0.09        44
+        normal       0.92      0.91      0.91     37000
+
+   avg / total       0.80      0.81      0.80     82332
+
+
+Predicted       Analysis  Backdoor   DoS  Exploits  Fuzzers  Generic  \
+Actual                                                                 
+Analysis               1         0   238       421       11        4   
+Backdoor               2         0   247       294       14        3   
+DoS                    3         0   548      3077      108      101   
+Exploits               6         2   750      9200      316      123   
+Fuzzers                4         0   496       970     2758       18   
+Generic                0         0    89       398       47    18239   
+Reconnaissance         0         0    38       723      135       12   
+Shellcode              0         0     1        52       36        3   
+Worms                  0         0     0        33        3        0   
+normal                 0         0    18       846     1754       55   
+__all__               16         2  2425     16014     5182    18558   
+
+Predicted       Reconnaissance  Shellcode  Worms  normal  __all__  
+Actual                                                             
+Analysis                     0          0      0       2      677  
+Backdoor                    13          0      0      10      583  
+DoS                         68         15      0     169     4089  
+Exploits                   142         21      0     572    11132  
+Fuzzers                    136         25      0    1655     6062  
+Generic                     19          6      0      73    18871  
+Reconnaissance            2102          0      0     486     3496  
+Shellcode                  135         92      0      59      378  
+Worms                        0          1      2       5       44  
+normal                     550         76      0   33701    37000  
+__all__                   3165        236      2   36732    82332  
+
+OrderedDict([('cm', Predicted       Analysis  Backdoor   DoS  Exploits  Fuzzers  Generic  \
+Actual                                                                 
+Analysis               1         0   238       421       11        4   
+Backdoor               2         0   247       294       14        3   
+DoS                    3         0   548      3077      108      101   
+Exploits               6         2   750      9200      316      123   
+Fuzzers                4         0   496       970     2758       18   
+Generic                0         0    89       398       47    18239   
+Reconnaissance         0         0    38       723      135       12   
+Shellcode              0         0     1        52       36        3   
+Worms                  0         0     0        33        3        0   
+normal                 0         0    18       846     1754       55   
+__all__               16         2  2425     16014     5182    18558   
+
+Predicted       Reconnaissance  Shellcode  Worms  normal  __all__  
+Actual                                                             
+Analysis                     0          0      0       2      677  
+Backdoor                    13          0      0      10      583  
+DoS                         68         15      0     169     4089  
+Exploits                   142         21      0     572    11132  
+Fuzzers                    136         25      0    1655     6062  
+Generic                     19          6      0      73    18871  
+Reconnaissance            2102          0      0     486     3496  
+Shellcode                  135         92      0      59      378  
+Worms                        0          1      2       5       44  
+normal                     550         76      0   33701    37000  
+__all__                   3165        236      2   36732    82332  ), ('overall', OrderedDict([('Accuracy', 0.8094422581742214), ('95% CI', (0.8067426141780424, 0.8121200809451382)), ('No Information Rate', 'ToDo'), ('P-Value [Acc > NIR]', 0.0), ('Kappa', 0.7330358754972094), ("Mcnemar's Test P-Value", 'ToDo')])), ('class', Classes                                 Analysis     Backdoor        DoS  \
+Population                                 82332        82332      82332   
+P: Condition positive                        677          583       4089   
+N: Condition negative                      81655        81749      78243   
+Test outcome positive                         16            2       2425   
+Test outcome negative                      82316        82330      79907   
+TP: True Positive                              1            0        548   
+TN: True Negative                          81640        81747      76366   
+FP: False Positive                            15            2       1877   
+FN: False Negative                           676          583       3541   
+TPR: (Sensitivity, hit rate, recall)   0.0014771            0   0.134018   
+TNR=SPC: (Specificity)                  0.999816     0.999976   0.976011   
+PPV: Pos Pred Value (Precision)           0.0625            0   0.225979   
+NPV: Neg Pred Value                     0.991788     0.992919   0.955686   
+FPR: False-out                         0.0001837  2.44651e-05  0.0239894   
+FDR: False Discovery Rate                 0.9375            1   0.774021   
+FNR: Miss Rate                          0.998523            1   0.865982   
+ACC: Accuracy                           0.991607     0.992895   0.934193   
+F1 score                                0.002886            0   0.168253   
+Informedness                          0.00129341 -2.44651e-05   0.110029   
+Markedness                             0.0542877  -0.00708126   0.181665   
+Prevalence                            0.00822281   0.00708109  0.0496648   
+LR+: Positive likelihood ratio           8.04087            0    5.58656   
+LR-: Negative likelihood ratio          0.998706      1.00002   0.887267   
+DOR: Diagnostic odds ratio               8.05128            0    6.29637   
+FOR: False omission rate              0.00821226   0.00708126   0.044314   
+
+Classes                                Exploits    Fuzzers     Generic  \
+Population                                82332      82332       82332   
+P: Condition positive                     11132       6062       18871   
+N: Condition negative                     71200      76270       63461   
+Test outcome positive                     16014       5182       18558   
+Test outcome negative                     66318      77150       63774   
+TP: True Positive                          9200       2758       18239   
+TN: True Negative                         64386      73846       63142   
+FP: False Positive                         6814       2424         319   
+FN: False Negative                         1932       3304         632   
+TPR: (Sensitivity, hit rate, recall)   0.826446   0.454965    0.966509   
+TNR=SPC: (Specificity)                 0.904298   0.968218    0.994973   
+PPV: Pos Pred Value (Precision)        0.574497   0.532227    0.982811   
+NPV: Neg Pred Value                    0.970868   0.957174     0.99009   
+FPR: False-out                        0.0957022  0.0317818  0.00502671   
+FDR: False Discovery Rate              0.425503   0.467773   0.0171894   
+FNR: Miss Rate                         0.173554   0.545035   0.0334905   
+ACC: Accuracy                          0.893772   0.930428    0.988449   
+F1 score                               0.677816   0.490573    0.974592   
+Informedness                           0.730744   0.423184    0.961483   
+Markedness                             0.545365   0.489401    0.972901   
+Prevalence                             0.135209  0.0736287    0.229206   
+LR+: Positive likelihood ratio           8.6356    14.3153     192.275   
+LR-: Negative likelihood ratio         0.191921   0.562925   0.0336597   
+DOR: Diagnostic odds ratio              44.9956    25.4301     5712.31   
+FOR: False omission rate              0.0291324  0.0428257  0.00990999   
+
+Classes                              Reconnaissance   Shellcode        Worms  \
+Population                                    82332       82332        82332   
+P: Condition positive                          3496         378           44   
+N: Condition negative                         78836       81954        82288   
+Test outcome positive                          3165         236            2   
+Test outcome negative                         79167       82096        82330   
+TP: True Positive                              2102          92            2   
+TN: True Negative                             77773       81810        82288   
+FP: False Positive                             1063         144            0   
+FN: False Negative                             1394         286           42   
+TPR: (Sensitivity, hit rate, recall)       0.601259    0.243386    0.0454545   
+TNR=SPC: (Specificity)                     0.986516    0.998243            1   
+PPV: Pos Pred Value (Precision)            0.664139    0.389831            1   
+NPV: Neg Pred Value                        0.982392    0.996516      0.99949   
+FPR: False-out                            0.0134837  0.00175708            0   
+FDR: False Discovery Rate                  0.335861    0.610169            0   
+FNR: Miss Rate                             0.398741    0.756614     0.954545   
+ACC: Accuracy                              0.970157    0.994777      0.99949   
+F1 score                                   0.631136    0.299674    0.0869565   
+Informedness                               0.587775    0.241629    0.0454545   
+Markedness                                 0.646531    0.386347      0.99949   
+Prevalence                                0.0424622  0.00459117  0.000534422   
+LR+: Positive likelihood ratio              44.5916     138.517          inf   
+LR-: Negative likelihood ratio             0.404191    0.757946     0.954545   
+DOR: Diagnostic odds ratio                  110.323     182.753          inf   
+FOR: False omission rate                  0.0176083  0.00348373  0.000510142   
+
+Classes                                  normal  
+Population                                82332  
+P: Condition positive                     37000  
+N: Condition negative                     45332  
+Test outcome positive                     36732  
+Test outcome negative                     45600  
+TP: True Positive                         33701  
+TN: True Negative                         42301  
+FP: False Positive                         3031  
+FN: False Negative                         3299  
+TPR: (Sensitivity, hit rate, recall)   0.910838  
+TNR=SPC: (Specificity)                 0.933138  
+PPV: Pos Pred Value (Precision)        0.917483  
+NPV: Neg Pred Value                    0.927654  
+FPR: False-out                        0.0668623  
+FDR: False Discovery Rate             0.0825166  
+FNR: Miss Rate                        0.0891622  
+ACC: Accuracy                          0.923116  
+F1 score                               0.914149  
+Informedness                           0.843976  
+Markedness                             0.845137  
+Prevalence                               0.4494  
+LR+: Positive likelihood ratio          13.6226  
+LR-: Negative likelihood ratio        0.0955509  
+DOR: Diagnostic odds ratio              142.569  
+FOR: False omission rate              0.0723465  )])
