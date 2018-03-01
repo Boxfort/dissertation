@@ -77,6 +77,8 @@ class QClfSelector(QWidget, Ui_clfSelector):
         if self.chk_two_stage.isChecked():
             testing_set_flattened = self.flatten_attacks(testing_set)
             training_set_flattened = self.flatten_attacks(training_set)
+            print(testing_set_flattened['labels'].unique())
+            print(training_set_flattened['labels'].unique())
             stage_one_result = self.classifier_one.run(training_set_flattened, testing_set_flattened)
             # Run second stage
             # Get indices of results where an attack is classified, and construct a new test dataset of only attacks for stage two

@@ -1,10 +1,10 @@
 # Fdb version 3
-["biber Dissertation"] 1519734280 "Dissertation.bcf" "Dissertation.bbl" "Dissertation" 1519739331
-  "Dissertation.bcf" 1519739329 105662 e1be6208d51f544f55e4a9f6377f164f ""
+["biber Dissertation"] 1519734280 "Dissertation.bcf" "Dissertation.bbl" "Dissertation" 1519839339
+  "Dissertation.bcf" 1519839330 105662 e1be6208d51f544f55e4a9f6377f164f ""
   "bibliography.bib" 1509965246 20194 03f339629f3ff7656753d1002875977d ""
   (generated)
   "Dissertation.bbl"
-["pdflatex"] 1519739331 "Dissertation.tex" "Dissertation.pdf" "Dissertation" 1519739331
+["pdflatex"] 1519839339 "Dissertation.tex" "Dissertation.pdf" "Dissertation" 1519839339
   "/etc/texmf/web2c/texmf.cnf" 1508853161 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1480098701 1328 c834bbb027764024c09d3d2bf908b5f0 ""
@@ -229,18 +229,21 @@
   "Dissertation-Dec.tex" 1519130579 1179 87d831280aec42b79588d95340d1bc35 ""
   "Dissertation-LR.tex" 1519297627 32549 7d5b5b544a20dc8d14df8012283cb729 ""
   "Dissertation-Title.tex" 1509965242 1028 4fcbdf09aed124a1ca315355c30ddfaa ""
-  "Dissertation.aux" 1519739329 26217 501e0e2aa33cf200dc4e5da1c98de9cf ""
+  "Dissertation.aux" 1519839330 26795 9bc17950a24e73eb2ab57fbb024cafc9 ""
   "Dissertation.bbl" 1519734281 65666 95f00c35c77c505f95a8d7739a12123c "biber Dissertation"
-  "Dissertation.lof" 1519739329 1180 214c9f3876e88fd70f864625d3747978 ""
-  "Dissertation.lot" 1519739329 298 d9ec0b97a32e6015ec7e12a44bfd37a6 ""
-  "Dissertation.run.xml" 1519739329 2448 c5ec8857e1ccea8af3071d5d547b3ce7 ""
-  "Dissertation.tex" 1519739318 12147 057b6c534ec9709afc39fef0aa5d8f9a ""
-  "Dissertation.toc" 1519739329 9950 33495ac9a9d57220a1d3df20a2a6efc2 ""
+  "Dissertation.lof" 1519839330 1575 07ecce8e00b52cd7ae5acd4c0b24e17c ""
+  "Dissertation.lot" 1519839330 298 aa4ebf3afd4f3687217421746b86ddcb ""
+  "Dissertation.run.xml" 1519839330 2448 c5ec8857e1ccea8af3071d5d547b3ce7 ""
+  "Dissertation.tex" 1519839144 13581 a53db9e043dd52045779a41828fc6614 ""
+  "Dissertation.toc" 1519839330 9943 f1e7e270a4ff01c2a3c7e1133ab8c193 ""
   "figures/Ganttchart.PNG" 1509965244 17646 8d1a7f01dce1723c2f2b146373baaeed ""
+  "figures/Mainwindow.pdf" 1519839313 56618 8551fa6d04e3e10e5fe696c79d11016d ""
   "figures/classuml.pdf" 1519296564 528894 7f1350bd9f38ffa502c0655b86fd72e0 ""
+  "figures/datasetwindow.pdf" 1519837939 70877 21c616dd5543a36b54517b635ca480b3 ""
   "figures/diaries.pdf" 1519141519 70811 262d240bd49e742e4bc3a36f21c4019c ""
   "figures/interim.pdf" 1519138264 71350 aab21b04bf6b9d2d0867a8482a604e49 ""
   "figures/ipo.pdf" 1519131207 121524 7d25c51789e4b1ae551d5415fc54a47e ""
+  "figures/mainwindowgraph.pdf" 1519839216 56216 77ce7083f8199b045770c1f4ee9824d8 ""
   "figures/neuralnetworkdiagram.tex" 1509965244 1212 fed8e70f02c4d12be54653d22cf24a03 ""
   "figures/rnndiagram.tex" 1509965246 1682 25c1d8db0923136fc062b41e16d2c868 ""
   "figures/usecase.pdf" 1519300697 96393 3fbce15dc4ca199970f63720be0bc751 ""

@@ -172,7 +172,7 @@ class DatasetWindow(QDialog, Ui_Dialog):
 
         # If a file was selected
         if filename:
-            load_cols(filename[0])
+            self.load_cols(filename[0])
 
     def load_cols(self, filename):
         try:

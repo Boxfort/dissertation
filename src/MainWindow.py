@@ -38,7 +38,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.binary_cols = []
         self.attacks = defaultdict(list)
 
-        sys.stdout = self
+        #sys.stdout = self
         self.app = app
 
         self.splitter_2.setSizes([200, 600])
@@ -307,13 +307,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             with pd.option_context('display.max_rows', None, 'display.max_columns', 100):
                 file.write(str(classification_report(expected, result[0])) + '\n\n')
-                file.write(str(self.get_attacks_stats(cm)) + '\n\n')
+                if self.attacks_filename != '':
+                    file.write(str(self.get_attacks_stats(cm)) + '\n\n')
                 file.write(str(cm) + '\n\n')
                 file.write(str(cm.stats()))
 
     def get_attacks_stats(self, cm):
 
-        columns = ['precision', 'recall', 'f1-score', 'fp-rate', 'support']
+        columns = ['precision', 'recall', 'f1-score', 'fp-rate', 'TP','TN','FP','FN', 'support']
         class_df = pd.DataFrame(columns=columns)
 
         cms = cm.stats()['class']
@@ -353,9 +354,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             f1avg = sum(f1) / len(f1)
             fpravg = sum(fpr) / len(fpr)
 
-            class_df.loc[k] = [round(pavg,2),round(ravg,2),round(f1avg,2),round(fpravg,4),sum(s)]
+            class_df.loc[k] = [round(pavg,2),round(ravg,2),round(f1avg,2),round(fpravg,4),sum(tp),sum(tn),sum(fp),sum(fn), sum(s)]
 
         return class_df
+
 
     def load_data(self):
         # Load column names

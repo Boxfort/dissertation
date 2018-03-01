@@ -373,6 +373,15 @@ INPUT figures/neuralnetworkdiagram.tex
 INPUT figures/neuralnetworkdiagram.tex
 INPUT figures/rnndiagram.tex
 INPUT figures/rnndiagram.tex
+INPUT figures/Mainwindow.pdf
+INPUT ./figures/Mainwindow.pdf
+INPUT ./figures/Mainwindow.pdf
+INPUT figures/mainwindowgraph.pdf
+INPUT ./figures/mainwindowgraph.pdf
+INPUT ./figures/mainwindowgraph.pdf
+INPUT figures/datasetwindow.pdf
+INPUT ./figures/datasetwindow.pdf
+INPUT ./figures/datasetwindow.pdf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT figures/ipo.pdf
