@@ -1,0 +1,39 @@
+%\begin{table}[h]
+%\centering
+%\caption{Test Case Descriptions}
+%\label{my-label}
+\begin{scriptsize}
+\begin{longtable}{@{}p{0.04\textwidth}p{0.17\textwidth}p{0.17\textwidth}p{0.17\textwidth}p{0.14\textwidth}p{0.15\textwidth}@{}}
+\caption{Test Case Descriptions}\\
+\label{testcasetabel}\\
+\toprule
+ID & Objective & Precondition & Steps & Test Data & Expected \newline Result \\ \midrule
+TC1 & Create new classifier tab & There is only one tab in the classifier tab box. & - Press the '+' button above the classifier tab box. & N/A & A new tab is created with the number 2 on it. \\
+TC2 & Open dataset window. & N/A & - Press the 'Select Dataset..' button in the main window. & N/A & Dataset window is shown. \\ 
+TC3 & Select training dataset. & Dataset window is open. & - Press the 'Select Training Set..' button. \newline - Select a file. & Any .csv file. & Absolute path of the file appears in the textbox below 'Training Dataset' label. \\ 
+TC4 & Deselect k-Fold Cross Validation. & Dataset window is open and k-Fold Cross Validation checkbox is checked. & - Press the k-Fold Cross Validation checkbox. & N/A & Testing dataset label, textbox and button become enabled and folds spinbox is disabled. \\ 
+TC5 & Select testing dataset. & Dataset window is open. & - Press the 'Select Testing Set...' button. \newline - Select a file. & Any valid .csv file. &  Absolute path of the file appears in the textbox below 'Training Dataset' label.\\ 
+TC6 & Select dataset fields. & Dataset window is open.  &  - Press the 'Select Dataset Fields' button. \newline - Select a file.&  A .csv file containing two columns, the second of which is one of the values: Numeric, Nominal, Binary. &  Absolute path of the file appears in the textbox below 'Dataset Fields' label, and the 'Numeric', 'Nominal', and 'Binary' list views are populated.\\ 
+TC7 & Select attack categories. & Dataset window is open. & - Press the 'Select Attack Categories' button. \newline - Select a file. &  Any valid .csv file.&  Absolute path of the file appears in the textbox below 'Attack Categories' label.\\ 
+TC8 & Display dataset info in main window. & Valid dataset files have been selected and dataset window is open. & - Press the OK button in the bottom right of the dataset window. & N/A & The dataset window closes, showing no error message and the textbox in the top left of the main window is populated with information regarding the dataset. \\ 
+TC9 & Select classifier. & N/A & - Press the 'Select Classifier' button below the 'Classifier One' label. \newline - Select a file. & Any .py file. & Absolute path of the file appears in the textbox below the 'Classifier One' label. \\ 
+TC10 & Select two stage classification. & Two stage classification checkbox is unchecked. & - Press the 'Two Stage Classification' checkbox. & N/A & The 'Second Classifier' label, textbox, and 'Select Classifier' button are enabled. \\ 
+TC11 & Select second classifier. & The 'Two Stage Classification' checkbox is checked. & - Press the 'Select Classifier' button below the 'Classifier Two' label. \newline - Select a file. & Any .py file. & Absolute path of the file appears in the textbox below the 'Classifier One' label. \\ 
+TC12 & Error message on invalid training dataset filename. & N/A & - Enter a filepath which does not exist into the textbox below the 'Training Dataset' label. \newline - Supply every other textbox with valid filepaths. \newline - Press the OK button in the bottom right of the dataset window. & N/A & An error message is shown and the window does not exit. \\ 
+TC13 & Error message on invalid testing dataset filename. & N/A & - Enter a filepath which does not exist into the textbox below the 'Testing Dataset' label. \newline - Supply every other textbox with valid filepaths. \newline - Press the OK button in the bottom right of the dataset window. & N/A & An error message is shown and the window does not exit. \\ 
+TC14 & Error message on invalid field names filename. & N/A & - Enter a filepath which does not exist into the textbox below the 'Dataset Fields' label. \newline - Supply every other textbox with valid filepaths. \newline - Press the OK button in the bottom right of the dataset window. & N/A & An error message is shown and the window does not exit. \\ 
+TC15 & Error message on invalid attack categories filename. & N/A & - Enter a filepath which does not exist into the textbox below the 'Attack Categories' label. \newline - Supply every other textbox with valid filepaths. \newline - Press the OK button in the bottom right of the dataset window. & N/A & An error message is shown and the window does not exit. \\ 
+TC16 & Error message on invalid training dataset. & Valid dataset files have been selected, except from training dataset which is invalid. A valid classifier configuration has been selected. & - Press the 'Run' button on the main window. & N/A & An error message is displayed and the program does not crash. \\ 
+TC17 & Error message on invalid testing dataset. & Valid dataset files have been selected, except from testing dataset which is invalid. A valid classifier configuration has been selected. & - Press the 'Run' button on the main window. & N/A & An error message is displayed and the program does not crash. \\ 
+TC18 & Error message on invalid field names. & Valid dataset files have been selected, except from dataset fields which do not correspond to the dataset. A valid classifier configuration has been selected. & - Press the 'Run' button on the main window. & N/A & An error message is displayed and the program does not crash. \\ 
+TC19 & Error message on invalid attack categories. & Valid dataset files have been selected, except from attack categories which do not correspond to the dataset. A valid classifier configuration has been selected. & - Press the 'Run' button on the main window. & N/A & An error message is displayed and the program does not crash. \\ 
+TC20 & Dataset window is populated with existing information. & Dataset file paths have been previously selected and the OK button pressed on the dataset window. & - Press the 'Select Dataset..' button on the main window. & N/A & The text boxes containing the paths to files should all be filled with the information which was entered previously, as well as fold count and stochastic classifier run count. \\ 
+TC21 & Error message on invalid classifier. & N/A & - Press the 'Select Classifier' button the main window. \newline - Select an invalid .py file. \newline - Press the 'Run' button. & An invalid .py file. & An error message is displayed and the program does not crash. \\ 
+TC22 & Delete classifier tab. & There is more than one tab in the classifier tab. & - Press the 'x' button next to the tab number in the classifiers tabs in any tab except the first. & N/A & The tab in which the 'x' button was pressed should close. \\ 
+TC23 & Show results for all classifiers run. & Valid dataset has been selected and valid classifier configuration has been selected. & - Press the 'Run' button. & N/A & A tab should be created on the main tab container for each classifier configuration run, and populated with classification information. \\ 
+TC24 & Show graph of classification results. & Classifiers have been run and results retrieved. & - Select the 'Graphs' tab on the main window. \newline - Select a class from the drop down in the 'Graphs' tab. \newline - Press the 'Show' button. & N/A & A graph is shown which has a series for each classifier configuration specified. \\ 
+
+ \bottomrule
+\end{longtable}
+\end{scriptsize}
+%\end{table}
