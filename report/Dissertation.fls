@@ -583,6 +583,8 @@ INPUT plots/f1score.tex
 INPUT plots/f1score.tex
 INPUT plots/precision.tex
 INPUT plots/precision.tex
+INPUT plots/precisionUNSW.tex
+INPUT plots/precisionUNSW.tex
 INPUT Dissertation.aux
 INPUT Dissertation.run.xml
 OUTPUT Dissertation.run.xml

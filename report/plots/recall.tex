@@ -2,7 +2,7 @@
 \begin{adjustbox}{height=0.64\paperheight, center=\textwidth}
 \begin{tikzpicture}
 \begin{axis}[
-    xbar,
+    xbar stacked,
     enlargelimits=0.05,
     legend pos=outer north east,
     ylabel={Classifier},
@@ -10,8 +10,10 @@
     y label style={at={(axis description cs:-0.1,.5)},anchor=south},
     symbolic y coords={k-NN,MLP,SVM,k-NN/k-NN,k-NN/MLP,k-NN/SVM,MLP/k-NN,MLP/MLP,MLP/SVM,SVM/k-NN,SVM/MLP,SVM/SVM},
     ytick=data,
-    nodes near coords,
-    nodes near coords align={horizontal},
+    %nodes near coords,
+    %nodes near coords align={horizontal},
+    bar width = 1cm,
+    xmax = 3.3,
     width=1.2\textwidth,
     height=0.8\paperheight
     ]
@@ -28,7 +30,7 @@
 		          (0.89,MLP/k-NN) (0.94,MLP/MLP) (0.92,MLP/SVM) 
 		          (0.93,SVM/k-NN) (0.98,SVM/MLP) (0.93,SVM/SVM)};
 
-    \addplot coordinates {(0.88,k-NN) (0.98,MLP) (0.95,SVM) 
+    \addplot [point meta = x, nodes near coords, nodes near coords align={anchor=west}] coordinates {(0.88,k-NN) (0.98,MLP) (0.95,SVM) 
 	                  (0.88,k-NN/k-NN) (0.98,k-NN/MLP) (0.97,k-NN/SVM) 
 		          (0.88,MLP/k-NN) (0.98,MLP/MLP) (0.97,MLP/SVM) 
 		          (0.88,SVM/k-NN) (0.98,SVM/MLP) (0.97,SVM/SVM)};
