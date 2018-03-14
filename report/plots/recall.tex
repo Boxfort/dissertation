@@ -1,5 +1,5 @@
 \begin{figure}[H]
-\begin{adjustbox}{height=0.64\paperheight, center=\textwidth}
+\begin{adjustbox}{width=\textwidth, center=\textwidth}
 \begin{tikzpicture}
 \begin{axis}[
     xbar stacked,
@@ -12,10 +12,10 @@
     ytick=data,
     %nodes near coords,
     %nodes near coords align={horizontal},
-    bar width = 1cm,
+    bar width = 0.5cm,
     xmax = 3.3,
-    width=1.2\textwidth,
-    height=0.8\paperheight
+    y dir = reverse,
+    width=1.0\textwidth,
     ]
     \addplot coordinates {(0.18,k-NN) (0.34,MLP) (0.36,SVM) 
 	                  (0.18,k-NN/k-NN) (0.19,k-NN/MLP) (0.21,k-NN/SVM) 

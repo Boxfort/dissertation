@@ -1,0 +1,23 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+\begin{table}[H]
+\centering
+\caption{NSL-KDD Classifiers f1-Score Table}
+\label{nslf1scoretable}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+ & dos & u2r & r2l & probe & normal \\ \midrule
+K-NN & 0.92 & 0.18 & 0.63 & 0.89 & 0.99 \\
+K-NN/K-NN & 0.9 & 0.18 & 0.51 & 0.89 & 0.99 \\
+K-NN/MLP & 0.94 & 0.23 & 0.54 & 0.98 & 0.99 \\
+K-NN/SVM & 0.91 & 0.29 & 0.58 & 0.96 & 0.99 \\
+MLP & 0.95 & 0.36 & 0.72 & 0.98 & 0.99 \\
+MLP/K-NN & 0.89 & 0.24 & 0.51 & 0.89 & 0.99 \\
+MLP/MLP & 0.94 & 0.46 & 0.67 & 0.98 & 0.99 \\
+MLP/SVM & 0.93 & 0.45 & 0.68 & 0.97 & 0.99 \\
+SVM & 0.93 & 0.45 & 0.69 & 0.97 & 0.99 \\
+SVM/K-NN & 0.91 & 0.22 & 0.48 & 0.89 & 0.99 \\
+SVM/MLP & 0.96 & 0.43 & 0.54 & 0.98 & 0.99 \\
+SVM/SVM & 0.93 & 0.45 & 0.69 & 0.96 & 0.99 \\ \bottomrule
+\end{tabular}
+\end{table}

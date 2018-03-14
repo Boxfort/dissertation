@@ -1,0 +1,52 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+\begin{longtable}{@{}p{0.22\textwidth}p{0.1\textwidth}p{0.63\textwidth}@{}}
+\caption{UNSW-NB15 Fields}\\
+\label{unswfieldstable}\\
+\toprule
+Field & Type & Description \\ \midrule
+dur & Float & Record total duration \\
+proto & nominal & Transaction protocol \\
+service & nominal & http, ftp, smtp, ssh, dns, ftp-data ,irc  and (-) if not much used service \\
+state & nominal & Indicates to the state and its dependent protocol, e.g. ACC, CLO, CON, ECO, ECR, FIN, INT, MAS, PAR, REQ, RST, TST, TXD, URH, URN, and (-) (if not used state) \\
+spkts & integer & Source to destination packet count \\
+dpkts & integer & Destination to source packet count \\
+sbytes & Integer & Source to destination transaction bytes \\
+dbytes & Integer & Destination to source transaction bytes \\
+rate & Float & Connection rate \\
+sttl & Integer & Source to destination time to live value \\
+dttl & Integer & Destination to source time to live value \\
+sload & Float & Source bits per second \\
+dload & Float & Destination bits per second \\
+sloss & Integer & Source packets retransmitted or dropped \\
+dloss & Integer & Destination packets retransmitted or dropped \\
+Sintpkt & Float & Source interpacket arrival time (mSec) \\
+Dintpkt & Float & Destination interpacket arrival time (mSec) \\
+sjit & Float & Source jitter (mSec) \\
+djit & Float & Destination jitter (mSec) \\
+swin & integer & Source TCP window advertisement value \\
+stcpb & integer & Source TCP base sequence number \\
+dtcpb & integer & Destination TCP base sequence number \\
+dwin & integer & Destination TCP window advertisement value \\
+tcprtt & Float & TCP connection setup round-trip time, the sum of �synack� and �ackdat�. \\
+synack & Float & TCP connection setup time, the time between the SYN and the SYN\_ACK packets. \\
+ackdat & Float & TCP connection setup time, the time between the SYN\_ACK and the ACK packets. \\
+smean & integer & Mean of the ?ow packet size transmitted by the src \\
+dmean & integer & Mean of the ?ow packet size transmitted by the dst \\
+trans\_depth & integer & Represents the pipelined depth into the connection of http request/response transaction \\
+res\_bdy\_len & integer & Actual uncompressed content size of the data transferred from the server�s http service. \\
+ct\_srv\_src & integer & No. of connections that contain the same service (14) and source address (1) in 100 connections according to the last time (26). \\
+ct\_state\_ttl & Integer & No. for each state (6) according to specific range of values for source/destination time to live (10) (11). \\
+ct\_dst\_ltm & integer & No. of connections of the same destination address (3) in 100 connections according to the last time (26). \\
+ct\_src\_dport\_ltm & integer & No of connections of the same source address (1) and the destination port (4) in 100 connections according to the last time (26). \\
+ct\_dst\_sport\_ltm & integer & No of connections of the same destination address (3) and the source port (2) in 100 connections according to the last time (26). \\
+ct\_dst\_src\_ltm & integer & No of connections of the same source (1) and the destination (3) address in in 100 connections according to the last time (26). \\
+is\_ftp\_login & binary & If the ftp session is accessed by user and password then 1 else 0. \\
+ct\_ftp\_cmd & integer & No of flows that has a command in ftp session. \\
+ct\_flw\_http\_mthd & Integer & No. of flows that has methods such as Get and Post in http service. \\
+ct\_src\_ltm & integer & No. of connections of the same source address (1) in 100 connections according to the last time (26). \\
+ct\_srv\_dst & integer & No. of connections that contain the same service (14) and destination address (3) in 100 connections according to the last time (26). \\
+is\_sm\_ips\_ports & binary & If source (1) and destination (3)IP addresses equal and port numbers (2)(4)  equal then, this variable takes value 1 else 0 \\
+attack\_cat & nominal & The name of each attack category. In this data set , nine categories e.g. Fuzzers, Analysis, Backdoors, DoS Exploits, Generic, Reconnaissance, Shellcode and Worms \\
+labels & binary & 0 for normal and 1 for attack records \\ \bottomrule
+\end{longtable}

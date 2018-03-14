@@ -1,9 +1,9 @@
 \begin{figure}[H]
-\begin{adjustbox}{height=0.64\paperheight, center=\textwidth}
+\begin{adjustbox}{width=1.0\textwidth, center=\textwidth}
 \begin{tikzpicture}
 \begin{axis}[
     xbar stacked,
-    enlargelimits=0.05,
+    enlarge x limits=0.00,
     legend pos=outer north east,
     ylabel={Classifier},
     xlabel={Precision},
@@ -13,10 +13,10 @@
     %nodes near coords,
     %nodes near coords align={horizontal},
     point meta=rawx,
-    bar width = 1cm,
+    bar width = 0.5cm,
+    y dir = reverse,
     xmax = 6,
-    width=1.2\textwidth,
-    height=0.8\paperheight
+    width=1.0\textwidth,
     ]
     % Analysis
     \addplot coordinates {(0.10,k-NN) (0.13,MLP) (0.06,SVM) 
@@ -70,7 +70,7 @@
 		          (0.92,SVM/k-NN) (0.92,SVM/MLP) (0.92,SVM/SVM)};
 
 
-        \legend{Analysis, Backdoor, DoS, Exploits, Fuzzers, Generic, Reconnaissance, Shellcode, Worms, Normal}
+        \legend{Analysis, Backdoor, DoS, Exploits, Fuzzers, Generic, Recon, Shellcode, Worms, Normal}
 \end{axis}
 \end{tikzpicture}
 \end{adjustbox}

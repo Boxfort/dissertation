@@ -112,9 +112,62 @@ Insert acknowledgements here
 
 \section{Introduction}
 \subsection{Background}
+	For any major company or business security is of the utmost concern, with a study finding that in the UK in 2016 an estimated 46\% of all businesses experienced a cyber security breach or attack \cite{securitysurvey2017}. These breaches are particularly dangerous as even if a network is compromised a single time a company can have its entire database destroyed, or customer data leaked, leading to legal repercussions. When it comes to preventing these intrusions firewalls alone are insufficient for anything but the most rudimentary of attacks and so a Network Intrusion Detection System (NIDS) is employed to further bolster the security of the network. Traditional NIDS are placed strategically on a network to monitor all incoming traffic. It analyses the passing traffic and then compares it to a large library of known attacks and if it matches will flag the traffic. While these systems do provide some degree of protection they are unable to detect novel attacks or zero-day vulnerabilities and so some other method of identifying suspicious traffic is required. Introducing machine learning to a NIDS is one way of attempting to solve this problem first proposed by \cite{denning1987intrusion}. In using machine learning to detect network intrusions the system can be trained to recognise patterns of intrusive behaviour, allowing it to detect attacks which it may not have seen before but have characteristics of similar attacks. Machine learning also allows systems to be easily retrained to accommodate for new data on attacks as it emerges. There are two main categories of NIDS: misuse detection, and anomaly detection; both of which have their own advantages and disadvantages. This literary review aims to discuss the different kinds of network intrusion detection systems, the algorithms that these systems employ, and the gap in papers which directly compare the performance of single stage and two-stage classifiers in the domain of network intrusion detection.
+		
+\subsection{Research Questions}
+	For this honours thesis there are a number of research questions which have been collated, and an attempt made to answer them. These questions in which I am interested in answering are the following: 
+		
+		\begin{itemize}
+			\item What is the rate of accurate detection and classification of network intrusions by single stage machine learning classification methods?
+			\item What is the rate of accurate detection and classification of network intrusions by two stage machine learning classification methods?
+			\item Which method of classification i.e. single stage or two stage, is more accurate and by what amount?
+			\item Which configuration of algorithms in the two stage classifier produces the most accurate results?
+		\end{itemize}
+		
+In this context, accuracy is defined as a high number of true positives and true negatives, and a low number of false positives and false negatives when classifying network intrusions. \\
+
+	First research will be completed in order to gain an understanding of the history and current state of machine learning for network intrusion detection, through reading relevant research papers and articles. Next the individual algorithms and methods which go into detecting network intrusions will be researched and understood. This knowledge will then be put into developing a piece of software capable of running these algorithms and extracting metrics which will be used to answer these research questions.
+
 \subsection{Aims and Objectives}
+	The aim of this project is to create a piece of software which is capable of running both single and two stage classification algorithm arrangements on a number of datasets and displaying the results in a clear manner. In doing so this will assist in answering the research questions put forward.
+
+	These research questions, specifically whether or not two stage classification provides more accurate results than single stage classification will be answered by meeting the following objectives:
+\begin{itemize}
+\item{Perform a review of existing literature.}
+\item{Perform a review of existing software.}
+\item{Select appropriate machine learning classification algorithms.}
+\item{Select appropriate datasets for use in network intrusion detection.}
+\item{Implementation of software to assist in comparison of classification algorithms.}
+\item{Evaluation of software with regards to specification and other software.}
+\item{Evaluation of classification algorithm performance.}
+\end{itemize}
+
 \subsection{Scope and Limitations}
+	\subsubsection{Deliverables}
+	The list of deliverables for this project are the following:
+	\begin{itemize}
+	\item{A review of literature on related topics and a report detailing the findings of such reports.}
+	\item{A review of existing software which performs a similar role to the proposed software.}
+	\item{A software requirement specification.}
+	\item{A description of all testing which will be carried out.}
+	\item{A report detailing the results of each classification algorithm and configuration of two stage classification algorithms}
+	\item{An evaluation of the implemented software with regards to how well it meets the proposed specification, and how it compares to existing software.}
+	\end{itemize}
+	\subsubsection{Boundaries}
+	There exists a large number of different classification algorithms and methods to perform network intrusion detection, therefore this project must focus on a few specifically. This project will focus on performing misuse detection rather than anomaly detection, and will limit the classification algorithms used to: k-Nearest Neighbour, Multi-layer Perceptron, and a Support Vector Machine.
+	\subsubsection{Constraints}
+	The largest constraint facing this project is that of time. There is a large amount of literature to be reviewed, and also a considerable amount of results which must be collected and results drawn from in a short amount of time.
+	Time
+	Knowledge
+	Misuse detection only
 \subsection{Structure of this Dissertation}
+This dissertation can be divided into three main parts. Part one is literature review and past projects within the field, and existing software. Second part details the planning design and implementation of the software and the third consists of an analysis and evaluation of results and software.
+
+part one reviews the literature on the subject and examines results of past projects and individual algorithms, also reviews existing software for machine learning comparison.
+
+part two describes the detailed software requirements and specific functionality which should be implemented. Also includes a description of technologies and libraries used, and a testing plan. 
+
+part three is an evaluation of the final software product against its design. Analysis and evaluation of classifier results. also has an evaluation of the overall project how well it met its aims and suggestions for future work.
 
 \input{Dissertation-LR}
 
@@ -169,190 +222,62 @@ In order to run the software the following requirements must be met:
 \end{figure}
 
 \subsubsection{Functional Requirements}
-\paragraph{FR1 - Select Classifiers}
-\textbf{ID:} FR1 \\
-\textbf{TITLE:} Select Classifiers \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} N/A
-\paragraph{FR2 - Two Stage Classification}
-\textbf{ID:} FR2 \\
-\textbf{TITLE:} Two Stage Classification \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} N/A
-\paragraph{FR3 - Run Classifiers}
-\textbf{ID:} FR3 \\
-\textbf{TITLE:} Run Classifiers \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} FR1, FR2
-\paragraph{FR4 - Create New Classifier}
-\textbf{ID:} FR4 \\
-\textbf{TITLE:} Create New Classifier \\
-\textbf{PRIORITY:} Low \\
-\textbf{DESC:}   \\
-\textbf{DEP:} N/A
-\paragraph{FR5 - Debug Output}
-\textbf{ID:} FR5 \\
-\textbf{TITLE:} Debug Output \\
-\textbf{PRIORITY:} Medium \\
-\textbf{DESC:}   \\
-\textbf{DEP:} N/A
-\paragraph{FR6 - Multiple Classifier Configurations}
-\textbf{ID:} FR6 \\
-\textbf{TITLE:} Multiple Classifier Configurations \\
-\textbf{PRIORITY:} Medium \\
-\textbf{DESC:}   \\
-\textbf{DEP:} FR1, FR2
-\paragraph{FR7 - Aggregate Results by Attack}
-\textbf{ID:} FR7 \\
-\textbf{TITLE:} Aggregate Results by Attack \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} FR3
-\paragraph{FR8 - Write Results to File}
-\textbf{ID:} FR8 \\
-\textbf{TITLE:} Write Results to File \\
-\textbf{PRIORITY:} Medium \\
-\textbf{DESC:}   \\
-\textbf{DEP:} N/A
-\paragraph{FR9 - Get Classification Results}
-\textbf{ID:} FR9 \\
-\textbf{TITLE:} Get Classification Results \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} FR3
-\paragraph{FR10 - Graph Results}
-\textbf{ID:} FR10 \\
-\textbf{TITLE:} Graph Results \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} FR9
-\paragraph{FR11 - Select Training Dataset}
-\textbf{ID:} FR11 \\
-\textbf{TITLE:} Select Training Dataset \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} N/A
-\paragraph{FR12 - Select Testing Dataset}
-\textbf{ID:} FR12 \\
-\textbf{TITLE:} Select Testing Dataset \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} N/A
-\paragraph{FR13 - k-Fold Cross Validation}
-\textbf{ID:} FR13 \\
-\textbf{TITLE:} k-Fold Cross Validation \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} FR11
-\paragraph{FR14 - Select Dataset Column Labels}
-\textbf{ID:} FR14 \\
-\textbf{TITLE:} Select Dataset Column Labels \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} N/A
-\paragraph{FR15 - Select Dataset Attack Categories}
-\textbf{ID:} FR15 \\
-\textbf{TITLE:} Select Dataset Attack Categories \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} N/A
-\paragraph{FR16 - Categorise Dataset Fields}
-\textbf{ID:} FR16 \\
-\textbf{TITLE:} Categorise Dataset Fields \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} FR14
-\paragraph{FR17 - One Hot Encoding}
-\textbf{ID:} FR17 \\
-\textbf{TITLE:} One Hot Encoding \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}  \\
-\textbf{DEP:} FR18
-\paragraph{FR18 - Load Data}
-\textbf{ID:} FR18 \\
-\textbf{TITLE:} Load Data \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} FR11, FR12, FR14, FR15
-\paragraph{FR19 - k-Nearest Neighbour Classifier}
-\textbf{ID:} FR19 \\
-\textbf{TITLE:} k-Nearest Neighbour Classifier \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} N/A
-\paragraph{FR20 - Multi-layer Perceptron Classifier}
-\textbf{ID:} FR20 \\
-\textbf{TITLE:} Multi-layer Perceptron Classifier \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} N/A
-\paragraph{FR21 - Negative Selection Classifier}
-\textbf{ID:} FR21 \\
-\textbf{TITLE:} Negative Selection Classifier \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} N/A
-\paragraph{FR22 - Support Vector Machine Classifier}
-\textbf{ID:} FR22 \\
-\textbf{TITLE:} Support Vector Machine Classifier \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} N/A
-\paragraph{FR23 - Stochastic Classifier Averaging}
-\textbf{ID:} FR23 \\
-\textbf{TITLE:} Stochastic Classifier Averaging \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} FR1, FR2
-\paragraph{FR24 - Feature Selection}
-\textbf{ID:} FR24 \\
-\textbf{TITLE:} Feature Selection \\
-\textbf{PRIORITY:} Low \\
-\textbf{DESC:}   \\
-\textbf{DEP:} N/A
-
-\subsubsection{Non-Functional Requirements}
-\paragraph{QR1 - Robustness}
-\textbf{ID:} QR1 \\
-\textbf{TITLE:} Robustness \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\paragraph{QR2 - Responsiveness} 
-\textbf{ID:} QR2 \\
-\textbf{TITLE:} Responsiveness \\
-\textbf{PRIORITY:} Medium \\
-\textbf{DESC:} UI should not hang during stuff.   \\
-\paragraph{QR3 - Usability}
-\textbf{ID:} QR3 \\
-\textbf{TITLE:} Usability \\
-\textbf{PRIORITY:} Medium \\
-\textbf{DESC:}   \\
-\paragraph{QR4 - Maintainability}
-\textbf{ID:} QR4 \\
-\textbf{TITLE:} Maintainability \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\paragraph{QR5 - Portability}
-\textbf{ID:} QR5 \\
-\textbf{TITLE:} Portability \\
-\textbf{PRIORITY:} Low \\
-\textbf{DESC:} Work on different systems and OS's  \\
-\paragraph{QR6 - Correctness}
-\textbf{ID:} QR6  \\
-\textbf{TITLE:} Correctness \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:} Results MUST be correct.   \\
-\subsection{Design}
-\subsection{Implementation}
+\input{reqspec}
 \subsection{Testing}
+Paragraph about testing, unit testing and why
 \input{tables/testcase.tex}
-\subsection{Documentation}
+\subsection{Implementation}
+Talk about class diagram and use case diagram
+Describe the function of each class
+
+\subsubsection{PyQt}
+What is PyQT
+Why PyQT
+	Cross platform
+	not java so allows dev in all same language
+	Extensive documentation
+
+\subsubsection{Scikit-Learn}
+What is scikit
+Why
+	Pre implemented algorithms ensure correctness and save time
+	Provides methods for scaling data
+	Provides methods for generating Confusion matrices and producing classification reports quickly.
+
+\subsubsection{Pandas}
+What is pandas
+Why
+	Its the best
+
+\subsubsection{Matplotlib}
+What is matplot
+why
+	works with pyqt
+	powerfull
+	lots of usefull info online
+
 \subsection{Evaluation}
+Evaluate the software
+How many of the function requirements were met
+How many of the non functional requirements were met
+Is the user interface like it was designed
+How does it compare to existing software
 
 \section{Methodology}
+\subsection{Datasets}
+\subsubsection{NSL-KDD}
+\subsubsection{UNSW-NB15}
+\input{tables/unswdescription}
+\subsection{Data Preprocessing}
+\subsection{Two Stage Classification}
+\subsection{Metrics}
+\subsubsection{Precision}
+\[ precision = \frac{tp}{tp+fp} \]
+\subsubsection{Recall}
+\[ recall = \frac{tp}{tp+fn} \]
+\subsubsection{f1-Score}
+\[ f_1 = \frac{2tp}{2tp+fp+fn} \]
+
 \section{Evaulation of Network Intrusion Detection Algorithms}
 \subsection{k-Nearest Neighbours}
 \subsection{Multi-layer Perceptron}
@@ -361,9 +286,16 @@ In order to run the software the following requirements must be met:
 \subsection{Two-stage Classifiers Performance}
 
 \section{Conclusion}
+\subsection{Research Questions}
+\subsubsection*{What is the rate of accurate detection and classification of network intrusions by single stage machine learning classification methods?}
+\subsubsection*{What is the rate of accurate detection and classification of network intrusions by two stage machine learning classification methods?}
+\subsubsection*{Which method of classification i.e. single stage or two stage, is more accurate and by what amount?}
+\subsubsection*{Which configuration of algorithms in the two stage classifier produces the most accurate results?}
+
 \subsection{Has the Project met it's Aims and Objectives?}
+\subsection{Reflection}
+\subsection{Learning Outcomes}
 \subsection{Further Research}
-\subsection{Personal Statement}
 
 \newpage
 	\printbibliography
@@ -417,26 +349,44 @@ In order to run the software the following requirements must be met:
 \label{usecase}
 \end{figure}
 
+\section{NSL-KDD Precision}
+\input{tables/nslprecision}
+\input{plots/precision}
+
+\newpage
+
 
 \section{NSL-KDD Recall}
+\input{tables/nslrecall}
 \input{plots/recall}
 
 \newpage
 
 \section{NSL-KDD F1-Score}
+\input{tables/nslf1score}
 \input{plots/f1score}
 
 \newpage
 
-\section{NSL-KDD Precision}
-\input{plots/precision}
-
-\newpage
 
 \section{UNSW-NB15 Precision}
+\input{tables/UNSWpecision}
 \input{plots/precisionUNSW}
 
 \newpage
+
+\section{UNSW-NB15 Recall}
+\input{tables/UNSWrecall}
+\input{plots/recallUNSW}
+
+\newpage
+
+\section{UNSW-NB15 f1-Score}
+\input{tables/UNSWf1score.tex}
+\input{plots/f1scoreUNSW}
+
+\newpage
+
 
 \end{appendices}
 
