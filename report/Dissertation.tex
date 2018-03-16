@@ -226,48 +226,63 @@ In order to run the software the following requirements must be met:
 \subsection{Testing}
 Paragraph about testing, unit testing and why
 \input{tables/testcase.tex}
-\subsection{Implementation}
-Talk about class diagram and use case diagram
-Describe the function of each class
 
+\section{Methodology}
+\subsection{Implementation}
 \subsubsection{PyQt}
-What is PyQT
+What is PyQT \parencite{pyqt5}
 Why PyQT
 	Cross platform
 	not java so allows dev in all same language
 	Extensive documentation
 
 \subsubsection{Scikit-Learn}
-What is scikit
+What is scikit \parencite{scikit}
 Why
 	Pre implemented algorithms ensure correctness and save time
 	Provides methods for scaling data
 	Provides methods for generating Confusion matrices and producing classification reports quickly.
 
 \subsubsection{Pandas}
-What is pandas
+hat is pandas \parencite{pandas}
 Why
 	Its the best
 
 \subsubsection{Matplotlib}
-What is matplot
+What is matplot \parencite{matplotlib}
 why
 	works with pyqt
 	powerfull
 	lots of usefull info online
-
-\subsection{Evaluation}
-Evaluate the software
-How many of the function requirements were met
-How many of the non functional requirements were met
-Is the user interface like it was designed
-How does it compare to existing software
-
-\section{Methodology}
+\subsubsection{Software}
+The software which was written is described with a class diagram, seen in Appendix \ref{classdiagram} specifying each distinct class created along with its methods, properties and relationship with other classes, and with a use case diagram showing the general function of the software from the perspective of the user, as seen in Appendix \ref{usecase}. A description of all of the software classes functions is as follows.
+\paragraph{MainWindow}
+The MainWindow class is the class which is responsible for all of the logic behind the user interface of the main window. It inherits the QMainWindow class; a PyQt type which provides a main application window, and from Ui\_MainWindow, which provides the specification and initialisation of the user interface. The classes main function is handling user input, creating new user interface elements and windows, and allowing the user to view classification results.
+\paragraph{DatasetWindow}
+The DatasetWindow class is primarily responsible for defining what dataset the user wishes to use, to specify the data type of each column of said dataset. The window also allows users to choose between a testing dataset or k-fold cross validation and specify a number of folds, and to specify the number of runs a stochastic classifier should be run for. This class inherits from QDialog which provides the class with buttons allowing the user to accept or cancel the information they have input. It also inherits from Ui\_DatasetWindow which like Ui\_MainWindow provides the user interface for the window.
+\paragraph{UIObject}
+UIObject is an interface which is used by other classes which implement a user interface for some window. It is required as when a user interface is inherited by a window class a number of methods are expected to be available in order to create and render the user interface at runtime.
+\paragraph{Classifier}
+Classifier is an interface which any classification algorithm which is to be used must implement. It has one property, 'stochastic', which determines whether or not the classifier must be run multiple times, and a 'run' method which carries out the classification and returns the results.
+\paragraph{QClfSelector}
+QClfSelector is a class which inherits from QWidget, the base class of all Qt user interface objects, and who's main function is to act as a widget that can be included within MainWindow multiple times. It provides the functionality of accepting user classifier arrangements and then fetching and running those classifiers, using whatever method has been specified by the user, be it k-fold cross validation or using a test dataset, or running stochastic classifiers multiple times and gathering the results.
+\paragraph{QBarChart}
+QBarChart is a class which inherits from 'FigureCanvas', a Matplotlib class which interfaces with PyQt in order to create widget which can be displayed within a PyQt application. The class accepts a set of classification results and then constructs a Matplotlib chart which can be displayed in the MainWindow class for the user to view.
+\paragraph{ErrorMessage}
+The ErrorMessage Class is the class responsible for displaying an error message popup to users, in a standard manner and encapsulates boiler plate code required for creating and showing a message box. The class inherits from QMessageBox which is a PyQt class provides a modal dialog for informing the user.
 \subsection{Datasets}
 \subsubsection{NSL-KDD}
+\begin{itemize}
+\item{Denial of Service (DoS) - Attacker tries to preventlegitimate users from using a service.}
+\item{Remote to Local (r2l) - Attacker does not have an account on the victim machine, hence tries to gain access.}
+\item{User to Root (u2r) - Attacker has local access to the victim machine and tries to gain super user privileges.}
+\item{Probe - Attacker tries to gain information about the target host.}
+\end{itemize}
+•Remote to Local (r2l):.•User to Root (u2r):•Probe:
+\input{tables/kddattacks}
+\input{tables/kddbroad}
 \subsubsection{UNSW-NB15}
-\input{tables/unswdescription}
+\input{tables/unswattacks}
 \subsection{Data Preprocessing}
 \subsection{Two Stage Classification}
 \subsection{Metrics}
@@ -278,7 +293,13 @@ How does it compare to existing software
 \subsubsection{f1-Score}
 \[ f_1 = \frac{2tp}{2tp+fp+fn} \]
 
-\section{Evaulation of Network Intrusion Detection Algorithms}
+\section{Evaulation}
+\subsection{Software}
+Evaluate the software
+How many of the function requirements were met
+How many of the non functional requirements were met
+Is the user interface like it was designed
+How does it compare to existing software
 \subsection{k-Nearest Neighbours}
 \subsection{Multi-layer Perceptron}
 \subsection{Support Vector Machine}
@@ -314,6 +335,7 @@ How does it compare to existing software
 	\centering
 	\includegraphics[width=1.11\textwidth,angle=90]{figures/Ganttchart}
 	\caption{Project Timeline Gantt Chart}
+	\label{gantt}
 \end{figure}
 
 \end{subappendices}
@@ -333,20 +355,18 @@ How does it compare to existing software
 
 \newpage
 
-\section{Class Diagram}
+\section{Class Diagram} \label{classdiagram}
 \begin{figure}[H]
-	\makebox[\textwidth][c]{\includegraphics[width=1.4\textwidth, center]{figures/classuml.pdf}}
+	\makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth, center]{figures/classuml.pdf}}
 \caption{UML Class Diagram}
-\label{classdiagram}
 \end{figure}
 
 \newpage
 
-\section{Use Case Diagram}
+\section{Use Case Diagram} \label{usecase}
 \begin{figure}[H]
 	\makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth, center]{figures/usecase.pdf}}
 \caption{UML Use Case Diagram}
-\label{usecase}
 \end{figure}
 
 \section{NSL-KDD Precision}

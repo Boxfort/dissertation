@@ -390,8 +390,12 @@ INPUT reqspec.tex
 INPUT reqspec.tex
 INPUT tables/testcase.tex
 INPUT tables/testcase.tex
-INPUT tables/unswdescription.tex
-INPUT tables/unswdescription.tex
+INPUT tables/kddattacks.tex
+INPUT tables/kddattacks.tex
+INPUT tables/kddbroad.tex
+INPUT tables/kddbroad.tex
+INPUT tables/unswattacks.tex
+INPUT tables/unswattacks.tex
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT figures/ipo.pdf
