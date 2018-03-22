@@ -230,23 +230,17 @@ Paragraph about testing, unit testing and why
 \section{Methodology}
 \subsection{Implementation}
 \subsubsection{PyQt}
-What is PyQT \parencite{pyqt5}
-Why PyQT
-	Cross platform
-	not java so allows dev in all same language
-	Extensive documentation
+PyQt is a set of Python bindings for the Qt application framework, which facilitates the writing of cross platform Qt applications which are capable of running on Windows, Mac, and Linux \parencite{pyqt5}.
+
+PyQt was chosen as the framework of choice for creating the application GUI over other frameworks such as Java Swing for a number of reasons, the greatest of which being that it would allow all development to be carried out in Python as the libraries which were already selected for machine learning were written in Python. Writing the entire project in one language comes with extra benefits such as being able to have a single development environment, simplifying application design as there is no need for interfaces between each language, and having the ability to write all unit tests in a single language. PyQt also has powerful tools which aid in the design and development of user interfaces in the form of Qt Creator, which increased the speed of development substantially, as well as an extensive set of online documentation.
 
 \subsubsection{Scikit-Learn}
-What is scikit \parencite{scikit}
-Why
-	Pre implemented algorithms ensure correctness and save time
-	Provides methods for scaling data
-	Provides methods for generating Confusion matrices and producing classification reports quickly.
+Scikit-Learn is a Python library consisting of a set of tools for easily performing machine learning and data analysis \parencite{scikit}. The library consists of a large number or pre-implemented classification, and preprocessing algorithms, as well as others such as clustering, regression etc. These pre-implemented algorithms allowed for a much faster development cycle and also guaranteed the correctness of all algorithms which were used, again speeding up development time by removing the need for testing individual algorithms. Sci-kit also provides some basic preprocessing in the form of scaling of inputs so that they are all within a normalised range, as well as some reporting which can be used to quickly extract a lot of information in the form of confusion matrices and classification reports from the results.
+	
+	Some other libraries were considered for implementing the machine learning algorithms such as Tensorflow due to it's highly configurable nature and high performance due to having GPU acceleration, however the implementations of similar algorithms are considerably more complex using Tensorflow, and as time was a major factor in this project Scikit-learn was the preferable library. One final factor which influenced this choice is Scikit-learn's interoperability with Matplotlib allowing for graphs to be created quickly and easily.
 
 \subsubsection{Pandas}
-hat is pandas \parencite{pandas}
-Why
-	Its the best
+Pandas is a library which provides high performance, simple data structures and data analysis tools for Python \parencite{pandas}. Pandas provides to the programmer the DataFrame object type which allows for highly complex data manipulation to be carried out easily, such as data alignment and handling of missing data, dataset slicing, indexing and subsetting, merging and joining of multiple sets of data, etc. and is highly optimised for speed as the critical code within the library is written in C, allowing for much higher performance when compared to Python. This means that when working with very large datasets, such as the NSL-KDD and UNSW-NB15 which both have well over 100,000 rows of data, manipulations can be carried out quickly. The documentation for Pandas is also extensive and there exists a large online community of users which is indispensable during the learning of and development within the library.
 
 \subsubsection{Matplotlib}
 What is matplot \parencite{matplotlib}
@@ -272,15 +266,19 @@ QBarChart is a class which inherits from 'FigureCanvas', a Matplotlib class whic
 The ErrorMessage Class is the class responsible for displaying an error message popup to users, in a standard manner and encapsulates boiler plate code required for creating and showing a message box. The class inherits from QMessageBox which is a PyQt class provides a modal dialog for informing the user.
 \subsection{Datasets}
 \subsubsection{NSL-KDD}
+Within the KDD-NSL dataset, traffic is categorised into either normal network traffic for a military network or into one of the following four attack categories:
 \begin{itemize}
 \item{Denial of Service (DoS) - Attacker tries to preventlegitimate users from using a service.}
 \item{Remote to Local (r2l) - Attacker does not have an account on the victim machine, hence tries to gain access.}
 \item{User to Root (u2r) - Attacker has local access to the victim machine and tries to gain super user privileges.}
 \item{Probe - Attacker tries to gain information about the target host.}
 \end{itemize}
-•Remote to Local (r2l):.•User to Root (u2r):•Probe:
+A complete listing of all attacks and their categories can been seen in Table \ref{nslkddattacksamples}, as well as the sample count of each category of attack in Table \ref{nslkddsamples}.
 \input{tables/kddattacks}
 \input{tables/kddbroad}
+
+The dataset itself is also comprised of 41 features per connection recorded, a detailed listing of each and their type can be seen in Appendix \ref{kddfeatures}.
+
 \subsubsection{UNSW-NB15}
 \input{tables/unswattacks}
 \subsection{Data Preprocessing}
@@ -305,6 +303,7 @@ How does it compare to existing software
 \subsection{Support Vector Machine}
 \subsection{Single-Stage Classifiers Performance}
 \subsection{Two-stage Classifiers Performance}
+in knn-knn the second stage for unsw results in the same normals but removing normals mean that it cannot detect attacks as easily. In the svm-svm the normal has a lower number of true positives than the single stage, increasing false postivies within attacks.
 
 \section{Conclusion}
 \subsection{Research Questions}
@@ -316,6 +315,10 @@ How does it compare to existing software
 \subsection{Has the Project met it's Aims and Objectives?}
 \subsection{Reflection}
 \subsection{Learning Outcomes}
+\subsubsection{LO1 - Manage a substantial individual project, including planning, documentation and control}
+\subsubsection{LO2 - Construct a focussed problem statement and conduct a suitable investigation, including literature or technology review, into the context of that problem}
+\subsubsection{LO3 - Demonstrate professional competence by applying appropriate theory and practice to the analysis, design, implementation and evaluation of a non-trivial set of deliverables}
+\subsubsection{LO4 - Show a capacity for self-appraisal by analysing the strengths and weaknesses of the project process and outcomes with reference to the initial objectives and to the work of others}
 \subsection{Further Research}
 
 \newpage
@@ -368,6 +371,19 @@ How does it compare to existing software
 	\makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth, center]{figures/usecase.pdf}}
 \caption{UML Use Case Diagram}
 \end{figure}
+
+\newpage
+
+\section{NSL-KDD Features} \label{kddfeatures}
+\input{tables/nslkddfeatures}
+
+\newpage
+
+\section{UNSW-NB15 Features} \label{unswfeatures}
+
+\input{tables/unswdescription}
+
+\newpage
 
 \section{NSL-KDD Precision}
 \input{tables/nslprecision}

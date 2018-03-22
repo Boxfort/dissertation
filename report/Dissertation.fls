@@ -585,6 +585,10 @@ INPUT ./figures/classuml.pdf
 INPUT figures/usecase.pdf
 INPUT ./figures/usecase.pdf
 INPUT ./figures/usecase.pdf
+INPUT tables/nslkddfeatures.tex
+INPUT tables/nslkddfeatures.tex
+INPUT tables/unswdescription.tex
+INPUT tables/unswdescription.tex
 INPUT tables/nslprecision.tex
 INPUT tables/nslprecision.tex
 INPUT plots/precision.tex
