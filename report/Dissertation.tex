@@ -38,16 +38,17 @@
 \usepackage{float}
 \usepackage{blindtext}
 \usepackage{longtable}
+\usepackage{subcaption}
 
 \makeatletter
 \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
-            {-2.5ex\@plus -1ex \@minus -.25ex}%
-            {1.25ex \@plus .25ex}%
-            {\normalfont\normalsize\bfseries}}
+  {-2.5ex\@plus -1ex \@minus -.25ex}%
+  {1.25ex \@plus .25ex}%
+  {\normalfont\normalsize\bfseries}}
 \makeatother
 
 \setcounter{secnumdepth}{4} % how many sectioning levels to assign numbers to
-\setcounter{tocdepth}{4}    % how many sectioning levels to show in ToC
+\setcounter{tocdepth}{4} % how many sectioning levels to show in ToC
 
 
 %header and footer settings
@@ -64,15 +65,15 @@
 %set better section layout
 \makeatletter
 \renewcommand\subsection{\@startsection {subsection}{1}{2mm} % name, level, indent
-                               {3pt plus 2pt minus 1pt} % before skip
-                               {3pt plus 0pt} % after skip
-                               {\normalfont\bfseries}}
+      {3pt plus 2pt minus 1pt} % before skip
+      {3pt plus 0pt} % after skip
+      {\normalfont\bfseries}}
 \makeatother
 \makeatletter
 \renewcommand\section{\@startsection {section}{1}{0mm} % name, level, indent
-                               {4pt plus 2pt minus 1pt} % before skip
-                               {4pt plus 0pt} % after skip
-                               {\bfseries}}
+      {4pt plus 2pt minus 1pt} % before skip
+      {4pt plus 0pt} % after skip
+      {\bfseries}}
 \makeatother
 
 \addbibresource{bibliography.bib}
@@ -240,14 +241,11 @@ Scikit-Learn is a Python library consisting of a set of tools for easily perform
 	Some other libraries were considered for implementing the machine learning algorithms such as Tensorflow due to it's highly configurable nature and high performance due to having GPU acceleration, however the implementations of similar algorithms are considerably more complex using Tensorflow, and as time was a major factor in this project Scikit-learn was the preferable library. One final factor which influenced this choice is Scikit-learn's interoperability with Matplotlib allowing for graphs to be created quickly and easily.
 
 \subsubsection{Pandas}
-Pandas is a library which provides high performance, simple data structures and data analysis tools for Python \parencite{pandas}. Pandas provides to the programmer the DataFrame object type which allows for highly complex data manipulation to be carried out easily, such as data alignment and handling of missing data, dataset slicing, indexing and subsetting, merging and joining of multiple sets of data, etc. and is highly optimised for speed as the critical code within the library is written in C, allowing for much higher performance when compared to Python. This means that when working with very large datasets, such as the NSL-KDD and UNSW-NB15 which both have well over 100,000 rows of data, manipulations can be carried out quickly. The documentation for Pandas is also extensive and there exists a large online community of users which is indispensable during the learning of and development within the library.
+Pandas is a library which provides high performance, simple data structures and data analysis tools for Python \parencite{pandas}. Pandas provides to the programmer the DataFrame object type which allows for highly complex data manipulation to be carried out easily, such as data alignment and handling of missing data, dataset slicing, indexing and subsetting, merging and joining of multiple sets of data, etc. and is highly optimised for speed as the critical code within the library is written in C, allowing for much higher performance when compared to Python. This means that when working with very large datasets, such as the NSL-KDD and UNSW-NB15 which both have around 100,000 rows of data each, manipulations can be carried out quickly. The documentation for Pandas is also extensive and there exists a large online community of users which is indispensable during the learning of and development within the library.
 
 \subsubsection{Matplotlib}
-What is matplot \parencite{matplotlib}
-why
-	works with pyqt
-	powerfull
-	lots of usefull info online
+Matplotlib \parencite{matplotlib} is a Python 2D plotting library which produces high quality graphs and charts in both hardcopy and interactive formats. Matplotlib makes creating complex charts extremely simple as well as offering a massive number of charts, including, histograms, bar charts, scatterplots, confusion matrices, etc., with as little lines of code as possible. One large reason for selecting Matplotlib for use is its interoperability with the other libraries and frameworks which were selected. It works with Scikit-learn with very little effort and also contains custom widgets for use with PyQt which allows for extremely fast and easy integration of Matplotlib charts into the user interface of the software.
+
 \subsubsection{Software}
 The software which was written is described with a class diagram, seen in Appendix \ref{classdiagram} specifying each distinct class created along with its methods, properties and relationship with other classes, and with a use case diagram showing the general function of the software from the perspective of the user, as seen in Appendix \ref{usecase}. A description of all of the software classes functions is as follows.
 \paragraph{MainWindow}
@@ -268,7 +266,7 @@ The ErrorMessage Class is the class responsible for displaying an error message 
 \subsubsection{NSL-KDD}
 Within the KDD-NSL dataset, traffic is categorised into either normal network traffic for a military network or into one of the following four attack categories:
 \begin{itemize}
-\item{Denial of Service (DoS) - Attacker tries to preventlegitimate users from using a service.}
+\item{Denial of Service (DoS) - Attacker tries to prevent legitimate users from using a service.}
 \item{Remote to Local (r2l) - Attacker does not have an account on the victim machine, hence tries to gain access.}
 \item{User to Root (u2r) - Attacker has local access to the victim machine and tries to gain super user privileges.}
 \item{Probe - Attacker tries to gain information about the target host.}
@@ -280,9 +278,43 @@ A complete listing of all attacks and their categories can been seen in Table \r
 The dataset itself is also comprised of 41 features per connection recorded, a detailed listing of each and their type can be seen in Appendix \ref{kddfeatures}.
 
 \subsubsection{UNSW-NB15}
+Similarly, within the UNSW-NB15 dataset, as with the NSL-KDD dataset, traffic is also categorised into either normal network traffic for a military network or into one of the following seven attack categories:
+\begin{itemize}
+	\item{Fuzzers - Attempting to cause a program or network suspended by feeding it the randomly generated data. Analysis 2,677 It contains different attacks of port scan, spam and html files penetrations.}
+	\item{Backdoors - A tecnique in which a system security mechanism is bypassed stealthily to access a computer or its data.}
+	\item{DoS - A malicious attempt to make a server or a network resource unavailable to users, usually by temporarily interrupting or suspending the services of a host connected to the Internet.}
+	\item{Exploits - The attacker knows of a security problem within an operating system or a piece of software and leverages that knowledge by exploiting the vulnerability.}
+	\item{Generic - A technique works against all block-ciphers (with a given block and key size), without consideration about the structure of the block-cipher.}
+	\item{Reconnaissance - Contains all Strikes that can simulate attacks that gather information.}
+	\item{Shellcode - A small piece of code used as the payload in the exploitation of software vulnerability. Worms 174 Attacker replicates itself in order to spread to other computers. Often, it uses a computer network to spread itself, relying on security failures on the target computer to access it.}
+\end{itemize}
 \input{tables/unswattacks}
-\subsection{Data Preprocessing}
-\subsection{Two Stage Classification}
+	The UNSW-NB15 dataset is comprised of 42 features per connection recorded, a detailed listing of each feature, their type and a description of each can be seen in Appendix \ref{unswfeatures}.
+\subsection{Data Pre-processing}
+Before classification can take place it is necessary to perform some pre-processing upon both datasets, so that when they are used they are in a form which is most useful for classification, allowing for more accurate, and faster classification. The first form of pre-processing which will take place upon the datasets is in the form of one hot encoding. One hot encoding is a process wherein categorical features of a dataset are converted into a binary representation. This process can be seen in Figure \ref{ohe}, which shows a small snippet from the NSL-KDD dataset before, and after one hot encoding.
+
+\input{figures/onehot}
+
+One hot encoding is necessary as many classification algorithms rely on either some kind of internal averaging, or some form of activation function which require numerical input in order to extract meaning from. Simply converting each of these categories from a nominal to a numeric representation is not sufficient as the categories lose meaning when represented by a series of numbers, i.e. when calculating distance from one category to another any number selected will be arbitrary, producing results of no real meaning therefore reducing accuracy in classification. One hot encoding prevents this by having all categories the same distance from one another, and also within use in activation functions, something can only be in a category or not in a category, ensuring that when feature scaling is introduced a category cannot be for example 0.5. 
+
+One side effect of one hot encoding is that when processing both the training and testing dataset it is possible that the testing set is missing some categories present within the training set, leading to the algorithms being unable to perform a categorisation. To rectify this the next form of pre-processing which must take place is the insertion of missing features from the training set into the testing set. To do this the training set is simply scanned to find features which are not present in the testing set, and then inserts them into the testing set at the same index thereby making both sets features identical.
+
+The final form of pre-processing to be performed on the dataset is feature scaling. Feature scaling is where a range of data is normalised by scaling it to be within some range, in this case between -1 and 1. The formula used for doing this is seen below in Figure \ref{scale}:
+\begin{figure}[H]
+\[ x' = \frac{x - min(x)}{max(x) - min(x)} \
+\caption{Feature Scaling Formula}
+\label{scale}
+\end{figure}
+where $ x $ is the original value and $ x' $ is the normalised value.
+
+One hot encoding
+Normalisation
+\subsubsection{Two Stage Classification}
+flattening etc
+\subsection{Data Collection}
+k fold cross validation
+\cite{kohavi1995study}
+stochastic multiple runs
 \subsection{Metrics}
 \subsubsection{Precision}
 \[ precision = \frac{tp}{tp+fp} \]
@@ -315,10 +347,10 @@ in knn-knn the second stage for unsw results in the same normals but removing no
 \subsection{Has the Project met it's Aims and Objectives?}
 \subsection{Reflection}
 \subsection{Learning Outcomes}
-\subsubsection{LO1 - Manage a substantial individual project, including planning, documentation and control}
-\subsubsection{LO2 - Construct a focussed problem statement and conduct a suitable investigation, including literature or technology review, into the context of that problem}
-\subsubsection{LO3 - Demonstrate professional competence by applying appropriate theory and practice to the analysis, design, implementation and evaluation of a non-trivial set of deliverables}
-\subsubsection{LO4 - Show a capacity for self-appraisal by analysing the strengths and weaknesses of the project process and outcomes with reference to the initial objectives and to the work of others}
+\subsubsection*{LO1 - Manage a substantial individual project, including planning, documentation and control}
+\subsubsection*{LO2 - Construct a focussed problem statement and conduct a suitable investigation, including literature or technology review, into the context of that problem}
+\subsubsection*{LO3 - Demonstrate professional competence by applying appropriate theory and practice to the analysis, design, implementation and evaluation of a non-trivial set of deliverables}
+\subsubsection*{LO4 - Show a capacity for self-appraisal by analysing the strengths and weaknesses of the project process and outcomes with reference to the initial objectives and to the work of others}
 \subsection{Further Research}
 
 \newpage

@@ -304,6 +304,8 @@ INPUT /usr/share/texlive/texmf-dist/tex/latex/tools/xspace.sty
 INPUT /usr/share/texlive/texmf-dist/tex/latex/tools/xspace.sty
 INPUT /usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty
 INPUT /usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty
+INPUT /usr/share/texlive/texmf-dist/tex/latex/caption/subcaption.sty
+INPUT /usr/share/texlive/texmf-dist/tex/latex/caption/subcaption.sty
 INPUT /usr/share/texlive/texmf-dist/tex/latex/biblatex-apa/british-apa.lbx
 INPUT /usr/share/texlive/texmf-dist/tex/latex/biblatex-apa/british-apa.lbx
 INPUT /usr/share/texlive/texmf-dist/tex/latex/biblatex-apa/british-apa.lbx
@@ -396,6 +398,8 @@ INPUT tables/kddbroad.tex
 INPUT tables/kddbroad.tex
 INPUT tables/unswattacks.tex
 INPUT tables/unswattacks.tex
+INPUT figures/onehot.tex
+INPUT figures/onehot.tex
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT figures/ipo.pdf
@@ -642,4 +646,5 @@ INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
+INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb
