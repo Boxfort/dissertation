@@ -334,21 +334,43 @@ In second form of classification to take place is two stage classification. In t
 \subsection{Data Collection}
 When performing data collection a number of things were done to ensure the greatest consistency within the results gathered, that comparisons between classification methods are valid, and that the results portray the real world performance of such a classifier as closely as possible. The first thing done to ensure validity of results gathered is that classifiers which are stochastic, i.e. are non-deterministic, are run for a total of 30 times and the results are averaged to reduce the amount of randomness within the results and lower the chance that a classifier may perform abnormally well or otherwise.
 
-	\input{figures/kfoldfigure.tex}
+To best represent the real world performance of the classifiers, k-fold cross validation was used as described by \cite{refaeilzadeh2009cross}. In k-fold cross validation the training dataset is partitioned into $ k $ equal parts, with one part being used as the testing dataset the classifier will make predictions about, and the remaining $ k-1 $ parts used as the training set. This process is repeated $ k $ times with a different fold used each time as the testing set, a diagram of which can been seen in Figure \ref{kfold}. 
 
-To best represent the real world performance of the classifiers, k-fold cross validation was used as described by \cite{refaeilzadeh2009cross}. In k-fold cross validation the training dataset is partitioned into $ k $ equal parts, with one part being used as the testing dataset the classifier will make predictions about, and the remaining $ k-1 $ parts used as the training set. This process is repeated $ k $ times with a different fold used each time as the testing set, a diagram of which can been seen in Figure \ref{kfold}. The results from all of these folds can then be combined and used to obtain a single result for the performance of the classification method. Using this method for testing the performance of classifier is preferable to the use of a testing set as the all of the data available is used as both training data and testing data, therefore giving a more accurate estimation of how well the classifier will generalize to any independent dataset, i.e. it gives a more accurate idea of how well the classifier will perform in practice.
+\input{figures/kfoldfigure.tex}
+
+The results from all of these folds can then be combined and used to obtain a single result for the performance of the classification method. Using this method for testing the performance of classifier is preferable to the use of a testing set as the all of the data available is used as both training data and testing data, therefore giving a more accurate estimation of how well the classifier will generalize to any independent dataset, i.e. it gives a more accurate idea of how well the classifier will perform in practice.
 
 The k value selected for the k-fold cross validation to be carried out in this investigation is $ k=10 $ as a study carried out by \cite{kohavi1995study} found ten-fold cross validation to be the most effective in producing accurate results. The same k value was used throughout for each classifier, as well as the using the same folds for gathering results without randomising to ensure that results collected were comparable.
 
 Finally the same parameters were used for each of the classifier arrangements, as described in Table \ref{params}, to ensure that results across classifier arrangements were consistent with one and other.
 
 \subsection{Metrics}
-\subsubsection{Precision}
+The following section describes the metrics which will be extracted from each of the classification results.
+
+Precision is a measure of how many of the classifications made are relevant, the formula for which can be seen below in Figure \ref{precision}:
+\begin{figure}[H]
 \[ precision = \frac{tp}{tp+fp} \]
-\subsubsection{Recall}
+\caption{Precision Formula}
+\label{precision}
+\end{figure}
+where $tp$ is the number of true positives, and $fp$ is the number of false positives. For example, if a classifier were to have a precision of 1.0 that would mean that only relevant traffic was classified, there were no false positives. This however does not tell us what percentage of the relative traffic was actually classified. To do this another metric must be used called recall.
+
+Recall, also known as sensitivity, is a measure of what percentage of the total relevant records were classified. The formula for recall can be seen below in Figure \ref{recall}:
+\begin{figure}[H]
 \[ recall = \frac{tp}{tp+fn} \]
-\subsubsection{f1-Score}
+\caption{Recall Formula}
+\label{recall}
+\end{figure}
+where $tp$ is the number of true positives, and $fn$ is the number of false negatives. For example, if a classifier were to have a recall of 1.0, that would mean that every single record of that class had been identified and classified correctly, however even with a recall of 1.0 there may be a large number of false positives which is why it is important to also take a measure of precision. To combine both of these metrics into a single value, f1-score can be used.
+
+f1-Score is a metric which takes both the precision and recall into account, the formula for which can be seen below in Figure \ref{f1}:
+\begin{figure}[H]
 \[ f_1 = \frac{2tp}{2tp+fp+fn} \]
+\caption{f1-Score Formula}
+\label{f1}
+\end{figure}
+
+where $tp$ is the number of true positives, $fp$ the number of false positives, and $fn$ the number of false negatives. This metric is extremely useful if false positives and false negatives are weighted the same in terms of negative effects. Note that f1-score does not take true negatives into account, however in this case the sheer volume of true negatives for each class would cause a metric taking them into account yield no useful insight.
 
 \section{Evaulation}
 \subsection{Software}
@@ -388,14 +410,19 @@ in knn-knn the second stage for unsw results in the same normals but removing no
 \section{Project Overview}
 
 %\input{ipo}
-\includepdf[pages=-]{figures/ipo}
+\includegraphics[page=1, width=\textwidth]{figures/ipo}
+\newpage
+\includegraphics[page=2, width=\textwidth]{figures/ipo}
+\newpage
+\includegraphics[page=3, width=\textwidth]{figures/ipo}
+\newpage
 
 \begin{subappendices}
 \subsection{Project Timeline}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
-	\includegraphics[width=1.11\textwidth,angle=90]{figures/Ganttchart}
+	\includegraphics[width=1.31\textwidth,angle=90]{figures/Ganttchart}
 	\caption{Project Timeline Gantt Chart}
 	\label{gantt}
 \end{figure}
@@ -405,10 +432,33 @@ in knn-knn the second stage for unsw results in the same normals but removing no
 \newpage
 
 \section{Second Formal Review Output}
-\includepdf[pages=-]{figures/interim}
+\begin{center}
+\includegraphics[page=1, width=\textwidth, center]{figures/interim}
+\newpage
+\includegraphics[page=2, width=\textwidth, center]{figures/interim}
+\end{center}
+\newpage
 
-\section{Diary Sheets (or other project management evidence)}
-\includepdf[page=-]{figures/diaries}
+\section{Diary Sheets}
+
+\begin{longtable}{@{}cc@{}}
+\includegraphics[page=1, width=0.5\textwidth]{figures/diaries} &
+\includegraphics[page=2, width=0.5\textwidth]{figures/diaries} \\
+\includegraphics[page=3, width=0.5\textwidth]{figures/diaries} &
+\includegraphics[page=4, width=0.5\textwidth]{figures/diaries} \\
+\includegraphics[page=5, width=0.5\textwidth]{figures/diaries} &
+\includegraphics[page=6, width=0.5\textwidth]{figures/diaries} \\
+\includegraphics[page=7, width=0.5\textwidth]{figures/diaries} &
+\includegraphics[page=8, width=0.5\textwidth]{figures/diaries} \\
+\includegraphics[page=9, width=0.5\textwidth]{figures/diaries} &
+\includegraphics[page=10, width=0.5\textwidth]{figures/diaries} \\
+\includegraphics[page=11, width=0.5\textwidth]{figures/diaries} &
+\includegraphics[page=12, width=0.5\textwidth]{figures/diaries} \\
+\includegraphics[page=13, width=0.5\textwidth]{figures/diaries} &
+\includegraphics[page=14, width=0.5\textwidth]{figures/diaries} \\
+\includegraphics[page=15, width=0.5\textwidth]{figures/diaries} &
+\end{longtable}
+
 
 \newpage
 
