@@ -31,6 +31,9 @@
 \usetikzlibrary{matrix,chains,positioning,decorations.pathreplacing,arrows}
 
 % MY PACKAGES
+%\usepackage[table]{xcolor}
+\usepackage{color, colortbl}
+\usepackage{amsmath}
 \usepackage{adjustbox}
 \usepackage{pdfpages}
 \usepackage{pgfplots}
@@ -39,6 +42,14 @@
 \usepackage{blindtext}
 \usepackage{longtable}
 \usepackage{subcaption}
+\usepackage{xr}
+
+% EXTERNAL DOCUMENTS
+\externaldocument{figures/kfoldfigure}
+\externaldocument{figures/onehot}
+\externaldocument{tables/kddattacks}
+\externaldocument{tables/classifierconfig}
+
 
 \makeatletter
 \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
@@ -295,26 +306,42 @@ Before classification can take place it is necessary to perform some pre-process
 
 \input{figures/onehot}
 
-One hot encoding is necessary as many classification algorithms rely on either some kind of internal averaging, or some form of activation function which require numerical input in order to extract meaning from. Simply converting each of these categories from a nominal to a numeric representation is not sufficient as the categories lose meaning when represented by a series of numbers, i.e. when calculating distance from one category to another any number selected will be arbitrary, producing results of no real meaning therefore reducing accuracy in classification. One hot encoding prevents this by having all categories the same distance from one another, and also within use in activation functions, something can only be in a category or not in a category, ensuring that when feature scaling is introduced a category cannot be for example 0.5. 
+%REWRITE THIS, EXPLAIN ONEHOT BECAUSE OF AVERAGING NOT DISTANCE
+One hot encoding is necessary as many classification algorithms rely on either some kind of internal averaging, or some form of activation function which require numerical input in order to extract meaning from. Simply converting each of these categories from a nominal to a numeric representation is not sufficient as the categories lose meaning when represented by a series of numbers, i.e. when calculating distance from one category to another any number selected will be arbitrary, and the machine learning algorithm will attempt to extract a relationship between the numbers where there is none, therefore reducing accuracy in classification. 
 
 One side effect of one hot encoding is that when processing both the training and testing dataset it is possible that the testing set is missing some categories present within the training set, leading to the algorithms being unable to perform a categorisation. To rectify this the next form of pre-processing which must take place is the insertion of missing features from the training set into the testing set. To do this the training set is simply scanned to find features which are not present in the testing set, and then inserts them into the testing set at the same index thereby making both sets features identical.
 
 The final form of pre-processing to be performed on the dataset is feature scaling. Feature scaling is where a range of data is normalised by scaling it to be within some range, in this case between -1 and 1. The formula used for doing this is seen below in Figure \ref{scale}:
 \begin{figure}[H]
-\[ x' = \frac{x - min(x)}{max(x) - min(x)} \
+	\[ x' = \frac{x - min(x)}{max(x) - min(x)} \] 
 \caption{Feature Scaling Formula}
 \label{scale}
 \end{figure}
-where $ x $ is the original value and $ x' $ is the normalised value.
+where $ x $ is the original value and $ x' $ is the normalised value. Representing a range of values between a normalised range is important as a large number of classification algoithms compute the euclidian distance between two points and will therefore not work correctly if two different featues have wildy different scales. For example if one feature has a large range of numbers and another a very narrow range, the distance will be dependant only on the feature with the larger range, so each feature should be normalised to ensure that each contributes the same amount to the final distance which is computed. Feature scaling also allows classifers which use gradient descent, such as the multi-layer perceptron, to converge much faster allowing for faster collection of results.
+\subsection{Classifier Configurations}
+The following is a listing of the parameters used in the running of each of the classifiers implemented within the scikit-learn library, with the descriptions of each taken from the official documentation:
 
-One hot encoding
-Normalisation
-\subsubsection{Two Stage Classification}
-flattening etc
+\input{tables/classifierconfig}
+
+\subsection{Single Stage Classification}
+The first form of classification which will take place is single stage classification. In single stage classification only a single machine learning technique and stage is implemented in order to classify network traffic. The dataset is first read and preprocessed, and the entire set is used in order to train the machine learning classifier. One the classifier has been trained, the classifier will make predictions about the testing set, classifying it into normal traffic or any one of the attack categories for the dataset it was trained upon, e.g. the attacks seen in Table \ref{nslkddattacksamples}.
+
+\subsection{Two Stage Classification}
+In second form of classification to take place is two stage classification. In two stage classification, the classification processes is split into two separate stages, the first indentifying normal traffic, and the second identifying abnormal. Before the first stage is trained, the dataset must first be flattened, with all attack types being reduced to simply 'attack', resulting in a set of data labelled only 'normal' and 'attack'. This new dataset is then used to train the first classifier, and then predictions made about the testing set, consisting of only 'normal' and 'attack' classifications. The second classifier is now trained on the original, unflattened dataset with all of the normal traffic removed, resulting in a dataset consisting of only attacks. Once the classifier has been trained, the traffic which was classified as being an attack by the first classifier is then fed into the second classifier, and is then labelled as a specific attack. The total result is then the combination of the traffic identified as normal within the first classifier and the attacks from the second classifier. 
+
+	Performing classification in this manner is expected to give more accurate results than a single stage classifier as it allows each stage to specialise, with the first only needing to differentiate between two classes, 'normal' and 'attack', and the second stage focussed on specific attack types, in theory increasing the overall rate of accurate detection by reducing domain size.
+
 \subsection{Data Collection}
-k fold cross validation
-\cite{kohavi1995study}
-stochastic multiple runs
+When performing data collection a number of things were done to ensure the greatest consistency within the results gathered, that comparisons between classification methods are valid, and that the results portray the real world performance of such a classifier as closely as possible. The first thing done to ensure validity of results gathered is that classifiers which are stochastic, i.e. are non-deterministic, are run for a total of 30 times and the results are averaged to reduce the amount of randomness within the results and lower the chance that a classifier may perform abnormally well or otherwise.
+
+	\input{figures/kfoldfigure.tex}
+
+To best represent the real world performance of the classifiers, k-fold cross validation was used as described by \cite{refaeilzadeh2009cross}. In k-fold cross validation the training dataset is partitioned into $ k $ equal parts, with one part being used as the testing dataset the classifier will make predictions about, and the remaining $ k-1 $ parts used as the training set. This process is repeated $ k $ times with a different fold used each time as the testing set, a diagram of which can been seen in Figure \ref{kfold}. The results from all of these folds can then be combined and used to obtain a single result for the performance of the classification method. Using this method for testing the performance of classifier is preferable to the use of a testing set as the all of the data available is used as both training data and testing data, therefore giving a more accurate estimation of how well the classifier will generalize to any independent dataset, i.e. it gives a more accurate idea of how well the classifier will perform in practice.
+
+The k value selected for the k-fold cross validation to be carried out in this investigation is $ k=10 $ as a study carried out by \cite{kohavi1995study} found ten-fold cross validation to be the most effective in producing accurate results. The same k value was used throughout for each classifier, as well as the using the same folds for gathering results without randomising to ensure that results collected were comparable.
+
+Finally the same parameters were used for each of the classifier arrangements, as described in Table \ref{params}, to ensure that results across classifier arrangements were consistent with one and other.
+
 \subsection{Metrics}
 \subsubsection{Precision}
 \[ precision = \frac{tp}{tp+fp} \]
