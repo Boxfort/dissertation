@@ -166,20 +166,17 @@ In this context, accuracy is defined as a high number of true positives and true
 	\item{An evaluation of the implemented software with regards to how well it meets the proposed specification, and how it compares to existing software.}
 	\end{itemize}
 	\subsubsection{Boundaries}
-	There exists a large number of different classification algorithms and methods to perform network intrusion detection, therefore this project must focus on a few specifically. This project will focus on performing misuse detection rather than anomaly detection, and will limit the classification algorithms used to: k-Nearest Neighbour, Multi-layer Perceptron, and a Support Vector Machine.
+	There exists a large number of different classification algorithms and methods to perform network intrusion detection, therefore this project must focus on a few specifically. This project will focus on performing misuse detection rather than anomaly detection, and will limit the classification algorithms used to: k-Nearest Neighbour, Multi-layer Perceptron, and a Support Vector Machine. This investigation will also only be assessing the performance of misuse detection, and not anomaly detection.
 	\subsubsection{Constraints}
 	The largest constraint facing this project is that of time. There is a large amount of literature to be reviewed, and also a considerable amount of results which must be collected and results drawn from in a short amount of time.
-	Time
-	Knowledge
-	Misuse detection only
 \subsection{Structure of this Dissertation}
-This dissertation can be divided into three main parts. Part one is literature review and past projects within the field, and existing software. Second part details the planning design and implementation of the software and the third consists of an analysis and evaluation of results and software.
+This dissertation can be divided into three main parts: part one is a review of the relevant literature and related works carried out in the field of network intrusion detection, as well as any existing software; Part two details the planning, design, implementation and testing of the software which is to be created to aid in the investigation; finally, part three details the results of the experiments carried, an evaluation of the created software, an analysis of gathered results, and the conclusions drawn from the project as a whole. \\
 
-part one reviews the literature on the subject and examines results of past projects and individual algorithms, also reviews existing software for machine learning comparison.
+Part one (Sections 2-3) involves a review of the existing literature within the field of machine learning for network intrusion detection and examines results of related works and individual machine learning algorithms. A review will also be done of existing software to see what features they offer in what aspects they might be improved. \\
 
-part two describes the detailed software requirements and specific functionality which should be implemented. Also includes a description of technologies and libraries used, and a testing plan. 
+Part two (Sections 4-5) describes the detailed software requirements, specific functionality which should be implemented, user interface designs, and a listing of what testing should take place. The methodology for the project is also detailed in this part which includes a description of the technologies and libraries used, the datasets used any the processing performed upon them, and finally how data will be collected and what metrics will be drawn from the results. \\
 
-part three is an evaluation of the final software product against its design. Analysis and evaluation of classifier results. also has an evaluation of the overall project how well it met its aims and suggestions for future work.
+Part three (Sections 5-8) is a listing of results gathered in experiments carried out and an evaluation of the final software product against its initial design and any existing software. An analysis of the results gathered will then take place and conclusions drawn, as well as a review of research questions, learning outcomes, and suggestions for future work. also has an evaluation of the overall project how well it met its aims and suggestions for future work.
 
 \input{Dissertation-LR}
 
@@ -217,6 +214,7 @@ In order to run the software the following requirements must be met:
 
 \subsection{Specific Requirements}
 \subsubsection{User Interface}
+TODO: Write about UI
 \begin{figure}[H]
 	\makebox[\textwidth][c]{\includegraphics[width=\textwidth, center]{figures/Mainwindow.pdf}}
 \caption{Main Window Result Tab Wireframe}
@@ -234,9 +232,10 @@ In order to run the software the following requirements must be met:
 \end{figure}
 
 \subsubsection{Functional Requirements}
+TODO: Fill in descriptions
 \input{reqspec}
 \subsection{Testing}
-Paragraph about testing, unit testing and why
+TODO: Paragraph about testing, unit testing and why
 \input{tables/testcase.tex}
 
 \section{Methodology}
@@ -306,7 +305,6 @@ Before classification can take place it is necessary to perform some pre-process
 
 \input{figures/onehot}
 
-%REWRITE THIS, EXPLAIN ONEHOT BECAUSE OF AVERAGING NOT DISTANCE
 One hot encoding is necessary as many classification algorithms rely on either some kind of internal averaging, or some form of activation function which require numerical input in order to extract meaning from. Simply converting each of these categories from a nominal to a numeric representation is not sufficient as the categories lose meaning when represented by a series of numbers, i.e. when calculating distance from one category to another any number selected will be arbitrary, and the machine learning algorithm will attempt to extract a relationship between the numbers where there is none, therefore reducing accuracy in classification. 
 
 One side effect of one hot encoding is that when processing both the training and testing dataset it is possible that the testing set is missing some categories present within the training set, leading to the algorithms being unable to perform a categorisation. To rectify this the next form of pre-processing which must take place is the insertion of missing features from the training set into the testing set. To do this the training set is simply scanned to find features which are not present in the testing set, and then inserts them into the testing set at the same index thereby making both sets features identical.
@@ -372,6 +370,21 @@ f1-Score is a metric which takes both the precision and recall into account, the
 
 where $tp$ is the number of true positives, $fp$ the number of false positives, and $fn$ the number of false negatives. This metric is extremely useful if false positives and false negatives are weighted the same in terms of negative effects. Note that f1-score does not take true negatives into account, however in this case the sheer volume of true negatives for each class would cause a metric taking them into account yield no useful insight.
 
+\section{Results}
+\subsection{NSL-KDD}
+The following section lists the results gathered running each classifier configuration on the NSL-KDD dataset. All of the metrics calculated using these results were first calculated per class, then combined and averaged for each category. This is done to ensure that classes with a lower number of samples are equally represented as the number of samples for each class within a category can vary greatly. The total number of true postives, true negatives, false postives, and false negatives for each category can be found in Appendix \ref{nslraw}.
+\input{plots/precision}
+\input{plots/recall}
+\input{plots/f1score}
+The values used in the creation of Figures \ref{nslprecision}, \ref{nslrecall}, and \ref{nslf1score} can be found in Appendices \ref{appendix:nslprecision}, \ref{appendix:nslrecall}, and \ref{appendix:nslf1score} respectively.
+\subsection{UNSW-NB15}
+The following section lists the results gathered running each classifier configuration on the UNSW-NB15 dataset. In this dataset, attacks are already grouped into categories and so no averaging is necessary. The total number of true positives, true negatives, false positives, and false negatives for each category can be found in Appendix \ref{unswraw}.
+
+TODO : Re-test results, I think I need to make changes to classifier configurations, thats why second set is getting real bad results. 
+\input{plots/precisionUNSW}
+\input{plots/recallUNSW}
+\input{plots/f1scoreUNSW}
+The values used in the creation of Figures \ref{unswprecision}, \ref{unswrecall}, and \ref{unswf1score} can be found in Appendices \ref{appendix:unswprecision}, \ref{appendix:unswrecall}, and \ref{appendix:unswf1score} respectively.
 \section{Evaulation}
 \subsection{Software}
 Evaluate the software
@@ -379,12 +392,14 @@ How many of the function requirements were met
 How many of the non functional requirements were met
 Is the user interface like it was designed
 How does it compare to existing software
-\subsection{k-Nearest Neighbours}
-\subsection{Multi-layer Perceptron}
-\subsection{Support Vector Machine}
-\subsection{Single-Stage Classifiers Performance}
-\subsection{Two-stage Classifiers Performance}
-in knn-knn the second stage for unsw results in the same normals but removing normals mean that it cannot detect attacks as easily. In the svm-svm the normal has a lower number of true positives than the single stage, increasing false postivies within attacks.
+\subsection{Single vs Two-stage Classifiers Performance}
+\begin{itemize}
+\item{knn-knn second stage for unsw results in same normals but lower attack classification. Attacks require normals to better differentiate between them.}
+\item{svm-svm normal has less true positives meaning that attacks will all have higher false positive rates. Also means that individual attacks are important in defining boundaries between normal and attack, not just as a whole.}
+\item{Combining classifiers with less performant classifiers will always reduce performance}
+\item{in NSL KDD, adding a more performant will generally increase performance}
+\item{in NSL KDD combining with self will produce better results, except in the case of SVM}
+\end{itemize}
 
 \section{Conclusion}
 \subsection{Research Questions}
@@ -494,42 +509,36 @@ in knn-knn the second stage for unsw results in the same normals but removing no
 
 \newpage
 
-\section{NSL-KDD Precision}
+\section{NSL-KDD Results} 
+\subsection{NSL-KDD Classifcation Data} \label{nslraw}
+\input{tables/nslraw.tex}
+\newpage
+
+\subsection{NSL-KDD Precision} \label{appendix:nslprecision}
 \input{tables/nslprecision}
-\input{plots/precision}
-
 \newpage
-
-
-\section{NSL-KDD Recall}
+\subsection{NSL-KDD Recall} \label{appendix:nslrecall}
 \input{tables/nslrecall}
-\input{plots/recall}
-
 \newpage
-
-\section{NSL-KDD F1-Score}
+\subsection{NSL-KDD f1-Score} \label{appendix:nslf1score}
 \input{tables/nslf1score}
-\input{plots/f1score}
-
 \newpage
 
+\section{UNSW-NB15 Results}
+\subsection{UNSW-NB15 Classification Data} \label{unswraw}
+\input{tables/UNSWraw}
+\newpage
 
-\section{UNSW-NB15 Precision}
+\subsection{UNSW-NB15 Precision} \label{appendix:unswprecision}
 \input{tables/UNSWpecision}
-\input{plots/precisionUNSW}
-
 \newpage
 
-\section{UNSW-NB15 Recall}
+\subsection{UNSW-NB15 Recall} \label{appendix:unswrecall}
 \input{tables/UNSWrecall}
-\input{plots/recallUNSW}
-
 \newpage
 
-\section{UNSW-NB15 f1-Score}
+\subsection{UNSW-NB15 f1-Score} \label{appendix:unswf1score}
 \input{tables/UNSWf1score.tex}
-\input{plots/f1scoreUNSW}
-
 \newpage
 
 
