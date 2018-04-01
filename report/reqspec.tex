@@ -2,85 +2,85 @@
 \textbf{ID:} FR1 \\
 \textbf{TITLE:} Select Classifiers \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
+\textbf{DESC:} The user should have the ability to specify which classifiers are used within a classifier configuration. The classifiers should be selected through a file picker diaglog. \\
 \textbf{DEP:} N/A
 \paragraph*{FR2 - Two Stage Classification}
 \textbf{ID:} FR2 \\
 \textbf{TITLE:} Two Stage Classification \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
+\textbf{DESC:} Classifier configurations should be able to specified as two stage by activing a checkbox and selecting a second classifier. \\
 \textbf{DEP:} N/A
 \paragraph*{FR3 - Run Classifiers}
 \textbf{ID:} FR3 \\
 \textbf{TITLE:} Run Classifiers \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} FR1, FR2
+\textbf{DESC:} The user should be able to press a 'Run' button which will take the classifier configurations specified and run them on the specified dataset. This should then return the results of the prediction made about the dataset.  \\
+\textbf{DEP:} FR1, FR2, FR18
 \paragraph*{FR4 - Create New Classifier}
 \textbf{ID:} FR4 \\
 \textbf{TITLE:} Create New Classifier \\
 \textbf{PRIORITY:} Low \\
-\textbf{DESC:}   \\
+\textbf{DESC:} When clicking the 'File' button the user should be able to select an option which creates a new classifier. After clicking they should be presented with a file dialog which will prompt them ofor a filename and location. A .py file will then be created using the interface for a classifier that the user may later make edits to.  \\
 \textbf{DEP:} N/A
 \paragraph*{FR5 - Debug Output}
 \textbf{ID:} FR5 \\
 \textbf{TITLE:} Debug Output \\
 \textbf{PRIORITY:} Medium \\
-\textbf{DESC:}   \\
+\textbf{DESC:} The standard output of the python application and any classifiers running should be piped into a text box within the main window of the program. \\
 \textbf{DEP:} N/A
 \paragraph*{FR6 - Multiple Classifier Configurations}
 \textbf{ID:} FR6 \\
 \textbf{TITLE:} Multiple Classifier Configurations \\
 \textbf{PRIORITY:} Medium \\
-\textbf{DESC:}   \\
+\textbf{DESC:} The user should be able to specify any number of classifier configurations by creating a new tab within the classifier configuration section, all of which will be run when the 'Run' button is pressed. \\
 \textbf{DEP:} FR1, FR2
 \paragraph*{FR7 - Aggregate Results by Attack}
 \textbf{ID:} FR7 \\
 \textbf{TITLE:} Aggregate Results by Attack \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} FR3
+\textbf{DESC:} Once classification has taken place, the results should be grouped by the categories specified by the user in the attack categories file. \\
+\textbf{DEP:} FR3, FR9, FR15
 \paragraph*{FR8 - Write Results to File}
 \textbf{ID:} FR8 \\
 \textbf{TITLE:} Write Results to File \\
 \textbf{PRIORITY:} Medium \\
-\textbf{DESC:}   \\
-\textbf{DEP:} N/A
+\textbf{DESC:} After classification, the results returned should be written to a file, the name of which is a combination of the classifiers used and a timestamp of when classification finished. \\
+\textbf{DEP:} FR9
 \paragraph*{FR9 - Get Classification Results}
 \textbf{ID:} FR9 \\
 \textbf{TITLE:} Get Classification Results \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
+\textbf{DESC:}  Once classification has completed the results for each configuration should be collected and stored within some data structure for later use. \\
 \textbf{DEP:} FR3
 \paragraph*{FR10 - Graph Results}
 \textbf{ID:} FR10 \\
 \textbf{TITLE:} Graph Results \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
+\textbf{DESC:} Once results have been gathered they should be presented in the form of a bar chart. The user should be able to select a class, and the true positives, true negatives, false positives and false negatives for that class for each of the classifier configurations should be displayed in a chart.\\
 \textbf{DEP:} FR9
 \paragraph*{FR11 - Select Training Dataset}
 \textbf{ID:} FR11 \\
 \textbf{TITLE:} Select Training Dataset \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
+\textbf{DESC:} The user should able to press a button and have a file picker dialog appear prompting them to select a training dataset. Once selected a textbox should be populated with this filename.\\
 \textbf{DEP:} N/A
 \paragraph*{FR12 - Select Testing Dataset}
 \textbf{ID:} FR12 \\
 \textbf{TITLE:} Select Testing Dataset \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
+\textbf{DESC:}  The user should able to press a button and have a file picker dialog appear prompting them to select a testing dataset. Once selected a textbox should be populated with this filename. \\
 \textbf{DEP:} N/A
 \paragraph*{FR13 - k-Fold Cross Validation}
 \textbf{ID:} FR13 \\
 \textbf{TITLE:} k-Fold Cross Validation \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
-\textbf{DEP:} FR11
+\textbf{DESC:} k-Fold Cross Validation should be selectable by the user by checking a checkbox and specifiy the required number of folds. When running the classifiers, the training dataset should then be partitioned and iterated through using k-fold cross validation in place of a testing dataset.  \\
+\textbf{DEP:} FR11, FR3
 \paragraph*{FR14 - Select Dataset Column Labels}
 \textbf{ID:} FR14 \\
 \textbf{TITLE:} Select Dataset Column Labels \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
+\textbf{DESC:} The user should able to press a button and have a file picker dialog appear prompting them to select a the dataset column labels. Once selected a textbox should be populated with this filename.  \\
 \textbf{DEP:} N/A
 \paragraph*{FR15 - Select Dataset Attack Categories}
 \textbf{ID:} FR15 \\
@@ -92,55 +92,55 @@
 \textbf{ID:} FR16 \\
 \textbf{TITLE:} Categorise Dataset Fields \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
+\textbf{DESC:} Once the dataset column labels have been selected the columns labelled 'Nominal', 'Binary' and 'Numeric' should be populated with the dataset field names provided in the file, and categorised into the correct columns if a type was provided. The user should be able to move column names between these three columns by selecting an item, and either right clicking to create a context menu and then electing the destination column, or by pressing the buttons labelled '$<$' or '$>$' to move the item between columns. \\
 \textbf{DEP:} FR14
 \paragraph*{FR17 - One Hot Encoding}
 \textbf{ID:} FR17 \\
 \textbf{TITLE:} One Hot Encoding \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}  \\
+\textbf{DESC:} The loaded datasets should be one hot encoded before they are used in classification. this involves converting all dataset columns listed as nominal to their binary representation to increase classification performance.  \\
 \textbf{DEP:} FR18
 \paragraph*{FR18 - Load Data}
 \textbf{ID:} FR18 \\
 \textbf{TITLE:} Load Data \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
+\textbf{DESC:} When the user has specified all of the filenames for the, training dataset, dataset columns and optionally the testing dataset and attack categories, the data should then be loaded from the files and placed into a pandas DataFrames for later processing. \\
 \textbf{DEP:} FR11, FR12, FR14, FR15
 \paragraph*{FR19 - k-Nearest Neighbour Classifier}
 \textbf{ID:} FR19 \\
 \textbf{TITLE:} k-Nearest Neighbour Classifier \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
+\textbf{DESC:} A classifier should be implemented using the classifier interface using the scikit-learn Nearest Neighbour classifier. \\
 \textbf{DEP:} N/A
 \paragraph*{FR20 - Multi-layer Perceptron Classifier}
 \textbf{ID:} FR20 \\
 \textbf{TITLE:} Multi-layer Perceptron Classifier \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
+\textbf{DESC:}  A classifier should be implemented using the classifier interface using the scikit-learn Multi-Layer Perceptron. \\
 \textbf{DEP:} N/A
 \paragraph*{FR21 - Negative Selection Classifier}
 \textbf{ID:} FR21 \\
 \textbf{TITLE:} Negative Selection Classifier \\
-\textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
+\textbf{PRIORITY:} Low \\
+\textbf{DESC:} A classifier should be implemented using the classifier interface which uses negative selection to classify network traffic. \\
 \textbf{DEP:} N/A
 \paragraph*{FR22 - Support Vector Machine Classifier}
 \textbf{ID:} FR22 \\
 \textbf{TITLE:} Support Vector Machine Classifier \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
+\textbf{DESC:}  A classifier should be implemented using the classifier interface using the scikit-learn Support Vector Machine. \\
 \textbf{DEP:} N/A
 \paragraph*{FR23 - Stochastic Classifier Averaging}
 \textbf{ID:} FR23 \\
 \textbf{TITLE:} Stochastic Classifier Averaging \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
+\textbf{DESC:} When a stochastic classifier is run, the results gathered should be averaged by the amount of runs which have taken place before displaying them.  \\
 \textbf{DEP:} FR1, FR2
 \paragraph*{FR24 - Feature Selection}
 \textbf{ID:} FR24 \\
 \textbf{TITLE:} Feature Selection \\
 \textbf{PRIORITY:} Low \\
-\textbf{DESC:}   \\
+\textbf{DESC:} Functionality should be implemented which allows analysis to be performed on the dataset on which features within the dataset are less important and can be removed to speed up and improve classifier performance.  \\
 \textbf{DEP:} N/A
 
 \subsubsection{Non-Functional Requirements}
@@ -148,29 +148,29 @@
 \textbf{ID:} QR1 \\
 \textbf{TITLE:} Robustness \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
+\textbf{DESC:} The application should be robust and be able to handle many different kinds of datasets an classifiers, and will fail gracefully, showing error messages instead of crashing, when erroneous data is input.  \\
 \paragraph*{QR2 - Responsiveness} 
 \textbf{ID:} QR2 \\
 \textbf{TITLE:} Responsiveness \\
 \textbf{PRIORITY:} Medium \\
-\textbf{DESC:} UI should not hang during stuff.   \\
+\textbf{DESC:} The user interface of the application should react promptly, and should stay responsive without hanging when long computations are being carried out in the background.  \\
 \paragraph*{QR3 - Usability}
 \textbf{ID:} QR3 \\
 \textbf{TITLE:} Usability \\
 \textbf{PRIORITY:} Medium \\
-\textbf{DESC:}   \\
+\textbf{DESC:} The user interface should be user friendly, being easy to navigate with the functions of each piece of the interface being immediately evident. It should also take the least amount of clicks possible to navigate between views and to perform actions. \\
 \paragraph*{QR4 - Maintainability}
 \textbf{ID:} QR4 \\
 \textbf{TITLE:} Maintainability \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:}   \\
+\textbf{DESC:} The structure of written code should support easy maintainence by being constructed clearly and sensibly, without coupling of functionality. Sensible variable and method names as well as comments should be used to aid with code comprehension in future.\\
 \paragraph*{QR5 - Portability}
 \textbf{ID:} QR5 \\
 \textbf{TITLE:} Portability \\
 \textbf{PRIORITY:} Low \\
-\textbf{DESC:} Work on different systems and OS's  \\
+\textbf{DESC:} The application should work on many different operating systems and environments, e.g. Windows, Linux and MacOS. \\
 \paragraph*{QR6 - Correctness}
 \textbf{ID:} QR6  \\
 \textbf{TITLE:} Correctness \\
 \textbf{PRIORITY:} High \\
-\textbf{DESC:} Results MUST be correct.   \\
+\textbf{DESC:} The loading of datasets, preprocessing of said datasets and classification of data should all be correct. If any of these steps are not correct then any results collected from the application cannot be used. \\

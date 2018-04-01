@@ -1,0 +1,29 @@
+\begin{figure}[H]
+\begin{adjustbox}{center=\textwidth}
+\begin{tikzpicture}
+        \begin{axis}[
+            symbolic x coords={Must, Should, Could, Wont},
+            xtick=data,
+	    ylabel = {Requirements},
+	    ybar 
+          ]
+            \addplot coordinates {
+                (Must, 16)
+                (Should,  5)
+                (Could,   1)
+                (Wont,   0)
+            };
+            \addplot coordinates {
+                (Must,   0)
+                (Should,  0)
+                (Could,   1)
+                (Wont,   1)
+            };
+
+        \legend{Delivered, Undelivered}
+        \end{axis}
+\end{tikzpicture}
+\end{adjustbox}
+\caption{Delivered Functional Requirements}
+\label{reqgraph}
+\end{figure}

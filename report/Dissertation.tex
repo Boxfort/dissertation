@@ -119,12 +119,21 @@
 \newpage
 
 \section*{Acknowledgements}
-Insert acknowledgements here
+\noindent I would like the thank the following people without whom this dissertation would not have been possible: \\
+
+\noindent Dr Simon Powers, for his excellent supervision and guidance throughout the duration of the project. \\
+
+\noindent Dillon Hemphill and Dayna Craig, for their constant moral support. \\
+
+\noindent The Games Lab Team, for keeping me productive and motivated with pomodoros and cheeky halves.
+
+
+
 \newpage
 
 \section{Introduction}
 \subsection{Background}
-	For any major company or business security is of the utmost concern, with a study finding that in the UK in 2016 an estimated 46\% of all businesses experienced a cyber security breach or attack \cite{securitysurvey2017}. These breaches are particularly dangerous as even if a network is compromised a single time a company can have its entire database destroyed, or customer data leaked, leading to legal repercussions. When it comes to preventing these intrusions firewalls alone are insufficient for anything but the most rudimentary of attacks and so a Network Intrusion Detection System (NIDS) is employed to further bolster the security of the network. Traditional NIDS are placed strategically on a network to monitor all incoming traffic. It analyses the passing traffic and then compares it to a large library of known attacks and if it matches will flag the traffic. While these systems do provide some degree of protection they are unable to detect novel attacks or zero-day vulnerabilities and so some other method of identifying suspicious traffic is required. Introducing machine learning to a NIDS is one way of attempting to solve this problem first proposed by \cite{denning1987intrusion}. In using machine learning to detect network intrusions the system can be trained to recognise patterns of intrusive behaviour, allowing it to detect attacks which it may not have seen before but have characteristics of similar attacks. Machine learning also allows systems to be easily retrained to accommodate for new data on attacks as it emerges. There are two main categories of NIDS: misuse detection, and anomaly detection; both of which have their own advantages and disadvantages. This literary review aims to discuss the different kinds of network intrusion detection systems, the algorithms that these systems employ, and the gap in papers which directly compare the performance of single stage and two-stage classifiers in the domain of network intrusion detection.
+	For any major company or business security is of the utmost concern, with a study finding that in the UK in 2016 an estimated 46\% of all businesses experienced a cyber security breach or attack \parencite{securitysurvey2017}. These breaches are particularly dangerous as even if a network is compromised a single time a company can have its entire database destroyed, or customer data leaked, leading to legal repercussions. When it comes to preventing these intrusions firewalls alone are insufficient for anything but the most rudimentary of attacks and so a Network Intrusion Detection System (NIDS) is employed to further bolster the security of the network. Traditional NIDS are placed strategically on a network to monitor all incoming traffic. It analyses the passing traffic and then compares it to a large library of known attacks and if it matches will flag the traffic. While these systems do provide some degree of protection they are unable to detect novel attacks or zero-day vulnerabilities and so some other method of identifying suspicious traffic is required. Introducing machine learning to a NIDS is one way of attempting to solve this problem first proposed by \cite{denning1987intrusion}. In using machine learning to detect network intrusions the system can be trained to recognise patterns of intrusive behaviour, allowing it to detect attacks which it may not have seen before but have characteristics of similar attacks. Machine learning also allows systems to be easily retrained to accommodate for new data on attacks as it emerges. There are two main categories of NIDS: misuse detection, and anomaly detection; both of which have their own advantages and disadvantages. The following literature review aims to discuss the different kinds of network intrusion detection systems, the algorithms that these systems employ, and the gap in papers which directly compare the performance of single stage and two-stage classifiers in the domain of network intrusion detection.
 		
 \subsection{Research Questions}
 	For this honours thesis there are a number of research questions which have been collated, and an attempt made to answer them. These questions in which I am interested in answering are the following: 
@@ -180,14 +189,27 @@ Part three (Sections 5-8) is a listing of results gathered in experiments carrie
 
 \input{Dissertation-LR}
 
+\newpage
 \section{Existing Software}
 \subsection{WEKA}
-\subsection{SPLUNK}
+Waikato Environment for Knowledge Analysis (WEKA) is a software suite designed to aid in data analysis and prediction modelling using machine learning techniques \cite{hall2009weka}. WEKA supports a number of tasks including: clustering, regresssion, classification, data and algorithmic visualization, feature selection, and data preprocessing. All of WEKA's functionality is available through the command line and also through the supplied user interface. Although WEKA does include a user interface it can be overwhelming to new users, and presents a sizeable learning curve to begin using due to the extensive functionaily that the software provides. Providing WEKA with custom classification algorithms is done through the use of .jar files. This requires the user to pre-compile and package created classifiers, which can make quick editing and addition of new classifiers difficult, whereas the proposed software will use python allowing for .py files to be used directly, allowing for changes to accomdated more quickly and files added more easily.
+
+	The software created in this project, will aim to provide similar functionality as WEKA albeit with a highly reduced scope. The reasoning behind this being that the software will be very easy to use for the comparison of single and two stage classifiers without providing a large amount of functionality, to allow the software to be easy to pick up, user friendly and have a very specific use case.
+\subsection{Splunk}
+Splunk is a peice of software for collecting and analysing large amounts of real time machine generated data including network traffic \parencite{splunk}. Splunks main use case is application management, network security and analytics. Although Splunk may be used for the comparison of classification algorithms on specific datasets, it is not its main use and it does not provide a simple way to compare single and multiple stage classifiers. In addition, the extremely extensive amount of functionaliy it offers presents a massive learning curve and so it may be more beneficial to have a specifically tailored peice of software which can provide more focused functionality such as the software proposed in this project.Splunk is also not open source software, which may be of concern to some and does not allow for user modification of the software.
+\newpage
 \section{Software}
 This section of the report will provide a high level description of the functionality and requirements of the software as well as describing the role of the user which will interact with the system. Detailed descriptions of functionality will also be included, and a list of hardware and software constraints, dependencies and assumptions made about the system and users. A detailed testing description will then be given outlining any and all unit testing and functional testing which will take place. Finally an evaluation will take place assessing how well the produced software meets its initial requirements and design.
 \subsection{Overall Description}
-\subsubsection{Product Perspective}
+This section will give an overview of the whole proposed system, and the basic functionality that it requires. It will also describe the users of the system as well as the dependencies and operating environment of the system.
 \subsubsection{Product Functions}
+The proposed software which will be developed is primarly to assist in the comparison of single stage and two-stage classifiers. The software will accept a dataset and supporting files in the form of: A training dataset, or a number of folds to use in k-fold cross-validation; A list of dataset features with thier data types; the number of runs to perform for stochastic classifiers; and optionally a list of categories to sort attacks into after classification. The user may also manually sort each of the features into one of three types, numeric, nominal, or binary. 
+
+The user may also specify any number of classifier configurations. These classifier configurations consist of either one or two filepaths which point to a python file containing the definition for a classifier, which use the specified classifier interface. 
+
+Once both the dataset and classifier configurations have been entered by the user, the classifiers will be run on the dataset and make predictions about either the testing dataset or training set folds and determine the class for each entry in the set. Once these preditions have been made, the results will be presented to the user. The results shown to the user come in the form of: precision, recall and f1-score metrics for each class, and each attack category; a confusing matrix, and then raw statistics regarding classification including true postives, true negatives, false postives, false negatives, etc. The user will also be shown a graph of any class they choose which will show the true positives, true negatives, false positives, and false negatives for each classifier configuration for the specified class, allowing for quick and easy comparison between configurations.
+
+
 \subsubsection{User Characteristics}
 This software is primarily focused towards researchers and students interested in comparing machine learning classification algorithms with a single stage against those with multiple stages. The software may be used by them in order to quickly make comparisons between different configurations of classifiers and to assess the effectiveness of these configurations. They will be able to enter their own datasets and classifiers and receive results in a standard format, and to view these results in a graph.
 \subsubsection{Operating Environment}
@@ -213,31 +235,40 @@ In order to run the software the following requirements must be met:
 \end{itemize}
 
 \subsection{Specific Requirements}
-\subsubsection{User Interface}
-TODO: Write about UI
+\subsubsection{User Interface} \label{ui}
+When the user launches the program they should be presented with the main window as shown in Figure \ref{mainwf}. The window consists of several main features, in the bottom left corner of the UI is the whee classifier configurations are specified. The buttons under each text box which say 'Select Classifier' may be used to open a file picker dialog and select a filepath. The 'Two Stage Classifier' checkbox can be checked which will turn the classifier configuration into a two stage classifier, and the second classifier box will be required. The tab containing the '+' symbol at the top of this section can be used to create new tabs which contain classifier configurations, which can be switched to by selecting one of the tabs along the top edge. The 'Run' button directly below this can be used to run the classifier configurations on the specified dataset.
+
 \begin{figure}[H]
 	\makebox[\textwidth][c]{\includegraphics[width=\textwidth, center]{figures/Mainwindow.pdf}}
 \caption{Main Window Result Tab Wireframe}
 \label{mainwf}
 \end{figure}
+The large section in the top right of the window is the area in which classification results will be displayed, and the tabs above can be used to access the graph view, seen in Figure \ref{graphwf}. In this tab the drop down can be used to select a class and the 'Select' button used to generate a graph of true postives, true negatives, false postives and false negatives for each classifier configurations for the specified class. In the small box in the bottom right of the window, the debug output from the program and classifiers will be shown. This output can then be cleared by pressing the 'Clear' button just below it. In the top left hand corner the 'File' button may be pressed which will present the user with a dropdown menu through which the user may create a new classifier; which will open a new file dialog prompting for a filepath and create a new classifier file; or exit the program entirely.
+
 \begin{figure}[H]
 	\makebox[\textwidth][c]{\includegraphics[width=\textwidth, center]{figures/mainwindowgraph.pdf}}
 \caption{Main Window Graph Tab Wireframe}
 \label{graphwf}
 \end{figure}
+
+Beneath the 'File' button there is a textbox which will display details regarding the dataset which has been selected. If the user wishes to specify a dataset, the 'Dataset' button underneath this can be pressed, and the user will be presented with the window seen in Figure \ref{datasetwf}.
+
 \begin{figure}[H]
 	\makebox[\textwidth][c]{\includegraphics[width=\textwidth, center]{figures/datasetwindow.pdf}}
 \caption{Dataset Window Wireframe}
 \label{datasetwf}
 \end{figure}
 
-\subsubsection{Functional Requirements}
-TODO: Fill in descriptions
+In this window the user may specify a filepath for the training dataset, testing datset, dataset fields and attack categories by selecting the corresponding 'Select File' button underneath the label. Once the dataset fields have been selected they will populate the 'Nominal', 'Binary' and 'Numeric' columns. If there is no type specified within the file they will all be placed under the 'Numeric' column. The user may then manually set the field type by selecting the field name, and then either pressing one of the buttons labelled '$<$' or '$>$', or by right clicking and selecting the destination column. If the user wishes to use k-fold cross validation instead of a testing dataset they can check the 'k-Fold Cross Validation' checkbox and specify the number of folds in the 'Folds' spinner. They may also specify the number of stochastic classifier runs by entering a number into the spinner labelled 'Stochastic Classifier Runs'. Once the user has finished entering a dataset, they can press the 'Ok' button and the window will close. When this happens the textbox labelled 'Dataset info' in Figures \ref{mainwf} and \ref{graphwf} will be populated with information regarding the selected dataset.
+
+
+\subsubsection{Functional Requirements} \label{reqspec}
 \input{reqspec}
 \subsection{Testing}
-TODO: Paragraph about testing, unit testing and why
+Testing will be carried out on the system to verify that the system is compliant with all requirements and works according to the specification. Unit tests will be written using the Python Unit Testing Framework to automatically carry out unit test to ensure there are no errors within the system, and that when changes are made the system no new errors are introduced. Manual testing will also be carried out by following the steps detailed below in Table \ref{testcasetabel}, in order to ensure that the system meets the specification and that no errors are present. Manual testing is necessary in order to fully test areas of the code which unit tests cannot cover, such as the user interface functionality.
 \input{tables/testcase.tex}
 
+\newpage
 \section{Methodology}
 \subsection{Implementation}
 \subsubsection{PyQt}
@@ -370,6 +401,7 @@ f1-Score is a metric which takes both the precision and recall into account, the
 
 where $tp$ is the number of true positives, $fp$ the number of false positives, and $fn$ the number of false negatives. This metric is extremely useful if false positives and false negatives are weighted the same in terms of negative effects. Note that f1-score does not take true negatives into account, however in this case the sheer volume of true negatives for each class would cause a metric taking them into account yield no useful insight.
 
+\newpage
 \section{Results}
 \subsection{NSL-KDD}
 The following section lists the results gathered running each classifier configuration on the NSL-KDD dataset. All of the metrics calculated using these results were first calculated per class, then combined and averaged for each category. This is done to ensure that classes with a lower number of samples are equally represented as the number of samples for each class within a category can vary greatly. The total number of true postives, true negatives, false postives, and false negatives for each category can be found in Appendix \ref{nslraw}.
@@ -379,19 +411,74 @@ The following section lists the results gathered running each classifier configu
 The values used in the creation of Figures \ref{nslprecision}, \ref{nslrecall}, and \ref{nslf1score} can be found in Appendices \ref{appendix:nslprecision}, \ref{appendix:nslrecall}, and \ref{appendix:nslf1score} respectively.
 \subsection{UNSW-NB15}
 The following section lists the results gathered running each classifier configuration on the UNSW-NB15 dataset. In this dataset, attacks are already grouped into categories and so no averaging is necessary. The total number of true positives, true negatives, false positives, and false negatives for each category can be found in Appendix \ref{unswraw}.
-
-TODO : Re-test results, I think I need to make changes to classifier configurations, thats why second set is getting real bad results. 
 \input{plots/precisionUNSW}
 \input{plots/recallUNSW}
 \input{plots/f1scoreUNSW}
 The values used in the creation of Figures \ref{unswprecision}, \ref{unswrecall}, and \ref{unswf1score} can be found in Appendices \ref{appendix:unswprecision}, \ref{appendix:unswrecall}, and \ref{appendix:unswf1score} respectively.
+\newpage
 \section{Evaulation}
 \subsection{Software}
-Evaluate the software
-How many of the function requirements were met
-How many of the non functional requirements were met
-Is the user interface like it was designed
-How does it compare to existing software
+\subsubsection{User Interface}
+From the wireframes shown in Section \ref{ui}, a user interface was created conforming to those designs which will be discussed below.
+
+The main window in Figure \ref{mwrs}, shown below, was created from the design in Figure \ref{mainwf}. As can be seen in this figure, the user can select filepaths which are then inserted into the appropriate text boxes, and there is a button available above the classifier configurations which will create a new tab in which to specify a new configuration. It can also be seen that the main window contains a box in the top right of the window, showing details about the selected dataset, a debug log with accompanying clear button, and a run button under the classifier configurations used for running those configurations.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/mainwindowresultscreenshot}
+	\caption{Main Window Results Screenshot}
+	\label{mwrs}
+\end{figure}
+The main box on the right hand side of the window contains the raw results for the classifier configurations, with different classifier results being available by selecting the corresponding number tab at the top of the box.
+Below in Figure \ref{mwmbs}, the menu bar can be seen showing the expected functionality, namely, the ability to create new classifiers and to exit the program.
+\begin{figure}[H]
+	\centering
+	\includegraphics[trim={0cm 15cm 15cm 0},clip,width=1.0\textwidth]{figures/menubarscreenshot}
+	\caption{Main Window Menu Bar Screenshot}
+	\label{mwmbs}
+\end{figure}
+Figure \ref{mws}, shows the 'Graph' tab within the main window. The classification label can be selected through the drop down and the top of the graph, and then shown by pressing the 'Show' button. The graph produced shows the true positive, true negative, false positive, and false negative values for the selected label of all classifier configurations, allowing for easy comparison between each classifier.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/mainwindowscreenshot}
+	\caption{Main Window Graph Screenshot}
+	\label{mws}
+\end{figure}
+The final user interface created is that for the dataset window, shown in Figure \ref{dsws} and created from the wireframe in Figure \ref{datasetwf}. It can be seen that all of the dataset files can be selected and their filenames placed into the appropriate text boxes, as well as the three columns, 'Nominal', 'Binary' and 'Numeric' being populated with the columns labels file selected. There exists buttons labeled '$<$' and '$>$' on each side of the columns for moving these labels between columns. Figure \ref{rcs} shows the functionality for moving column labels through the right click context menu. The dataset window also allows the user to select between a testing set and k-fold cross validation, as well as the number of folds, and the number of runs a stochastic classifier should be averaged over.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{figures/datasetwindowscreenshot}
+	\caption{Dataset Window Screenshot}
+	\label{dsws}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[trim={17cm 15cm 7cm 1cm}, clip, width=0.7\textwidth]{figures/rcscreenshot}
+	\caption{Right Click Context Menu}
+	\label{rcs}
+\end{figure}
+From all of these figures, it can be seen that the produced software follows the wireframe designs created in Section \ref{ui}.
+\subsubsection{Functional Requirements}
+Out of all of the functionality listed in Section \ref{reqspec} only two pieces of functionality were not delivered, the counts of which can be seen in Figure \ref{reqgraph}, and the priorities of each functional requirement can be seen in the MoSCoW analysis in Appendix \ref{moscow}.
+\input{plots/reqgraph}
+The two pieces of functionality which were not delivered were FR21 Negative Selection Classifier, and FR24 Feature Selection. The negative selection classifier was ultimately not delivered due to time. This method of classification was not available within Sci-kit Learn or any libraries which could be found and implementing this classifier from scratch would have taken a considerable amount of time, as well as extensively testing it to ensure correctness. Another problem with this method of classification comes in the form of the time which is required in order to train it. Generating detectors is an expensive process, which is only made more expensive by the large number of features in the selected datasets, and by implementing the algorithm in Python, which is considerably slower than an implementation written in c, and while c and Python interoperability is possible through Cython, this was out of scope for the project. For these reasons it was decided to not deliver this functionality.
+
+The second piece of functionality not delivered, feature selection, was dropped for being out of scope.
+The software which was produced was primarily to be used for comparing classifier results. While implementing some kind of feature selection might have improved these classifier results and reduced the running times of the classifiers, it would have taken a large amount of time to create, and integrate with the user interface. Instead, it is assumed that when running the software, that the dataset will have already been feature selected, reducing the scope of the software and keeping it much more simple, accessible and user friendly.
+
+\subsubsection{Non-Functional Requirements}
+\paragraph{QR1 Robustness}
+The software produced is shown to meet the requirment of being robust through both unit and manual testing. The software supports datasets of many feature sizes, and up to hundreds of thousands of rows, as well as datasets with any number of destination classes, and any number of categories which to sort classes into and aggregate results for. If there are errors present within a dataset or supplied classifier the software will present an error message, and allow the user to re-select the faulty dataset or classifier without crashing or becoming unresponsive.
+\paragraph{QR2 Responsiveness}
+User interface responsiveness was only partially achieved in the development of the software. When running one or multiple classifier configurations, the main thread will be blocked, only updating when debug output is written to the debug log at the bottom of the main window. This is not seen as a great problem however, as the running of classifiers cannot be canceled, and the debug output is still output in real time.
+\paragraph{QR3 Usability}
+When compared to existing software such as WEKA and Splunk, the produced software is much simpler, and consequently easier to learn and use. All aspects of the user interface are clearly laid out for the user to see, and it takes no more than three clicks to reach any piece of functionality from any state in the program, making navigation quick and simple. The software is also highly focussed with a small scope, only aiming to compare single and two stage classification configurations, unlike WEKA which aims to provide an extensive set of functionality so that users can carry out many different and complex use cases, in turn making the program much more user friendly.
+\paragraph{QR4 Maintainability}
+Maintainability will be aided in future through the use of comments throughout the program, describing the use of large methods and complex sections of code, sensible variable names which are self documenting. The class and use case diagram which were produced during the design of the software will also aid in the maintainance of the software, as well as the unit tests produced which can be used to ensure no functionality is broken when adding new features.
+\paragraph{QR5 Portability}
+The software produced is highly portable, which is facilitated by what software and libraries where used in the production of the software. The Python language can be run on any operating system, as well as any packages and libraries that it uses, and the PyQt framework which was used for creating the user interface is available for use on all operating systems.
+\paragraph{QR6 Correctness}
+To ensure that all results produced by the software were correct, libraries were used to implement the complex classification algorithms, as well as handling the creation and modification of the data structure used to hold the datasets. These libraries have already been highly tested and proven to produce correct results. Unit tests were also created to ensure that the custom methods implemented for manipulating and preprocessing data produced the correct results.
+
 \subsection{Single vs Two-stage Classifiers Performance}
 \begin{itemize}
 \item{knn-knn second stage for unsw results in same normals but lower attack classification. Attacks require normals to better differentiate between them.}
@@ -401,6 +488,7 @@ How does it compare to existing software
 \item{in NSL KDD combining with self will produce better results, except in the case of SVM}
 \end{itemize}
 
+\newpage
 \section{Conclusion}
 \subsection{Research Questions}
 \subsubsection*{What is the rate of accurate detection and classification of network intrusions by single stage machine learning classification methods?}
@@ -472,19 +560,27 @@ How does it compare to existing software
 \includegraphics[page=13, width=0.5\textwidth]{figures/diaries} &
 \includegraphics[page=14, width=0.5\textwidth]{figures/diaries} \\
 \includegraphics[page=15, width=0.5\textwidth]{figures/diaries} &
+\includegraphics[page=16, width=0.5\textwidth]{figures/diaries} &
+\includegraphics[page=17, width=0.5\textwidth]{figures/diaries} &
+\includegraphics[page=18, width=0.5\textwidth]{figures/diaries} &
+\includegraphics[page=19, width=0.5\textwidth]{figures/diaries} &
+\includegraphics[page=20, width=0.5\textwidth]{figures/diaries} &
+\includegraphics[page=21, width=0.5\textwidth]{figures/diaries} &
+\includegraphics[page=22, width=0.5\textwidth]{figures/diaries} &
+\includegraphics[page=23, width=0.5\textwidth]{figures/diaries} &
 \end{longtable}
 
 
 \newpage
 
-\section{MoSCoW Analysis}
+\section{MoSCoW Analysis} \label{moscow}
 \input{tables/moscow}
 
 \newpage
 
 \section{Class Diagram} \label{classdiagram}
 \begin{figure}[H]
-	\makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth, center]{figures/classuml.pdf}}
+	\makebox[\textwidth][c]{\includegraphics[width=1.1\textwidth, center]{figures/classuml.pdf}}
 \caption{UML Class Diagram}
 \end{figure}
 
@@ -492,7 +588,7 @@ How does it compare to existing software
 
 \section{Use Case Diagram} \label{usecase}
 \begin{figure}[H]
-	\makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth, center]{figures/usecase.pdf}}
+	\makebox[\textwidth][c]{\includegraphics[width=1.1\textwidth, center]{figures/usecase.pdf}}
 \caption{UML Use Case Diagram}
 \end{figure}
 
