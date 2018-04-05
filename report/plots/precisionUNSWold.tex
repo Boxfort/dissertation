@@ -1,0 +1,79 @@
+\begin{figure}[H]
+\begin{adjustbox}{width=1.0\textwidth, center=\textwidth}
+\begin{tikzpicture}
+\begin{axis}[
+    xbar stacked,
+    enlarge x limits=0.00,
+    legend pos=outer north east,
+    ylabel={Classifier},
+    xlabel={Precision},
+    y label style={at={(axis description cs:-0.1,.5)},anchor=south},
+    symbolic y coords={k-NN,MLP,SVM,k-NN/k-NN,k-NN/MLP,k-NN/SVM,MLP/k-NN,MLP/MLP,MLP/SVM,SVM/k-NN,SVM/MLP,SVM/SVM},
+    ytick=data,
+    %nodes near coords,
+    %nodes near coords align={horizontal},
+    point meta=rawx,
+    bar width = 0.5cm,
+    y dir = reverse,
+    xmax = 6,
+    width=1.0\textwidth,
+    ]
+    % Analysis
+    \addplot coordinates {(0.10,k-NN) (0.13,MLP) (0.06,SVM) 
+	                  (0.10,k-NN/k-NN) (0.01,k-NN/MLP) (0.01,k-NN/SVM) 
+		          (0.10,MLP/k-NN) (0.11,MLP/MLP) (0.06,MLP/SVM) 
+		          (0.10,SVM/k-NN) (0.11,SVM/MLP) (0.06,SVM/SVM)};
+    % Backdoor
+    \addplot coordinates {(0.08,k-NN) (0.13,MLP) (0.00,SVM) 
+	                  (0.06,k-NN/k-NN) (0.13,k-NN/MLP) (0.00,k-NN/SVM) 
+		          (0.06,MLP/k-NN) (0.13,MLP/MLP) (0.00,MLP/SVM) 
+		          (0.06,SVM/k-NN) (0.14,SVM/MLP) (0.00,SVM/SVM)};
+    % DoS
+    \addplot  coordinates {(0.22,k-NN) (0.38,MLP) (0.23,SVM) 
+	                  (0.19,k-NN/k-NN) (0.34,k-NN/MLP) (0.17,k-NN/SVM) 
+		          (0.21,MLP/k-NN) (0.38,MLP/MLP) (0.23,MLP/SVM) 
+		          (0.21,SVM/k-NN) (0.38,SVM/MLP) (0.23,SVM/SVM)};
+    % Exploits
+    \addplot  coordinates {(0.23,k-NN) (0.62,MLP) (0.59,SVM) 
+	                  (0.24,k-NN/k-NN) (0.40,k-NN/MLP) (0.39,k-NN/SVM) 
+		          (0.46,MLP/k-NN) (0.61,MLP/MLP) (0.58,MLP/SVM) 
+		          (0.45,SVM/k-NN) (0.61,SVM/MLP) (0.57,SVM/SVM)};
+    % Fuzzers
+    \addplot  coordinates {(0.19,k-NN) (0.57,MLP) (0.60,SVM) 
+	                  (0.19,k-NN/k-NN) (0.25,k-NN/MLP) (0.24,k-NN/SVM) 
+		          (0.25,MLP/k-NN) (0.52,MLP/MLP) (0.59,MLP/SVM) 
+		          (0.22,SVM/k-NN) (0.47,SVM/MLP) (0.53,SVM/SVM)};
+    % Generic
+    \addplot coordinates {(0.95,k-NN) (0.98,MLP) (0.99,SVM) 
+	                  (0.95,k-NN/k-NN) (0.99,k-NN/MLP) (0.99,k-NN/SVM) 
+		          (0.95,MLP/k-NN) (0.98,MLP/MLP) (0.98,MLP/SVM) 
+		          (0.95,SVM/k-NN) (0.98,SVM/MLP) (0.98,SVM/SVM)};
+    % Reconnaissance
+    \addplot coordinates {(0.70,k-NN) (0.71,MLP) (0.69,SVM) 
+	                  (0.62,k-NN/k-NN) (0.60,k-NN/MLP) (0.64,k-NN/SVM) 
+		          (0.63,MLP/k-NN) (0.68,MLP/MLP) (0.68,MLP/SVM) 
+		          (0.63,SVM/k-NN) (0.65,SVM/MLP) (0.66,SVM/SVM)};
+    % Shellcode
+    \addplot coordinates {(0.18,k-NN) (0.30,MLP) (0.44,SVM) 
+	                  (0.14,k-NN/k-NN) (0.16,k-NN/MLP) (0.31,k-NN/SVM) 
+		          (0.16,MLP/k-NN) (0.32,MLP/MLP) (0.44,MLP/SVM) 
+		          (0.15,SVM/k-NN) (0.28,SVM/MLP) (0.39,SVM/SVM)};
+    % Worms
+    \addplot coordinates {(0.00,k-NN) (0.49,MLP) (1.00,SVM) 
+	                  (0.00,k-NN/k-NN) (0.27,k-NN/MLP) (0.00,k-NN/SVM) 
+		          (0.00,MLP/k-NN) (0.53,MLP/MLP) (1.00,MLP/SVM) 
+		          (0.00,SVM/k-NN) (0.53,SVM/MLP) (1.00,SVM/SVM)};
+    % Normal
+    \addplot [point meta = x, nodes near coords, nodes near coords align={anchor=west}] coordinates {(0.73,k-NN) (0.93,MLP) (0.90,SVM) 
+	                  (0.73,k-NN/k-NN) (0.73,k-NN/MLP) (0.73,k-NN/SVM) 
+		          (0.94,MLP/k-NN) (0.94,MLP/MLP) (0.93,MLP/SVM) 
+		          (0.92,SVM/k-NN) (0.92,SVM/MLP) (0.92,SVM/SVM)};
+
+
+        \legend{Analysis, Backdoor, DoS, Exploits, Fuzzers, Generic, Recon, Shellcode, Worms, Normal}
+\end{axis}
+\end{tikzpicture}
+\end{adjustbox}
+\caption{UNSW-NB15 Classifiers Precision Graph}
+\label{unswprecision}
+\end{figure}

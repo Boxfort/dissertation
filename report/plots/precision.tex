@@ -3,39 +3,48 @@
 \begin{tikzpicture}
 \begin{axis}[
     xbar stacked,
-    enlargelimits=0.05,
-    legend pos=outer north east,
+    ytick=data,
+    xmin=0,
     ylabel={Classifier},
     xlabel={Precision},
     y label style={at={(axis description cs:-0.1,.5)},anchor=south},
     symbolic y coords={k-NN,MLP,SVM,k-NN/k-NN,k-NN/MLP,k-NN/SVM,MLP/k-NN,MLP/MLP,MLP/SVM,SVM/k-NN,SVM/MLP,SVM/SVM},
-    ytick=data,
-    %nodes near coords,
-    %nodes near coords align={horizontal},
+    legend pos=outer north east,
     bar width = 0.5cm,
-    xmax = 3.7,
-    y dir = reverse,
+    xmax = 5.0,
     width=1.0\textwidth,
+    y dir = reverse
     ]
-    \addplot coordinates {(0.17,k-NN) (0.38,MLP) (0.64,SVM) 
-	                  (0.18,k-NN/k-NN) (0.30,k-NN/MLP) (0.58,k-NN/SVM) 
-		          (0.33,MLP/k-NN) (0.49,MLP/MLP) (0.73,MLP/SVM) 
-		          (0.21,SVM/k-NN) (0.37,SVM/MLP) (0.65,SVM/SVM)};
-    \addplot coordinates {(0.69,k-NN) (0.79,MLP) (0.83,SVM) 
-	                  (0.73,k-NN/k-NN) (0.51,k-NN/MLP) (0.64,k-NN/SVM) 
-		          (0.51,MLP/k-NN) (0.71,MLP/MLP) (0.80,MLP/SVM) 
-		          (0.44,SVM/k-NN) (0.49,SVM/MLP) (0.83,SVM/SVM)};
-    \addplot coordinates {(0.91,k-NN) (0.94,MLP) (0.93,SVM) 
-	                  (0.90,k-NN/k-NN) (0.94,k-NN/MLP) (0.93,k-NN/SVM) 
-		          (0.89,MLP/k-NN) (0.94,MLP/MLP) (0.93,MLP/SVM) 
-		          (0.90,SVM/k-NN) (0.94,SVM/MLP) (0.93,SVM/SVM)};
 
-    \addplot [point meta = x, nodes near coords, nodes near coords align={anchor=west}] coordinates {(0.90,k-NN) (0.98,MLP) (0.99,SVM) 
-	                  (0.91,k-NN/k-NN) (0.98,k-NN/MLP) (0.96,k-NN/SVM) 
-		          (0.91,MLP/k-NN) (0.98,MLP/MLP) (0.97,MLP/SVM) 
-		          (0.91,SVM/k-NN) (0.98,SVM/MLP) (0.96,SVM/SVM)};
+    \addplot table[
+    	x index=1,
+	y=Class,
+	col sep = comma,
+	] {data/NSLResultsPrecision.csv};
+\addplot table[
+    	x index=2,
+	y=Class,
+	col sep = comma,
+	] {data/NSLResultsPrecision.csv};
+\addplot table[
+    	x index=3,
+	y=Class,
+	col sep = comma,
+	] {data/NSLResultsPrecision.csv};
+\addplot table[
+    	x index=4,
+	y=Class,
+	col sep = comma,
+	] {data/NSLResultsPrecision.csv};
+\addplot [point meta = x, nodes near coords, nodes near coords align={anchor=west}] table[
+    	x index=5,
+	y=Class,
+	col sep = comma,
+	] {data/NSLResultsPrecision.csv};
 
-        \legend{u2r,r2l,dos,probe}
+
+    \legend{dos,u2r,r2l,probe, normal}
+
 \end{axis}
 \end{tikzpicture}
 \end{adjustbox}

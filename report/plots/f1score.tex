@@ -3,39 +3,49 @@
 \begin{tikzpicture}
 \begin{axis}[
     xbar stacked,
-    enlargelimits=0.05,
-    legend pos=outer north east,
+    ytick=data,
+    xmin=0,
     ylabel={Classifier},
-    xlabel={F1-Score},
+    xlabel={f1-Score},
     y label style={at={(axis description cs:-0.1,.5)},anchor=south},
     symbolic y coords={k-NN,MLP,SVM,k-NN/k-NN,k-NN/MLP,k-NN/SVM,MLP/k-NN,MLP/MLP,MLP/SVM,SVM/k-NN,SVM/MLP,SVM/SVM},
-    ytick=data,
-    %nodes near coords,
-    %nodes near coords align={horizontal},
+    legend pos=outer north east,
     bar width = 0.5cm,
-    xmax=3.3,
-    y dir = reverse,
+    xmax = 4.5,
     width=1.0\textwidth,
+    y dir = reverse
     ]
-    \addplot coordinates {(0.18,k-NN) (0.36,MLP) (0.45,SVM) 
-	                  (0.18,k-NN/k-NN) (0.23,k-NN/MLP) (0.29,k-NN/SVM) 
-		          (0.24,MLP/k-NN) (0.46,MLP/MLP) (0.45,MLP/SVM) 
-		          (0.22,SVM/k-NN) (0.43,SVM/MLP) (0.45,SVM/SVM)};
-    \addplot coordinates {(0.63,k-NN) (0.72,MLP) (0.69,SVM) 
-	                  (0.61,k-NN/k-NN) (0.54,k-NN/MLP) (0.58,k-NN/SVM) 
-		          (0.51,MLP/k-NN) (0.67,MLP/MLP) (0.68,MLP/SVM) 
-		          (0.48,SVM/k-NN) (0.54,SVM/MLP) (0.69,SVM/SVM)};
-    \addplot coordinates {(0.92,k-NN) (0.95,MLP) (0.93,SVM) 
-	                  (0.90,k-NN/k-NN) (0.94,k-NN/MLP) (0.91,k-NN/SVM) 
-		          (0.89,MLP/k-NN) (0.94,MLP/MLP) (0.93,MLP/SVM) 
-		          (0.91,SVM/k-NN) (0.96,SVM/MLP) (0.93,SVM/SVM)};
 
-    \addplot [point meta = x, nodes near coords, nodes near coords align={anchor=west}] coordinates {(0.89,k-NN) (0.98,MLP) (0.97,SVM) 
-	                  (0.89,k-NN/k-NN) (0.98,k-NN/MLP) (0.96,k-NN/SVM) 
-		          (0.89,MLP/k-NN) (0.98,MLP/MLP) (0.97,MLP/SVM) 
-		          (0.89,SVM/k-NN) (0.98,SVM/MLP) (0.96,SVM/SVM)};
-        \legend{u2r,r2l,dos,probe}
-\end{axis}
+    \addplot table[
+    	x index=1,
+	y=Class,
+	col sep = comma,
+	] {data/NSLResultsf1score.csv};
+\addplot table[
+    	x index=2,
+	y=Class,
+	col sep = comma,
+	] {data/NSLResultsf1score.csv};
+\addplot table[
+    	x index=3,
+	y=Class,
+	col sep = comma,
+	] {data/NSLResultsf1score.csv};
+\addplot table[
+    	x index=4,
+	y=Class,
+	col sep = comma,
+	] {data/NSLResultsf1score.csv};
+\addplot [point meta = x, nodes near coords, nodes near coords align={anchor=west}] table[
+    	x index=5,
+	y=Class,
+	col sep = comma,
+	] {data/NSLResultsf1score.csv};
+
+
+    \legend{dos,u2r,r2l,probe, normal}
+
+    \end{axis}
 \end{tikzpicture}
 \end{adjustbox}
 \caption{NSL-KDD Classifiers f1-Score Graph}

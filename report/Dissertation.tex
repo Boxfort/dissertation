@@ -103,6 +103,13 @@
 %LaTeX let you define the abstract separately so it wont get sucked into the main document.
 \begin{abstract}
 % fill the abstract in here
+	For any major company or business, network security is of the utmost concern, as breaches can incur huge damages to infrastructure, data, and reputation, as well as large fines. When preventing these breaches the use of firewalls alone are insufficient and so network intrusion detection systems are put in place, which monitor incoming traffic and provide an extra layer of security. These intrusion detection systems can employ machine learning techniques which allow them to detect novel attacks and zero day vulnerabilities not previously seen. 
+	
+	While the existing literature on machine learning for network intrusion detection is extensive there is an apparent lack of comparisons between single stage and two-stage classification techniques, i.e. where when classifying traffic it is first categorised as normal or intrusive, and then classified as a specific attack. This project aims to fill the gap in the literature regarding the performance difference between single and two-stage classification of network intrusions, and to determine whether or not there is a increase in the accuracy of classifications made using two-stage classification.
+
+	This dissertation presents a piece of software to simplify the comparison of single and two-stage classification techniques, and a comparison of several machine learning algorithms across the NSL-KDD and UNSW-NB15 datasets. Experimental results within this dissertation show that the overall accuracy of machine learning techniques can be improved through the use of two-stage classification and so is a worthwhile avenue of further research.
+
+
 \end{abstract}
 \pagebreak
 
@@ -160,7 +167,7 @@ In this context, accuracy is defined as a high number of true positives and true
 \item{Select appropriate datasets for use in network intrusion detection.}
 \item{Implementation of software to assist in comparison of classification algorithms.}
 \item{Evaluation of software with regards to specification and other software.}
-\item{Evaluation of classification algorithm performance.}
+\item{Evaluation of single stage classification performance versus two-stage classification performance.}
 \end{itemize}
 
 \subsection{Scope and Limitations}
@@ -402,7 +409,7 @@ f1-Score is a metric which takes both the precision and recall into account, the
 where $tp$ is the number of true positives, $fp$ the number of false positives, and $fn$ the number of false negatives. This metric is extremely useful if false positives and false negatives are weighted the same in terms of negative effects. Note that f1-score does not take true negatives into account, however in this case the sheer volume of true negatives for each class would cause a metric taking them into account yield no useful insight.
 
 \newpage
-\section{Results}
+\section{Results} \label{results}
 \subsection{NSL-KDD}
 The following section lists the results gathered running each classifier configuration on the NSL-KDD dataset. All of the metrics calculated using these results were first calculated per class, then combined and averaged for each category. This is done to ensure that classes with a lower number of samples are equally represented as the number of samples for each class within a category can vary greatly. The total number of true postives, true negatives, false postives, and false negatives for each category can be found in Appendix \ref{nslraw}.
 \input{plots/precision}
@@ -475,35 +482,149 @@ When compared to existing software such as WEKA and Splunk, the produced softwar
 \paragraph{QR4 Maintainability}
 Maintainability will be aided in future through the use of comments throughout the program, describing the use of large methods and complex sections of code, sensible variable names which are self documenting. The class and use case diagram which were produced during the design of the software will also aid in the maintainance of the software, as well as the unit tests produced which can be used to ensure no functionality is broken when adding new features.
 \paragraph{QR5 Portability}
-The software produced is highly portable, which is facilitated by what software and libraries where used in the production of the software. The Python language can be run on any operating system, as well as any packages and libraries that it uses, and the PyQt framework which was used for creating the user interface is available for use on all operating systems.
+The software produced is highly portable, which is facilitated by what libraries and technologies where used in the production of the software. The Python language can be run on any operating system, as well as any packages and libraries that it uses, and the PyQt framework which was used for creating the user interface is available for use on all operating systems.
 \paragraph{QR6 Correctness}
 To ensure that all results produced by the software were correct, libraries were used to implement the complex classification algorithms, as well as handling the creation and modification of the data structure used to hold the datasets. These libraries have already been highly tested and proven to produce correct results. Unit tests were also created to ensure that the custom methods implemented for manipulating and preprocessing data produced the correct results.
 
-\subsection{Single vs Two-stage Classifiers Performance}
-\begin{itemize}
-\item{knn-knn second stage for unsw results in same normals but lower attack classification. Attacks require normals to better differentiate between them.}
-\item{svm-svm normal has less true positives meaning that attacks will all have higher false positive rates. Also means that individual attacks are important in defining boundaries between normal and attack, not just as a whole.}
-\item{Combining classifiers with less performant classifiers will always reduce performance}
-\item{in NSL KDD, adding a more performant will generally increase performance}
-\item{in NSL KDD combining with self will produce better results, except in the case of SVM}
-\end{itemize}
+\subsection{Classifier Performance}
+When examining the results collected in Section \ref{results} a number of observations may be made, and conclusions drawn. In both the NSL-KDD and UNSW-NB15 datasets we can see the performance of the single stage classifiers as the first three results in each graph. From these single stage results we can get an idea of the general performance of each classification technique. When looking at the results in both datasets and for all metrics, it can be seen that combining any classifier with a more performant classifier for the second stage will always produce more accurate results, likewise, combining a classifier with a less performant classifier for the second stage will always produce less accurate results.
+
+To get the most accurate idea of the performance gain or loss when using two-stage classification, configurations which use the same classifier in both stages of classification should be examined, which removes the inherent difference in classifier performances from the results.
+
+When looking at the results from the NSL-KDD dataset, it can be seen that of the two stage classifier configurations consisting of the same two classifiers, i.e. k-NN/k-NN, MLP/MLP, and SVM/SVM, Figure \ref{nslprecision} show that k-NN/k-NN and MLP/MLP both have a higher precision, while SVM/SVM has a lowered precision. The SVM/SVM configuration has a lower number of true positives for normal connections, as can be seen in Appendix \ref{nslraw}, in turn increasing the total number of false positives for all attack categories and reducing overall precision. This tells us that when identifying normal traffic using a support vector machine, it is important to also have each attack class present to identify the boundaries between intrusive and normal traffic. When looking at recall in Figure \ref{nslrecall}, it can be seen that all configurations, k-NN/k-NN, MLP/MLP, and SVM/SVM, have increased a higher recall score. This shows that separating classifiers into two stages results in less false negatives overall for attacks in all classifiers, due to the second classifier being able to specialise in detecting only attacks. The f1-score for each of these classifiers gives us a good idea of what increase or decrease in performance we can expect from the classifiers assuming that false negatives and false positives are weighted the same, i.e. both are equally detrimental to classification results. Figure \ref{nslf1score} shows that both k-NN/k-NN and MLP/MLP see an increase in f1-score, while SVM/SVM sees a reduction, even though the change in precision and recall are equal. This decrease in f1-score is due to thier being a greater total number of false positives than false negatives, and with the same weighting will decrease the f1-score more than the lower number of false negatives will increase it. All of the changes in these metrics can be seen below in Table \ref{metricnsl}
+
+\begin{table}[H]
+\centering
+\caption{Change in Metrics From Single to Two-Stage Classification on NSL-KDD Dataset.}
+\label{metricnsl}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+          & \Delta Precision & \Delta Recall & \Delta f1-Score \\ \midrule
+k-NN/k-NN & $+0.07$     & $+0.14$  & $+0.09$    \\
+MLP/MLP   & $+0.03$     & $+0.17$  & $+0.04$    \\
+SVM/SVM   & $-0.02$     & $+0.02$  & $-0.04$    \\ \bottomrule
+\end{tabular}
+\end{table}
+
+When looking at results gathered from the UNSW-NB15 dataset, it can be seen that of the two stage classifier configurations, both MLP/MLP and SVM/SVM experience a drop in precision, while k-NN/k-NN experiences a significant increase in precision. In both the MLP/MLP and SVM/SVM configurations a decrease in true positives for normal traffic can be observed, shown in Appendix \ref{unswraw}, as in the SVM/SVM configuration for the NSL-KDD dataset, contributing to a higher number of false positives within attack classes and resulting in a lower total precision, shown in Figure \ref{unswprecision}. This shows us that in the UNSW-NB15 dataset which is a low footprint dataset, individual attack types are crucial in identifying boundaries between normal and abnormal traffic. These two configurations however show an increased total recall score, shown in Figure \ref{unswrecall}. This shows us that without the normal traffic the second classifier may specialise and identify attacks much more easily, however the misidentified normal traffic from the first stage still leads to a lower precision. The k-NN/k-NN configuration shows the results to the contrary, with it having a significantly increased precision, but lower recall. This difference is highly likely due to the inherent differences between classification methods. Both the k-NN and k-NN/k-NN configurations show the same classification rates for normal traffic, as shown in Appendix \ref{unswraw}, however the removal of normal traffic allows the k-NN/k-NN classifier to produce less false positives amongst attack classes, but a lower recall overall. This discrepancy can be explained by attack classes with a high number of samples receiving the false negatives of the classes with low samples, thereby decreasing recall by a large amount, and the classes with a large sample size will not have their precision affected in a significant way, resulting in higher precision and lower recall overall as all classes are weighted the same. As with the NSL-KDD dataset results, we can look at the f1-score of the classifier configurations, shown in Figure \ref{unswf1score}, to give us a good idea of the increase or decrease in overall performance of the classifiers. From the results we can see that the k-NN/k-NN configuration experiences an increase in f1-score over its single stage counterpart, MLP/MLP, shows no difference and SVM/SVM shows a decrease in overall performance. Again, as was with the NSL-KDD dataset, the f1-score is affected by the total number of classifications made in each category and is not simply a sum of precision and recall. The total change in precision, recall, and f1-score from single to two-stage classification can be seen below in Figure \ref{metricunsw}.
+
+\begin{table}[H]
+\centering
+\caption{Change in Metrics From Single to Two-Stage Classification on UNSW-NB15 Dataset.}
+\label{metricunsw}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+          & \Delta Precision & \Delta Recall & \Delta f1-Score \\ \midrule
+k-NN/k-NN & $+0.43$     & $-0.06$  & $+0.09$    \\
+MLP/MLP   & $-0.04$     & $+0.03$  & $+0.00$    \\
+SVM/SVM   & $-0.16$     & $+0.08$  & $-0.04$    \\ \bottomrule
+\end{tabular}
+\end{table}
+
+From all of these observations we may now draw some conclusions. It is always beneficial to combine classifier with a more performant classifier for the second stage of classification, which may prove useful if a certain classification method is required for the first stage, or if the running time is an issue a less performant but faster classifier may be used in conjunction with a higher performance classifier, to have both low running times and higher accuracy. 
+
+
+From the NSL-KDD f1-score results seen in Figure \ref{nslf1score} and Appendix \ref{appendix:nslf1score}, the highest performing classifier was a two-stage classifier, comprised of two multi-layer perceptrons, producing an f1-score increase of 0.04 over its single stage counterpart and an f1-score increase of 0.01 over the next best performing classifier. From the f1-score results of the second dataset, UNSW-NB15, seen in Figure \ref{unswf1score} and Appendix \ref{appendix:unswf1score}, the joint highest performing classifiers were the multi-layer perceptron, MLP, and its two-stage counterpart, MLP/MLP.
+
+
+When comparing the performance of two stage classifier configurations using the same classifier in both stages, it can be seen that the use of two stage classification can increase the performance with regards to precision, recall and f1-score, as is evident in both Tables \ref{metricnsl} and \ref{metricunsw}. Although introducing a second classification stage does not always result in increased performance, this may be due to the classifiers used, and an improvement may be observed by using custom tuned classifier parameters for both the first and second stage, and so two stage classification should be considered when constructing a network intrusion detection system.
 
 \newpage
 \section{Conclusion}
 \subsection{Research Questions}
 \subsubsection*{What is the rate of accurate detection and classification of network intrusions by single stage machine learning classification methods?}
+
+From the results collected using the NSL-KDD dataset, which can be found in Appendix \ref{nslraw}, and the metrics calculated from them, which can be seen in Figures \ref{nslprecision}, \ref{nslrecall}, and \ref{nslf1score}, as well as the results collected using the UNSW-NB15 dataset, which can be found in Appendix \ref{unswraw}, and the metrics calculated from them, which can be seen in Figures \ref{unswprecision}, \ref{unswrecall}, and \ref{unswf1score}, a table of results about single-stage classifier has been constructed which can be seen below in Table \ref{singlestagemetric}.
+
+\begin{table}[H]
+\centering
+\caption{Single Stage Classifier Performance}
+\label{singlestagemetric}
+\begin{tabular}{@{}llccc@{}}
+\toprule
+Dataset & Classifier & Precision & Recall & f1-Score \\ \midrule
+NSL-KDD   & k-NN & 3.64     & 3.62  & 3.61    \\
+          & MLP  & 4.08     & 3.83  & 4.00    \\
+	  & SVM  & 4.38     & 3.83  & 4.03    \\
+UNSW-NB15 & k-NN & 2.93     & 3.20  & 3.00    \\
+          & MLP  & 5.24     & 4.47  & 4.54    \\ 
+	  & SVM  & 4.60     & 4.14  & 4.28    \\ \bottomrule
+\end{tabular}
+\end{table}
+
+
 \subsubsection*{What is the rate of accurate detection and classification of network intrusions by two stage machine learning classification methods?}
+
+Like the single stage classifiers, a table of two stage classifier metrics was created using results collected from both datasets found in Appendices \ref{nslraw}, and \ref{unswraw}, as well as Figures \ref{nslprecision}, \ref{nslrecall}, \ref{nslf1score}, \ref{unswprecision}, \ref{unswrecall}, and \ref{unswf1score} which can be seen below in Table \ref{twostagemetric}.
+
+\begin{table}[H]
+\centering
+\caption{Two Stage Classifier Performance}
+\label{twostagemetric}
+\begin{tabular}{@{}llccc@{}}
+\toprule
+Dataset & Classifier & Precision & Recall & f1-Score \\ \midrule
+NSL-KDD   & k-NN/k-NN & 3.71     & 3.76  & 3.70    \\
+	  & k-NN/MLP & 3.72 & 3.67 & 3.68 \\
+	  & k-NN/SVM & 4.1 & 3.62  & 3.73 \\
+	  & MLP/k-NN & 3.63 & 3.57 & 3.52 \\
+          & MLP/MLP   & 4.11     & 4.00  & 4.04    \\
+	  & MLP/SVM & 4.42 & 3.83 & 4.02 \\
+	  & SVM/k-NN & 3.45 & 3.65 & 3.49 \\
+	  & SVM/MLP & 3.77 & 4.03 & 3.90 \\
+	  & SVM/SVM   & 4.36     & 3.85  & 4.02    \\
+UNSW-NB15 & k-NN/k-NN & 3.36     & 3.14  & 3.06    \\
+	  & k-NN/MLP & 3.88 & 3.37 & 3.45 \\
+	  & k-NN/SVM & 3.48 & 3.21 & 3.28 \\
+	  & MLP/k-NN & 3.76 & 3.66 & 3.56 \\
+          & MLP/MLP   & 5.20     & 4.50  & 4.54    \\ 
+	  & MLP/SVM & 4.59 & 4.27 & 4.34 \\
+	  & SVM/k-NN & 3.69 & 3.59 & 3.5 \\
+	  & SVM/MLP & 5.07 & 4.4 & 4.43 \\
+	  & SVM/SVM   & 4.44     & 4.18  & 4.24    \\ \bottomrule
+\end{tabular}
+\end{table}
+
 \subsubsection*{Which method of classification i.e. single stage or two stage, is more accurate and by what amount?}
+
+From Tables \ref{metricnsl} and \ref{metricunsw}, we can see the difference between single stage and two stage classifier performance with regards to precision, recall, and f1-score. These tables do not include results of two stage classifiers comprising of two different classifiers. This is because when a classifier is combined with a more performant classifier for its second stage, it will always increase its performance, where as if a classifier is combined with a less performant classifier for its second stage it will always decrease its performance.
+
+These results show that using two stage classification can improve classification performance in some classifiers, with further room for improvement perhaps being possible with tailored parameters for the classifiers in both the first and second stage.
+
 \subsubsection*{Which configuration of algorithms in the two stage classifier produces the most accurate results?}
 
+When using the NSL-KDD dataset the two stage configuration of classifiers which produces the most accurate results is the MLP/MLP configuration when examining f1-score. This configurations achieves an f1-score 0.01 higher than the next most performant configuration, and 0.04 higher than its single stage counterpart.
+
+When using the UNSW-NB15 dataset the two stage configuration of classifiers which produces the most accurate results when looking at f1-score is also the MLP/MLP configuration. This configuration achieves the same performance as its single-stage counterpart and 0.2 higher f1-score than the next most performant classifier configuration.
+
 \subsection{Has the Project met it's Aims and Objectives?}
+The aim of this project was to create a piece of software to assist in the comparison of single and two-stage classifier configurations, on any arbitrary dataset and classification algorithm, and to use this created software to then gather results about those classifier configurations and compare them. This project has ultimately designed and managed the delivery of this software with almost all of the proposed functionality, as well as the results for multiple configurations of classifiers and a comparison of single and two-stage classification methods.
+\subsubsection{Aims met}
+\begin{itemize}
+	\item{Perform a review of existing literature.}
+	\item{Perform a review of existing software.}
+	\item{Select appropriate machine learning classification algorithms.}
+	\item{Select appropriate datasets for use in network intrusion detection.}
+	\item{Implement software to assist in comparison of classification algorithms}
+	\item{Evaluation of software with regards to specification and other software.}
+	\item{Evaluation of single stage classification performance versus two-stage classification performance.}
+\end{itemize}
 \subsection{Reflection}
-\subsection{Learning Outcomes}
-\subsubsection*{LO1 - Manage a substantial individual project, including planning, documentation and control}
-\subsubsection*{LO2 - Construct a focussed problem statement and conduct a suitable investigation, including literature or technology review, into the context of that problem}
-\subsubsection*{LO3 - Demonstrate professional competence by applying appropriate theory and practice to the analysis, design, implementation and evaluation of a non-trivial set of deliverables}
-\subsubsection*{LO4 - Show a capacity for self-appraisal by analysing the strengths and weaknesses of the project process and outcomes with reference to the initial objectives and to the work of others}
+I feel as though the management of the project was handled well. At the beginning of the project a rough timeline was constructed using the aims, objectives and deliverables expected which was then revised during the week 9 interim meeting to better reflect the course of the project. Once the requirements were decided upon for the software to be created during the project, a MoSCoW analysis was carried out, seen in Appendix \ref{moscow}, which could be used to determine what the most important features were so that the project was delivered with the most functionality possible. Each week a meeting was held with my supervisor to ensure that the project was on track, and to decide upon the direction of the project, and what goals to complete in the following week. At the end of every meeting a diary sheet was compiled listing the work completed in the week prior and the goals set for completion in the following week, a complete listing of these diary sheets can be seen in Appendix \ref{diarysheets}. Project management could have been further improved through the use of a piece of project management software such a Trello to keep track of all functionality and deliverables.
+
+When beginning this project I had a very minimal amount of experience using Python, and zero experience in network security or machine learning techniques, and so a large amount of reading, research and learning was required. I feel as though I have performed extremely well in learning the topic of network intrusion detection using machine learning, and also in assessing, selecting, and learning technologies quickly at the start of the project. The software which was delivered although I believe to be of a high quality could have been more feature rich, including some more dataset pre-processing options, and different options for displaying results so that classifier could be compared more easily.
+
+I am pleased with the outcome of the tests and the results which were gathered, which shows that there is a potential benefit in the use of two stage classification, however a lot more work can be done to confirm the benefit of this approach. I think that if more consideration had been taken in the planning of the project and I had some domain knowledge prior to the project I could have performed a much more in depth comparison, with many more classifiers and datasets.
+
 \subsection{Further Research}
+Although this project has shown that there is improvements in classification performance to be made through the use of two-stage classification, there is a great deal of further investigation which can take place. Some proposed areas of further research are:
+
+\begin{itemize}
+	\item{ The use of a greater number of classifiers and configurations using methods such as: negative selection, self organising maps, random decision forests, decision trees, etc. in order to see how many classifiers benefit from being arranged in two stages.}
+	\item{ The use of a greater number of datasets such as the PU-IDS or ADFA-Linux datasets, to see if similar results are observed across all datasets and two-stage classification is truly beneficial. }
+	\item{To test and find the ideal parameters for each classifier in both the first stage, detecting normal and abnormal traffic, and in the second stage, classifying specific attacks, instead of having the same parameters for both stages, which would be highly likely to improve overall performance.}
+	\item{An investigation into feature selection in conjunction with two-stage classification to see if performance can be improved more significantly by removing features with low relevance to classification.}
+\end{itemize}
 
 \newpage
 	\printbibliography
@@ -521,7 +642,7 @@ To ensure that all results produced by the software were correct, libraries were
 \newpage
 
 \begin{subappendices}
-\subsection{Project Timeline}
+\subsection{Project Timeline}\label{ganttchart}
 
 \begin{figure}[H]
 	\centering
@@ -542,7 +663,7 @@ To ensure that all results produced by the software were correct, libraries were
 \end{center}
 \newpage
 
-\section{Diary Sheets}
+\section{Diary Sheets}\label{diarysheets}
 
 \begin{longtable}{@{}cc@{}}
 \includegraphics[page=1, width=0.5\textwidth]{figures/diaries} &
